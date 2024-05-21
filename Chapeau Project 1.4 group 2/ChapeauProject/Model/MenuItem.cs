@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Table
+    public class MenuItem
     {
-        public int tableId;
-        public int tableNumber;
+        public int id;
+        public string name; 
+        public string category;
+        public string card;
     }
 }

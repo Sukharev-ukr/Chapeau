@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Table
+    public class Employee
     {
-        public int tableId;
-        public int tableNumber;
+        public int employeeId;
+        public string role;
+        public string name;
     }
 }

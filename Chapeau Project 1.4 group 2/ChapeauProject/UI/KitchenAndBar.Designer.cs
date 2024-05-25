@@ -28,102 +28,255 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnKitchen = new Button();
-            btnBar = new Button();
-            pnlLogin = new Panel();
-            pnlKitchen = new Panel();
-            pnlBarOrders = new Panel();
-            listViewBarOrders = new ListView();
-            listViewKitchenOrders = new ListView();
-            pnlLogin.SuspendLayout();
-            pnlKitchen.SuspendLayout();
-            pnlBarOrders.SuspendLayout();
+            pnlFinishedOrders = new Panel();
+            listViewKitchenOrder2 = new ListView();
+            listViewKitchenOrder1 = new ListView();
+            menuStrip1 = new MenuStrip();
+            runningToolStripMenuItem = new ToolStripMenuItem();
+            finishedToolStripMenuItem = new ToolStripMenuItem();
+            pnlRunningOrders = new Panel();
+            groupBoxMain1 = new GroupBox();
+            label2 = new Label();
+            btnMain1 = new Button();
+            groupBoxDesert1 = new GroupBox();
+            label3 = new Label();
+            btnDesert1 = new Button();
+            groupBoxStarter1 = new GroupBox();
+            label1 = new Label();
+            btnStarter1 = new Button();
+            listViewOrder1 = new ListView();
+            columnHeader4 = new ColumnHeader();
+            columnHeader5 = new ColumnHeader();
+            pnlFinishedOrders.SuspendLayout();
+            menuStrip1.SuspendLayout();
+            pnlRunningOrders.SuspendLayout();
+            groupBoxMain1.SuspendLayout();
+            groupBoxDesert1.SuspendLayout();
+            groupBoxStarter1.SuspendLayout();
             SuspendLayout();
             // 
-            // btnKitchen
+            // pnlFinishedOrders
             // 
-            btnKitchen.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            btnKitchen.Location = new Point(179, 156);
-            btnKitchen.Name = "btnKitchen";
-            btnKitchen.Size = new Size(231, 98);
-            btnKitchen.TabIndex = 1;
-            btnKitchen.Text = "Kitchen";
-            btnKitchen.UseVisualStyleBackColor = true;
+            pnlFinishedOrders.Controls.Add(listViewKitchenOrder2);
+            pnlFinishedOrders.Controls.Add(listViewKitchenOrder1);
+            pnlFinishedOrders.Location = new Point(12, 36);
+            pnlFinishedOrders.Name = "pnlFinishedOrders";
+            pnlFinishedOrders.Size = new Size(954, 442);
+            pnlFinishedOrders.TabIndex = 4;
             // 
-            // btnBar
+            // listViewKitchenOrder2
             // 
-            btnBar.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            btnBar.Location = new Point(515, 156);
-            btnBar.Name = "btnBar";
-            btnBar.Size = new Size(231, 98);
-            btnBar.TabIndex = 2;
-            btnBar.Text = "Bar";
-            btnBar.UseVisualStyleBackColor = true;
+            listViewKitchenOrder2.Location = new Point(536, 38);
+            listViewKitchenOrder2.Name = "listViewKitchenOrder2";
+            listViewKitchenOrder2.Size = new Size(316, 356);
+            listViewKitchenOrder2.TabIndex = 1;
+            listViewKitchenOrder2.UseCompatibleStateImageBehavior = false;
             // 
-            // pnlLogin
+            // listViewKitchenOrder1
             // 
-            pnlLogin.Controls.Add(btnKitchen);
-            pnlLogin.Controls.Add(btnBar);
-            pnlLogin.Location = new Point(12, 8);
-            pnlLogin.Name = "pnlLogin";
-            pnlLogin.Size = new Size(942, 430);
-            pnlLogin.TabIndex = 3;
+            listViewKitchenOrder1.Location = new Point(76, 38);
+            listViewKitchenOrder1.Name = "listViewKitchenOrder1";
+            listViewKitchenOrder1.Size = new Size(316, 356);
+            listViewKitchenOrder1.TabIndex = 0;
+            listViewKitchenOrder1.UseCompatibleStateImageBehavior = false;
             // 
-            // pnlKitchen
+            // menuStrip1
             // 
-            pnlKitchen.Controls.Add(pnlBarOrders);
-            pnlKitchen.Controls.Add(listViewKitchenOrders);
-            pnlKitchen.Location = new Point(12, 8);
-            pnlKitchen.Name = "pnlKitchen";
-            pnlKitchen.Size = new Size(942, 430);
-            pnlKitchen.TabIndex = 3;
+            menuStrip1.ImageScalingSize = new Size(24, 24);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { runningToolStripMenuItem, finishedToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(987, 33);
+            menuStrip1.TabIndex = 5;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // pnlBarOrders
+            // runningToolStripMenuItem
             // 
-            pnlBarOrders.Controls.Add(listViewBarOrders);
-            pnlBarOrders.Location = new Point(0, 0);
-            pnlBarOrders.Name = "pnlBarOrders";
-            pnlBarOrders.Size = new Size(950, 438);
-            pnlBarOrders.TabIndex = 4;
+            runningToolStripMenuItem.Name = "runningToolStripMenuItem";
+            runningToolStripMenuItem.Size = new Size(94, 29);
+            runningToolStripMenuItem.Text = "Running";
+            runningToolStripMenuItem.Click += runningToolStripMenuItem_Click;
             // 
-            // listViewBarOrders
+            // finishedToolStripMenuItem
             // 
-            listViewBarOrders.Location = new Point(36, 49);
-            listViewBarOrders.Name = "listViewBarOrders";
-            listViewBarOrders.Size = new Size(864, 330);
-            listViewBarOrders.TabIndex = 0;
-            listViewBarOrders.UseCompatibleStateImageBehavior = false;
+            finishedToolStripMenuItem.Name = "finishedToolStripMenuItem";
+            finishedToolStripMenuItem.Size = new Size(93, 29);
+            finishedToolStripMenuItem.Text = "Finished";
+            finishedToolStripMenuItem.Click += finishedToolStripMenuItem_Click;
             // 
-            // listViewKitchenOrders
+            // pnlRunningOrders
             // 
-            listViewKitchenOrders.Location = new Point(36, 49);
-            listViewKitchenOrders.Name = "listViewKitchenOrders";
-            listViewKitchenOrders.Size = new Size(864, 330);
-            listViewKitchenOrders.TabIndex = 0;
-            listViewKitchenOrders.UseCompatibleStateImageBehavior = false;
+            pnlRunningOrders.Controls.Add(groupBoxMain1);
+            pnlRunningOrders.Controls.Add(groupBoxDesert1);
+            pnlRunningOrders.Controls.Add(groupBoxStarter1);
+            pnlRunningOrders.Controls.Add(listViewOrder1);
+            pnlRunningOrders.Location = new Point(12, 36);
+            pnlRunningOrders.Name = "pnlRunningOrders";
+            pnlRunningOrders.Size = new Size(954, 442);
+            pnlRunningOrders.TabIndex = 5;
+            // 
+            // groupBoxMain1
+            // 
+            groupBoxMain1.BackColor = Color.White;
+            groupBoxMain1.Controls.Add(label2);
+            groupBoxMain1.Controls.Add(btnMain1);
+            groupBoxMain1.Location = new Point(81, 208);
+            groupBoxMain1.Name = "groupBoxMain1";
+            groupBoxMain1.Size = new Size(307, 101);
+            groupBoxMain1.TabIndex = 15;
+            groupBoxMain1.TabStop = false;
+            groupBoxMain1.Text = "Mains";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(18, 46);
+            label2.Name = "label2";
+            label2.Size = new Size(59, 25);
+            label2.TabIndex = 5;
+            label2.Text = "label2";
+            // 
+            // btnMain1
+            // 
+            btnMain1.Location = new Point(189, 37);
+            btnMain1.Name = "btnMain1";
+            btnMain1.Size = new Size(112, 34);
+            btnMain1.TabIndex = 13;
+            btnMain1.Text = "Ready";
+            btnMain1.UseVisualStyleBackColor = true;
+            btnMain1.Click += btnMain1_Click;
+            // 
+            // groupBoxDesert1
+            // 
+            groupBoxDesert1.BackColor = Color.White;
+            groupBoxDesert1.Controls.Add(label3);
+            groupBoxDesert1.Controls.Add(btnDesert1);
+            groupBoxDesert1.Location = new Point(79, 315);
+            groupBoxDesert1.Name = "groupBoxDesert1";
+            groupBoxDesert1.Size = new Size(307, 100);
+            groupBoxDesert1.TabIndex = 15;
+            groupBoxDesert1.TabStop = false;
+            groupBoxDesert1.Text = "Deserts";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(18, 46);
+            label3.Name = "label3";
+            label3.Size = new Size(59, 25);
+            label3.TabIndex = 5;
+            label3.Text = "label3";
+            // 
+            // btnDesert1
+            // 
+            btnDesert1.Location = new Point(191, 37);
+            btnDesert1.Name = "btnDesert1";
+            btnDesert1.Size = new Size(112, 34);
+            btnDesert1.TabIndex = 12;
+            btnDesert1.Text = "Ready";
+            btnDesert1.UseVisualStyleBackColor = true;
+            btnDesert1.Click += btnDesert1_Click;
+            // 
+            // groupBoxStarter1
+            // 
+            groupBoxStarter1.BackColor = Color.White;
+            groupBoxStarter1.Controls.Add(label1);
+            groupBoxStarter1.Controls.Add(btnStarter1);
+            groupBoxStarter1.Location = new Point(81, 104);
+            groupBoxStarter1.Name = "groupBoxStarter1";
+            groupBoxStarter1.Size = new Size(307, 98);
+            groupBoxStarter1.TabIndex = 14;
+            groupBoxStarter1.TabStop = false;
+            groupBoxStarter1.Text = "Starters";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(18, 46);
+            label1.Name = "label1";
+            label1.Size = new Size(59, 25);
+            label1.TabIndex = 5;
+            label1.Text = "label1";
+            // 
+            // btnStarter1
+            // 
+            btnStarter1.Location = new Point(189, 30);
+            btnStarter1.Name = "btnStarter1";
+            btnStarter1.Size = new Size(112, 34);
+            btnStarter1.TabIndex = 4;
+            btnStarter1.Text = "Ready";
+            btnStarter1.UseVisualStyleBackColor = true;
+            btnStarter1.Click += btnStarter1_Click;
+            // 
+            // listViewOrder1
+            // 
+            listViewOrder1.BackColor = Color.White;
+            listViewOrder1.Columns.AddRange(new ColumnHeader[] { columnHeader4, columnHeader5 });
+            listViewOrder1.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            listViewOrder1.Location = new Point(76, 20);
+            listViewOrder1.Name = "listViewOrder1";
+            listViewOrder1.Size = new Size(316, 405);
+            listViewOrder1.TabIndex = 7;
+            listViewOrder1.UseCompatibleStateImageBehavior = false;
+            listViewOrder1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader4
+            // 
+            columnHeader4.Text = "";
+            columnHeader4.Width = 0;
+            // 
+            // columnHeader5
+            // 
+            columnHeader5.Text = "001";
+            columnHeader5.TextAlign = HorizontalAlignment.Center;
+            columnHeader5.Width = 312;
             // 
             // KitchenAndBar
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(987, 490);
-            Controls.Add(pnlKitchen);
-            Controls.Add(pnlLogin);
+            Controls.Add(menuStrip1);
+            Controls.Add(pnlRunningOrders);
+            Controls.Add(pnlFinishedOrders);
             Name = "KitchenAndBar";
             Text = "Form2";
-            pnlLogin.ResumeLayout(false);
-            pnlKitchen.ResumeLayout(false);
-            pnlBarOrders.ResumeLayout(false);
+            pnlFinishedOrders.ResumeLayout(false);
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            pnlRunningOrders.ResumeLayout(false);
+            groupBoxMain1.ResumeLayout(false);
+            groupBoxMain1.PerformLayout();
+            groupBoxDesert1.ResumeLayout(false);
+            groupBoxDesert1.PerformLayout();
+            groupBoxStarter1.ResumeLayout(false);
+            groupBoxStarter1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-        private Button btnKitchen;
-        private Button btnBar;
-        private Panel pnlLogin;
-        private Panel pnlKitchen;
-        private ListView listViewKitchenOrders;
-        private Panel pnlBarOrders;
-        private ListView listViewBarOrders;
+
+        private Panel pnlFinishedOrders;
+        private ListView listViewKitchenOrder2;
+        private ListView listViewKitchenOrder1;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem runningToolStripMenuItem;
+        private ToolStripMenuItem finishedToolStripMenuItem;
+        private Panel pnlRunningOrders;
+        private ListView listViewBarOrder2;
+        private ListView listViewOrder1;
+        private ColumnHeader columnHeader4;
+        private ColumnHeader columnHeader5;
+        private Button button3;
+        private Button btnStarter1;
+        private Button btnMain1;
+        private Button btnDesert1;
+        private GroupBox groupBoxStarter1;
+        private Label label1;
+        private GroupBox groupBoxMain1;
+        private Label label2;
+        private GroupBox groupBoxDesert1;
+        private Label label3;
     }
 }

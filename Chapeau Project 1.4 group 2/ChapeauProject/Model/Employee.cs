@@ -8,8 +8,8 @@ namespace Model
 {
     public class Employee
     {
-        public int employeeId;
-        public string role;
-        public string name;
+        public int EmployeeId { get; set; }
+        public Role Role { get; private set; }
+        public string Name { get; set; }
     }
 }

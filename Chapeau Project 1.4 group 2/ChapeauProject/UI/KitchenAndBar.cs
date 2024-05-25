@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DAL;
 using Model;
+using Service;
 
 namespace View
 {
@@ -18,40 +20,74 @@ namespace View
             InitializeComponent();
         }
 
-        public void ShowKitchen(List<Order> orders)
+        // showing the current panel
+        private void ShowCurrentPanel(Panel panel)
         {
-            //clear existing list view
-            listViewKitchenOrders.Items.Clear();
-
-            foreach(Order order in orders)
+            foreach (Control control in Controls)
             {
-                ListViewItem item = new ListViewItem(order.orderId.ToString());
-                item.SubItems.Add(order.table.tableNumber.ToString());
-                item.SubItems.Add(order.orderTime.ToString());
-                item.SubItems.Add(order.orderStatus.ToString());
+                if (control is Panel)
+                {
+                    control.Hide();
+                }
+            }
+            panel.Show();
+        }
 
-                item.Tag = order;
+        private void runningToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowCurrentPanel(pnlRunningOrders);
+        }
 
-                listViewKitchenOrders.Items.Add(item);
+        private void finishedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowCurrentPanel(pnlFinishedOrders);
+        }
+
+        //??
+        public void GetOrders(Employee employee)
+        {
+            OrderService orderService = new OrderService();
+            List<Order> orders = new List<Order>();
+
+            orders.AddRange(orderService.GetOrders(employee.Role == Role.Bartender, Status.BeingPrepared));
+            orders.AddRange(orderService.GetOrders(employee.Role == Role.Bartender, Status.Placed));
+            orders.AddRange(orderService.GetOrders(employee.Role == Role.Bartender, Status.Ready));
+            orders.AddRange(orderService.GetOrders(employee.Role == Role.Bartender, Status.Served));
+
+            DisplayOrders(orderService);
+            
+        }
+
+        private void DisplayOrders(OrderService orderService)
+        {
+            AddItemToGroupBox(orderService.starters, groupBoxStarter1);
+            AddItemToGroupBox(orderService.mains, groupBoxMain1);
+            AddItemToGroupBox(orderService.deserts, groupBoxDesert1);
+        }
+
+        private void AddItemToGroupBox(List<OrderItem> orderItems, GroupBox groupBox)
+        {
+            foreach (OrderItem item in orderItems)
+            {
+                Label label = new Label();
+                label.Text = $"{item.Count}x {item.MenuItem.Name} \n{item.Comment}\n";
+                groupBox.Controls.Add(label);
             }
         }
 
-        public void ShowBar(List<Order> orders)
+        private void btnStarter1_Click(object sender, EventArgs e)
         {
-            //clear existing list view
-            listViewBarOrders.Items.Clear();
+            btnStarter1.Text = "Done";
+        }
 
-            foreach (Order order in orders)
-            {
-                ListViewItem item = new ListViewItem(order.orderId.ToString());
-                item.SubItems.Add(order.table.tableNumber.ToString());
-                item.SubItems.Add(order.orderTime.ToString());
-                item.SubItems.Add(order.orderStatus.ToString());
+        private void btnMain1_Click(object sender, EventArgs e)
+        {
+            btnMain1.Text = "Done";
+        }
 
-                item.Tag = order;
-
-                listViewKitchenOrders.Items.Add(item);
-            }
+        private void btnDesert1_Click(object sender, EventArgs e)
+        {
+            btnDesert1.Text = "Done";
         }
     }
 }

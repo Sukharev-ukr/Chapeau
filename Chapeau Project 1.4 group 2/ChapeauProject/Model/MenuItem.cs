@@ -8,9 +8,9 @@ namespace Model
 {
     public class MenuItem
     {
-        public int id;
-        public string name; 
-        public string category;
-        public string card;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public string Card { get; set; }
     }
 }

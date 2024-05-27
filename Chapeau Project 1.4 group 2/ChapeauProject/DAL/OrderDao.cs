@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-    public class OrderDAL : BaseDAL
+    public class OrderDao : BaseDao
     {
         public List<Order> GetAllOrders()
         {

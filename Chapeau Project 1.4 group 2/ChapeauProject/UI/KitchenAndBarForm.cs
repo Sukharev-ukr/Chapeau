@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Model;
+using Service;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,17 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DAL;
-using Model;
-using Service;
 
-namespace View
+namespace UI
 {
-    public partial class KitchenAndBar : Form
+    public partial class KitchenAndBarForm : Form
     {
-        public KitchenAndBar()
+        private KitchenAndBarUserControl KitchenAndBarUserControl;
+
+        public KitchenAndBarForm()
         {
             InitializeComponent();
+            KitchenAndBarUserControl = new KitchenAndBarUserControl();
+            this.Controls.Add(KitchenAndBarUserControl);
         }
 
         // showing the current panel
@@ -40,7 +43,7 @@ namespace View
 
         private void finishedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowCurrentPanel(pnlFinishedOrders);
+            //   ShowCurrentPanel(pnlFinishedOrders);
         }
 
         //??
@@ -54,12 +57,13 @@ namespace View
             orders.AddRange(orderService.GetOrders(employee.Role == Role.Bartender, Status.Ready));
             orders.AddRange(orderService.GetOrders(employee.Role == Role.Bartender, Status.Served));
 
-            DisplayOrders(orderService);
-            
+            DisplayOrders(orders);
+
         }
 
-        private void DisplayOrders(OrderService orderService)
+        private void DisplayOrders(List<Order> orders)
         {
+            if(orders.st)
             AddItemToGroupBox(orderService.starters, groupBoxStarter1);
             AddItemToGroupBox(orderService.mains, groupBoxMain1);
             AddItemToGroupBox(orderService.deserts, groupBoxDesert1);
@@ -90,4 +94,5 @@ namespace View
             btnDesert1.Text = "Done";
         }
     }
+}
 }

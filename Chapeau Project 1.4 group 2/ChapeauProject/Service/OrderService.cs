@@ -5,9 +5,8 @@ namespace Service
 {
     public class OrderService
     {
-        OrderDAL orderDAL;
+        OrderDao orderDAL;
 
-        public List<Order> orders;
         public List<OrderItem> starters;
         public List<OrderItem> mains;
         public List<OrderItem> deserts;
@@ -15,8 +14,7 @@ namespace Service
 
         public OrderService()
         {
-            orderDAL = new OrderDAL();
-            orders = new List<Order>();
+            orderDAL = new OrderDao();
             starters = new List<OrderItem>();
             mains = new List<OrderItem>();
             deserts = new List<OrderItem>();
@@ -25,13 +23,13 @@ namespace Service
 
         public List<Order> GetOrders(bool drink, Status status)
         {
-            orders = orderDAL.GetOrders(drink, status);
-            CategorizeItems();
+            List<Order> orders = orderDAL.GetOrders(drink, status);
+            CategorizeItems(orders);
 
             return orders;
         }
 
-        private void CategorizeItems()
+        private void CategorizeItems(List<Order> orders)
         {
             foreach (Order order in orders)
             {

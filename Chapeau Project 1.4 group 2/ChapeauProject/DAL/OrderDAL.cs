@@ -96,7 +96,7 @@ namespace DAL
                 {
                     Id = (int)dr["ItemID"],
                     Name = (string)dr["Name"],
-                    Category = (string)dr["Category"],
+                    Category = (Category)dr["Category"],
                     Card = (string)dr["Card"]
                 }
             };

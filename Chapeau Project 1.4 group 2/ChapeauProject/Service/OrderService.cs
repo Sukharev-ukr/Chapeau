@@ -25,13 +25,21 @@ namespace Service
 
         public List<Order> GetOrders(bool drink, Status status)
         {
+<<<<<<< Updated upstream
             orders = orderDAL.GetOrders(drink, status);
             CategorizeItems();
+=======
+            List<Order> orders = orderDAL.GetOrders(drink, status);
+>>>>>>> Stashed changes
 
             return orders;
         }
 
+<<<<<<< Updated upstream
         private void CategorizeItems()
+=======
+        public void CategorizeItems(List<Order> orders)
+>>>>>>> Stashed changes
         {
             foreach (Order order in orders)
             {
@@ -39,16 +47,16 @@ namespace Service
                 {
                     switch (item.MenuItem.Category)
                     {
-                        case "Starters - Entrees":
+                        case Category.Starters:
                             starters.Add(item);
                             break;
-                        case "Mains - Le plat principal":
-                            starters.Add(item);
+                        case Category.Mains:
+                            mains.Add(item);
                             break;
-                        case "Deserts - Les Desserts":
-                            starters.Add(item);
+                        case Category.Deserts:
+                            deserts.Add(item);
                             break;
-                        case "Drinks":
+                        case Category.Drinks:
                             starters.Add(item);
                             break;
                     }

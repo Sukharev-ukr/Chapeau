@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace UI
+namespace UI.PaymentSystem
 {
-    public partial class PaymentSystem : Form
+    public partial class UserControlSplitBill : UserControl
     {
-        public PaymentSystem()
+        public UserControlSplitBill()
         {
             InitializeComponent();
         }

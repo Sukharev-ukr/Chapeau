@@ -1,4 +1,8 @@
-using View;
+
+using Model;
+using Service;
+using DAL;
+using UI.PaymentSystem;
 
 namespace UI
 {
@@ -10,10 +14,32 @@ namespace UI
         [STAThread]
         static void Main()
         {
+
+
+
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new KitchenAndBar());
+            Application.Run(new BillDetails(2));
         }
+
+        public static void WindowSwitcher(Form oldForm, Form newForm)
+        {
+
+            
+
+            newForm.StartPosition = FormStartPosition.Manual;
+            newForm.Location = oldForm.Location;
+
+
+            
+            oldForm.Hide();
+            if  (Application.OpenForms[newForm.Name] != null)
+            {
+                Application.OpenForms[newForm.Name].Show();
+            }else { newForm.Show(); }
+        }
+
+
     }
 }

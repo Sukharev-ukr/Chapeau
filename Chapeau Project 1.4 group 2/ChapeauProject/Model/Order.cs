@@ -9,7 +9,7 @@ namespace Model
     public class Order
     {
         public int OrderId { get; set; }
-        public DateTime OrderTime { get; set; }
+        public DateTime? OrderTime { get; set; }
         public string Feedback { get; set; }
         public List<OrderItem> Items { get; set; }
         public Table Table { get; set; }

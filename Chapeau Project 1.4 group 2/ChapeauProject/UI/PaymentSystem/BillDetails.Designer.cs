@@ -1,6 +1,6 @@
 ﻿namespace UI
 {
-    partial class PaymentSystem
+    partial class BillDetails
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -38,6 +38,7 @@
             labelTableNR = new Label();
             button1 = new Button();
             button2 = new Button();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -111,11 +112,11 @@
             // 
             LabelOrderNR.AutoSize = true;
             LabelOrderNR.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
-            LabelOrderNR.Location = new Point(-1, 207);
+            LabelOrderNR.Location = new Point(71, 207);
             LabelOrderNR.Name = "LabelOrderNR";
-            LabelOrderNR.Size = new Size(85, 37);
+            LabelOrderNR.Size = new Size(32, 37);
             LabelOrderNR.TabIndex = 5;
-            LabelOrderNR.Text = "Order";
+            LabelOrderNR.Text = "0";
             // 
             // labelTableNR
             // 
@@ -140,6 +141,7 @@
             button1.TabIndex = 7;
             button1.Text = "Split bill";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
@@ -153,22 +155,33 @@
             button2.Text = "Pay bill";
             button2.UseVisualStyleBackColor = false;
             // 
-            // PaymentSystem
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(-4, 207);
+            label2.Name = "label2";
+            label2.Size = new Size(85, 37);
+            label2.TabIndex = 9;
+            label2.Text = "Order";
+            // 
+            // BillDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(401, 558);
+            Controls.Add(LabelOrderNR);
+            Controls.Add(label2);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(labelTableNR);
-            Controls.Add(LabelOrderNR);
             Controls.Add(labelTotal);
             Controls.Add(label1);
             Controls.Add(listViewBillList);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
-            Name = "PaymentSystem";
+            Name = "BillDetails";
             Text = "PaymentSystem";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -191,5 +204,6 @@
         private Label labelTableNR;
         private Button button1;
         private Button button2;
+        private Label label2;
     }
 }

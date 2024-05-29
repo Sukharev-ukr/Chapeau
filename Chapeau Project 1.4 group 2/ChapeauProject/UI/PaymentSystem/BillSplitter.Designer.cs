@@ -101,10 +101,12 @@
             // 
             // flowLayoutPanelSplit
             // 
+            flowLayoutPanelSplit.Enabled = false;
             flowLayoutPanelSplit.Location = new Point(12, 124);
             flowLayoutPanelSplit.Name = "flowLayoutPanelSplit";
             flowLayoutPanelSplit.Size = new Size(377, 321);
             flowLayoutPanelSplit.TabIndex = 8;
+            flowLayoutPanelSplit.Visible = false;
             // 
             // buttonCancel
             // 
@@ -117,6 +119,7 @@
             buttonCancel.TabIndex = 10;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = false;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // buttonConfirm
             // 

@@ -32,12 +32,13 @@ namespace UI
             newForm.Location = oldForm.Location;
 
 
-            
+
             oldForm.Hide();
-            if  (Application.OpenForms[newForm.Name] != null)
-            {
-                Application.OpenForms[newForm.Name].Show();
-            }else { newForm.Show(); }
+            newForm.Closed += (s,args) => oldForm.Close();
+
+
+            newForm.Show();
+
         }
 
 

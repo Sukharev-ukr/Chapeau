@@ -21,7 +21,15 @@ namespace UI.PaymentSystem
         {
             InitializeComponent();
             PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.Getinstance();
-            LabelOrderNR.Text = currentOrder.orderDetail.Keys.First().OrderId.ToString();
+            labelTotal.Text = currentOrder.OrderTotal.ToString();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            PaymentService.CurrentOrder current = PaymentService.CurrentOrder.Getinstance();
+
+            Form newForm = new BillDetails(current.orderId);
+            Program.WindowSwitcher(this,newForm);
         }
     }
 }

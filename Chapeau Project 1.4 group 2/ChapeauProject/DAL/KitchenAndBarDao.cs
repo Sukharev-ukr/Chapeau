@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class KitchenAndBarDAL : BaseDAL
+    public class KitchenAndBarDao : BaseDao
     {
         public void ChangeStatus(int id, string OrderStatus)
         {

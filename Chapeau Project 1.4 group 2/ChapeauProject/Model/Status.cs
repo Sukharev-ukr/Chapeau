@@ -11,6 +11,11 @@ namespace Model
         Placed,
         BeingPrepared,
         Ready,
-        Served
+        Served,
+        placed,
+        beingprepared,
+        ready,
+        served
+
     }
 }

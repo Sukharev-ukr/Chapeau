@@ -5,9 +5,8 @@ namespace Service
 {
     public class OrderService
     {
-        OrderDAL orderDAL;
+        OrderDao orderDAL;
 
-        public List<Order> orders;
         public List<OrderItem> starters;
         public List<OrderItem> mains;
         public List<OrderItem> deserts;
@@ -15,8 +14,7 @@ namespace Service
 
         public OrderService()
         {
-            orderDAL = new OrderDAL();
-            orders = new List<Order>();
+            orderDAL = new OrderDao();
             starters = new List<OrderItem>();
             mains = new List<OrderItem>();
             deserts = new List<OrderItem>();
@@ -25,21 +23,13 @@ namespace Service
 
         public List<Order> GetOrders(bool drink, Status status)
         {
-<<<<<<< Updated upstream
-            orders = orderDAL.GetOrders(drink, status);
-            CategorizeItems();
-=======
             List<Order> orders = orderDAL.GetOrders(drink, status);
->>>>>>> Stashed changes
+            CategorizeItems(orders);
 
             return orders;
         }
 
-<<<<<<< Updated upstream
-        private void CategorizeItems()
-=======
-        public void CategorizeItems(List<Order> orders)
->>>>>>> Stashed changes
+        private void CategorizeItems(List<Order> orders)
         {
             foreach (Order order in orders)
             {
@@ -47,16 +37,16 @@ namespace Service
                 {
                     switch (item.MenuItem.Category)
                     {
-                        case Category.Starters:
+                        case "Starters - Entrees":
                             starters.Add(item);
                             break;
-                        case Category.Mains:
-                            mains.Add(item);
+                        case "Mains - Le plat principal":
+                            starters.Add(item);
                             break;
-                        case Category.Deserts:
-                            deserts.Add(item);
+                        case "Deserts - Les Desserts":
+                            starters.Add(item);
                             break;
-                        case Category.Drinks:
+                        case "Drinks":
                             starters.Add(item);
                             break;
                     }

@@ -36,7 +36,7 @@ namespace DAL
             return new Order()
             {
                 OrderId = (int)dr["orderId"],
-                OrderTime = (DateTime)dr["OrderTime"],
+                OrderTime = dr["OrderTime"] as DateTime?,
                 Employee = new Employee()
                 {
                     EmployeeId = (int)dr["StaffID"]
@@ -47,11 +47,13 @@ namespace DAL
                     tableNumber = (int)dr["TableNumber"]
                 },
                 Feedback = (string)dr["Feedback"],
-                Items = GetOrderItems((Order)dr["OrderID"])
+                Items = GetOrderItems((int)dr["OrderID"])
             };
         }
 
-        public List<OrderItem> GetOrderItems(Order order)
+
+
+        public List<OrderItem> GetOrderItems(int orderId)
         {
             string query = "SELECT OI.OrderID, OI.ItemID, OI.Count, OI.Status, OI.StatusTime, OI.comment " +
                            "FROM [OrderItem] AS OI  " +
@@ -60,7 +62,7 @@ namespace DAL
 
             SqlParameter[] parameters =
             {
-                new SqlParameter("@orderId", order.OrderId)
+                new SqlParameter("@orderId", orderId)
             };
 
             List<OrderItem> orderItems = CreateOrderItems(query, parameters);
@@ -71,10 +73,12 @@ namespace DAL
         {
             List<OrderItem> orderItems = new List<OrderItem>();
             DataTable dataTable = ExecuteSelectQuery(query, parameters);
+            OrderItemDAL orderItemDAL = new OrderItemDAL();
 
             foreach (DataRow dr in dataTable.Rows)
             {
-                OrderItem orderItem = CreateOrderItem(dr);
+                
+                OrderItem orderItem = orderItemDAL.ReadDataRow(dr);
 
                 orderItems.Add(orderItem);
             }
@@ -82,25 +86,7 @@ namespace DAL
             return orderItems;
         }
 
-        private static OrderItem CreateOrderItem(DataRow dr)
-        {
-            return new OrderItem()
-            {
-                OrderId = (int)dr["OrderID"],
-                ItemId = (int)dr["ItemID"],
-                OrderStatus = (Status)dr["Status"],
-                Count = (int)dr["Count"],
-                OrderTime = (string)dr["StatusTime"],
-                Comment = (string)dr["Comment"],
-                MenuItem = new MenuItem()
-                {
-                    Id = (int)dr["ItemID"],
-                    Name = (string)dr["Name"],
-                    Category = (string)dr["Category"],
-                    Card = (string)dr["Card"]
-                }
-            };
-        }
+
 
         public List<Order> GetOrders(bool drinks, Status status)
         {

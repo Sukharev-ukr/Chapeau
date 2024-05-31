@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class MenuDAL : BaseDAL
+    public class MenuDAL : BaseDao
     {
         public List<MenuItem> GetMenuItems()
         {

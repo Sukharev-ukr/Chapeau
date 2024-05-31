@@ -8,13 +8,22 @@ namespace DAL
 {
     public class OrderDao : BaseDao
     {
-        public List<Order> GetAllOrders()
+        public List<Order> GetOrders(bool drinks, Status status)
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber  " +
-                           "FROM [Order]";
+            string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
 
-            SqlParameter[] sqlParameters = new SqlParameter[0];
-            return ReadOrders(ExecuteSelectQuery(query, sqlParameters));
+            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
+                           "FROM Order AS O " +
+                           "JOIN Table AS T ON O.TableID = T.TableID " +
+                           "WHERE O.OrderStatus = @status AND @category";
+
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@status", status),
+                new SqlParameter("@category", category)
+            };
+
+            return ReadOrders(ExecuteSelectQuery(query, parameters));
         }
 
         private List<Order> ReadOrders(DataTable dataTable)
@@ -84,26 +93,6 @@ namespace DAL
             }
 
             return orderItems;
-        }
-
-
-
-        public List<Order> GetOrders(bool drinks, Status status)
-        {
-            string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
-
-            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
-                           "FROM Order AS O " +
-                           "JOIN Table AS T ON O.TableID = T.TableID " +
-                           "WHERE O.OrderStatus = @status AND @category";
-
-            SqlParameter[] parameters =
-            {
-                new SqlParameter("@status", status),
-                new SqlParameter("@category", category)
-            };
-
-            return ReadOrders(ExecuteSelectQuery(query, parameters));
         }
     }
 }

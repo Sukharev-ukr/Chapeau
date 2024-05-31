@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 namespace DAL
 {
     // BillID,[TotalAmount],[VAT],[PaymentMethod],[OrderID]
-    public class OrderItemDAL : BaseDAL
+    public class OrderItemDAL : BaseDao
     {
         public Dictionary<OrderItem, MenuItem> GetOrderDetails(int orderId)
         {

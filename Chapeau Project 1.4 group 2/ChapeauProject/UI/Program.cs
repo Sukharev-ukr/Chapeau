@@ -3,6 +3,8 @@ using Model;
 using Service;
 using DAL;
 using UI.PaymentSystem;
+using System.Drawing.Text;
+using System.Windows.Forms;
 
 namespace UI
 {
@@ -25,20 +27,17 @@ namespace UI
 
         public static void WindowSwitcher(Form oldForm, Form newForm)
         {
-
-            
-
+            // this just hides the old forms, need something beter
             newForm.StartPosition = FormStartPosition.Manual;
             newForm.Location = oldForm.Location;
 
 
 
             oldForm.Hide();
-            newForm.Closed += (s,args) => oldForm.Close();
+            newForm.Closed += (s, args) => oldForm.Close();
 
 
             newForm.Show();
-
         }
 
 

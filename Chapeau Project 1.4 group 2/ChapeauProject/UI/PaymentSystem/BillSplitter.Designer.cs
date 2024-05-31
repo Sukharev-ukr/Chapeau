@@ -37,8 +37,13 @@
             flowLayoutPanelSplit = new FlowLayoutPanel();
             buttonCancel = new Button();
             buttonConfirm = new Button();
+            buttonCustomSplit = new Button();
+            buttonEqualSplit = new Button();
+            label2 = new Label();
+            labelWarning = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            flowLayoutPanelSplit.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox2
@@ -101,19 +106,18 @@
             // 
             // flowLayoutPanelSplit
             // 
-            flowLayoutPanelSplit.Enabled = false;
+            flowLayoutPanelSplit.Controls.Add(label2);
             flowLayoutPanelSplit.Location = new Point(12, 124);
             flowLayoutPanelSplit.Name = "flowLayoutPanelSplit";
             flowLayoutPanelSplit.Size = new Size(377, 321);
             flowLayoutPanelSplit.TabIndex = 8;
-            flowLayoutPanelSplit.Visible = false;
             // 
             // buttonCancel
             // 
             buttonCancel.BackColor = Color.Black;
             buttonCancel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonCancel.ForeColor = Color.White;
-            buttonCancel.Location = new Point(140, 486);
+            buttonCancel.Location = new Point(88, 486);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(94, 29);
             buttonCancel.TabIndex = 10;
@@ -126,12 +130,56 @@
             buttonConfirm.BackColor = Color.Black;
             buttonConfirm.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonConfirm.ForeColor = Color.White;
-            buttonConfirm.Location = new Point(140, 451);
+            buttonConfirm.Location = new Point(203, 486);
             buttonConfirm.Name = "buttonConfirm";
             buttonConfirm.Size = new Size(94, 29);
             buttonConfirm.TabIndex = 9;
             buttonConfirm.Text = "Confirm";
             buttonConfirm.UseVisualStyleBackColor = false;
+            buttonConfirm.Click += buttonConfirm_Click;
+            // 
+            // buttonCustomSplit
+            // 
+            buttonCustomSplit.BackColor = Color.Black;
+            buttonCustomSplit.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonCustomSplit.ForeColor = Color.White;
+            buttonCustomSplit.Location = new Point(73, 451);
+            buttonCustomSplit.Name = "buttonCustomSplit";
+            buttonCustomSplit.Size = new Size(109, 29);
+            buttonCustomSplit.TabIndex = 11;
+            buttonCustomSplit.Text = "Custom split";
+            buttonCustomSplit.UseVisualStyleBackColor = false;
+            buttonCustomSplit.Click += buttonCustomSplit_Click;
+            // 
+            // buttonEqualSplit
+            // 
+            buttonEqualSplit.BackColor = Color.Black;
+            buttonEqualSplit.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonEqualSplit.ForeColor = Color.White;
+            buttonEqualSplit.Location = new Point(203, 451);
+            buttonEqualSplit.Name = "buttonEqualSplit";
+            buttonEqualSplit.Size = new Size(109, 29);
+            buttonEqualSplit.TabIndex = 12;
+            buttonEqualSplit.Text = "Equal split";
+            buttonEqualSplit.UseVisualStyleBackColor = false;
+            buttonEqualSplit.Click += buttonEqualSplit_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(38, 15);
+            label2.TabIndex = 0;
+            label2.Text = "label2";
+            // 
+            // labelWarning
+            // 
+            labelWarning.AutoSize = true;
+            labelWarning.Location = new Point(12, 106);
+            labelWarning.Name = "labelWarning";
+            labelWarning.Size = new Size(0, 15);
+            labelWarning.TabIndex = 13;
             // 
             // BillSplitter
             // 
@@ -139,6 +187,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(401, 558);
+            Controls.Add(labelWarning);
+            Controls.Add(buttonEqualSplit);
+            Controls.Add(buttonCustomSplit);
             Controls.Add(buttonCancel);
             Controls.Add(buttonConfirm);
             Controls.Add(flowLayoutPanelSplit);
@@ -152,6 +203,8 @@
             Text = "BillSplitter";
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            flowLayoutPanelSplit.ResumeLayout(false);
+            flowLayoutPanelSplit.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -167,5 +220,9 @@
         private FlowLayoutPanel flowLayoutPanelSplit;
         private Button buttonCancel;
         private Button buttonConfirm;
+        private Button buttonCustomSplit;
+        private Button buttonEqualSplit;
+        private Label label2;
+        private Label labelWarning;
     }
 }

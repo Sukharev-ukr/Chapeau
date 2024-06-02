@@ -22,15 +22,15 @@ namespace DAL
             // List to store Staff objects
             List<Staff> staffList = new List<Staff>();
             // Loop through each row in the DataTable
-            foreach (DataRow row in dataTable.Rows)
+            foreach (DataRow dr in dataTable.Rows)
             {
                 // Create a new Staff object and populate its properties
                 Staff staff = new Staff
                 {
-                    StaffID = (int)row["StaffID"],
-                    Username = (string)row["Username"],
-                    Role = (Role)Enum.Parse(typeof(Role), (string)row["Role"]),
-                    PasswordHash = (string)row["PasswordHash"]
+                    StaffID = (int)dr["StaffID"],
+                    Username = (string)dr["Username"],
+                    Role = (Role)Enum.Parse(typeof(Role), (string)dr["Role"]),
+                    PasswordHash = (string)dr["PasswordHash"]
                 };
                 // Add the Staff object to the list
                 staffList.Add(staff);
@@ -54,17 +54,17 @@ namespace DAL
         // Validates the password for a given username
         public bool ValidatePassword(string username, string hashedPassword)
         {
-            string query = "SELECT PasswordHash FROM Staff WHERE LOWER(Username) = LOWER(@Username)";
+            string query = "SELECT COUNT(*) FROM Staff WHERE Username = @Username AND PasswordHash = @PasswordHash";
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
-                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username.ToLower() }
+                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username.ToLower() },
+                new SqlParameter("@PasswordHash", SqlDbType.NVarChar) { Value = hashedPassword }
             };
 
             DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
-            if (dataTable.Rows.Count > 0)
+            if (dataTable.Rows.Count > 0 && (int)dataTable.Rows[0][0] > 0)
             {
-                string storedHash = (string)dataTable.Rows[0]["PasswordHash"];
-                return hashedPassword == storedHash;
+                return true;
             }
             return false;
         }

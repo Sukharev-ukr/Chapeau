@@ -34,10 +34,11 @@ namespace Service
 
         public bool ValidateStaffCredentials(string username, string password)
         {
-            return _staffDAL.ValidatePassword(username, password);
+            string hashedPassword = HashPassword(password);
+            return _staffDAL.ValidatePassword(username, hashedPassword);
         }
 
-        
+
 
         public string HashPassword(string password)
         {

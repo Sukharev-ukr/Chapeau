@@ -38,7 +38,7 @@
             // 
             // Top_Login_bar
             // 
-            Top_Login_bar.BackColor = Color.Crimson;
+            Top_Login_bar.BackColor = Color.FromArgb(117, 30, 55);
             Top_Login_bar.Location = new Point(0, 1);
             Top_Login_bar.Margin = new Padding(2, 3, 2, 3);
             Top_Login_bar.Name = "Top_Login_bar";
@@ -47,7 +47,7 @@
             // 
             // Login_Bottom_Panel
             // 
-            Login_Bottom_Panel.BackColor = Color.Crimson;
+            Login_Bottom_Panel.BackColor = Color.FromArgb(117, 30, 55);
             Login_Bottom_Panel.Location = new Point(0, 1091);
             Login_Bottom_Panel.Name = "Login_Bottom_Panel";
             Login_Bottom_Panel.Size = new Size(822, 69);

@@ -20,7 +20,8 @@ namespace UI
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new BillDetails(2));
+            //Application.Run(new BillDetails(2));
+            Application.Run(new LoginForm());
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)

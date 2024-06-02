@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using BCrypt.Net;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
-using System.Collections;
 
 namespace DAL
 {

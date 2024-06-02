@@ -17,7 +17,7 @@ namespace Service
             _staffDAL = new StaffDAL();
         }
 
-
+        
 
         public Staff GetStaffByUsername(string username)
         {
@@ -37,7 +37,7 @@ namespace Service
             return _staffDAL.ValidatePassword(username, password);
         }
 
-
+        
 
         public string HashPassword(string password)
         {

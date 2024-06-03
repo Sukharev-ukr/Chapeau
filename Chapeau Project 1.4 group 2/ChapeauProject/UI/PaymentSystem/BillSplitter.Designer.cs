@@ -39,11 +39,9 @@
             buttonConfirm = new Button();
             buttonCustomSplit = new Button();
             buttonEqualSplit = new Button();
-            label2 = new Label();
             labelWarning = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            flowLayoutPanelSplit.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox2
@@ -106,7 +104,6 @@
             // 
             // flowLayoutPanelSplit
             // 
-            flowLayoutPanelSplit.Controls.Add(label2);
             flowLayoutPanelSplit.Location = new Point(12, 124);
             flowLayoutPanelSplit.Name = "flowLayoutPanelSplit";
             flowLayoutPanelSplit.Size = new Size(377, 321);
@@ -164,15 +161,6 @@
             buttonEqualSplit.UseVisualStyleBackColor = false;
             buttonEqualSplit.Click += buttonEqualSplit_Click;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(3, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(38, 15);
-            label2.TabIndex = 0;
-            label2.Text = "label2";
-            // 
             // labelWarning
             // 
             labelWarning.AutoSize = true;
@@ -203,8 +191,6 @@
             Text = "BillSplitter";
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            flowLayoutPanelSplit.ResumeLayout(false);
-            flowLayoutPanelSplit.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -222,7 +208,6 @@
         private Button buttonConfirm;
         private Button buttonCustomSplit;
         private Button buttonEqualSplit;
-        private Label label2;
         private Label labelWarning;
     }
 }

@@ -20,13 +20,18 @@ namespace Service
             return orderItemDal.GetOrderDetails(order);
         }
 
-        //create new object that will be passed to the db
+        public class NewBill
+        {
+
+
+            public NewBill(List<decimal> billParts) 
+            {
+            }
+        }
 
         public class CurrentOrder
         {
             private static CurrentOrder instance;
-
-
 
             public int orderId { get; private set; }
             public decimal OrderTotal;
@@ -38,19 +43,11 @@ namespace Service
                 orderId = currentorder;
                 orderDetail = orderItemDal.GetOrderDetails(orderId);
             }
-
-
-           
-            public static CurrentOrder Getinstance(int newOrder)
+            public static CurrentOrder NewInstance(int newOrder)
             {
-                if (instance == null)
-                {
-                    instance = new CurrentOrder(newOrder);
-                }
+                instance = new CurrentOrder(newOrder);
                 return instance;
             }
-
-            //might be a bit redundant
             public static CurrentOrder Getinstance()
             {
                 if (instance == null)

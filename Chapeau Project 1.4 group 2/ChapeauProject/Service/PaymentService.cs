@@ -35,6 +35,9 @@ namespace Service
 
             public int orderId { get; private set; }
             public decimal OrderTotal;
+            public string Comment {  get; set; }
+            public decimal Tip { get; private set; }
+
             public Dictionary<OrderItem, MenuItem> orderDetail { get; private set; }
 
             private CurrentOrder(int currentorder) 
@@ -43,9 +46,19 @@ namespace Service
                 orderId = currentorder;
                 orderDetail = orderItemDal.GetOrderDetails(orderId);
             }
+            public void AddTip(decimal tip)
+            {
+                Tip = tip;
+                OrderTotal += Tip;
+            }
+            
             public static CurrentOrder NewInstance(int newOrder)
             {
-                instance = new CurrentOrder(newOrder);
+                if (instance == null)
+                {
+                    instance = new CurrentOrder(newOrder);
+                }
+
                 return instance;
             }
             public static CurrentOrder Getinstance()

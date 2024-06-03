@@ -40,6 +40,7 @@
             buttonCustomSplit = new Button();
             buttonEqualSplit = new Button();
             labelWarning = new Label();
+            labelNotification = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -104,17 +105,19 @@
             // 
             // flowLayoutPanelSplit
             // 
+            flowLayoutPanelSplit.AutoScroll = true;
             flowLayoutPanelSplit.Location = new Point(12, 124);
             flowLayoutPanelSplit.Name = "flowLayoutPanelSplit";
-            flowLayoutPanelSplit.Size = new Size(377, 321);
+            flowLayoutPanelSplit.Size = new Size(377, 302);
             flowLayoutPanelSplit.TabIndex = 8;
             // 
             // buttonCancel
             // 
             buttonCancel.BackColor = Color.Black;
+            buttonCancel.FlatStyle = FlatStyle.Flat;
             buttonCancel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonCancel.ForeColor = Color.White;
-            buttonCancel.Location = new Point(88, 486);
+            buttonCancel.Location = new Point(95, 484);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(94, 29);
             buttonCancel.TabIndex = 10;
@@ -125,9 +128,10 @@
             // buttonConfirm
             // 
             buttonConfirm.BackColor = Color.Black;
+            buttonConfirm.FlatStyle = FlatStyle.Flat;
             buttonConfirm.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonConfirm.ForeColor = Color.White;
-            buttonConfirm.Location = new Point(203, 486);
+            buttonConfirm.Location = new Point(195, 484);
             buttonConfirm.Name = "buttonConfirm";
             buttonConfirm.Size = new Size(94, 29);
             buttonConfirm.TabIndex = 9;
@@ -138,9 +142,10 @@
             // buttonCustomSplit
             // 
             buttonCustomSplit.BackColor = Color.Black;
+            buttonCustomSplit.FlatStyle = FlatStyle.Flat;
             buttonCustomSplit.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonCustomSplit.ForeColor = Color.White;
-            buttonCustomSplit.Location = new Point(73, 451);
+            buttonCustomSplit.Location = new Point(80, 449);
             buttonCustomSplit.Name = "buttonCustomSplit";
             buttonCustomSplit.Size = new Size(109, 29);
             buttonCustomSplit.TabIndex = 11;
@@ -151,9 +156,10 @@
             // buttonEqualSplit
             // 
             buttonEqualSplit.BackColor = Color.Black;
+            buttonEqualSplit.FlatStyle = FlatStyle.Flat;
             buttonEqualSplit.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonEqualSplit.ForeColor = Color.White;
-            buttonEqualSplit.Location = new Point(203, 451);
+            buttonEqualSplit.Location = new Point(195, 449);
             buttonEqualSplit.Name = "buttonEqualSplit";
             buttonEqualSplit.Size = new Size(109, 29);
             buttonEqualSplit.TabIndex = 12;
@@ -169,12 +175,25 @@
             labelWarning.Size = new Size(0, 15);
             labelWarning.TabIndex = 13;
             // 
+            // labelNotification
+            // 
+            labelNotification.Anchor = AnchorStyles.None;
+            labelNotification.AutoSize = true;
+            labelNotification.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelNotification.Location = new Point(80, 425);
+            labelNotification.Name = "labelNotification";
+            labelNotification.Size = new Size(52, 21);
+            labelNotification.TabIndex = 14;
+            labelNotification.Text = "notice";
+            labelNotification.Visible = false;
+            // 
             // BillSplitter
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(401, 558);
+            Controls.Add(labelNotification);
             Controls.Add(labelWarning);
             Controls.Add(buttonEqualSplit);
             Controls.Add(buttonCustomSplit);
@@ -209,5 +228,6 @@
         private Button buttonCustomSplit;
         private Button buttonEqualSplit;
         private Label labelWarning;
+        private Label labelNotification;
     }
 }

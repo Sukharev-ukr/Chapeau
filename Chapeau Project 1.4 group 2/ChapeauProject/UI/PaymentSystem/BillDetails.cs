@@ -15,10 +15,12 @@ namespace UI
 {
     public partial class BillDetails : Form
     {
+
+        PaymentService.CurrentOrder currentOrder;
         public BillDetails(int order)
         {
             InitializeComponent();
-            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.NewInstance(order);
+            currentOrder = PaymentService.CurrentOrder.NewInstance(order);
             LabelOrderNR.Text = currentOrder.orderDetail.Keys.First().OrderId.ToString();
             LoadOrderItems();
         }
@@ -27,8 +29,6 @@ namespace UI
         {
 
             Dictionary<OrderItem, MenuItem> OrderDetails = GetOrderMenuItems();
-            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.Getinstance();
-
 
             listViewBillList.Items.Clear();
             decimal sum = 0;
@@ -43,6 +43,7 @@ namespace UI
                 li.SubItems.Add(item.Key.Count.ToString());
                 li.SubItems.Add(item.Value.Price.ToString());
                 li.SubItems.Add((sum).ToString());
+                li.SubItems.Add("%" + item.Value.VAT.ToString());
                 li.Tag = item.Key.OrderId;
 
                 listViewBillList.Items.Add(li);
@@ -52,8 +53,7 @@ namespace UI
         }
         private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
         {
-            PaymentService.CurrentOrder current = PaymentService.CurrentOrder.Getinstance();
-            return current.orderDetail;
+            return currentOrder.orderDetail;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -62,6 +62,17 @@ namespace UI
 
             Program.WindowSwitcher(this, newForm);
 
+        }
+
+        private void buttonAddTip_Click(object sender, EventArgs e)
+        {
+            Program.WindowSwitcher(this, new AddTip());
+        }
+
+        private void buttonComment_Click(object sender, EventArgs e)
+        {
+            AddComment addComment = new AddComment();
+            addComment.ShowDialog();
         }
     }
 }

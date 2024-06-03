@@ -15,49 +15,64 @@ namespace UI.PaymentSystem
     {
         protected BillSplitter parentForm;
         protected decimal partCost;
+        protected PaymentService.CurrentOrder currentOrder;
 
         public CustomSplit(BillSplitter billSplitter)
         {
             InitializeComponent();
             parentForm = billSplitter;
+            LabelDevideTotal.Text = currentOrder.OrderTotal.ToString();
 
         }
         protected void QuickSelection_Click(object sender, EventArgs e)
         {
-            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.Getinstance();
+            decimal devider = decimal.Parse((sender as Button).Tag.ToString());
 
-            decimal newCost = currentOrder.OrderTotal * decimal.Parse((sender as Button).Tag.ToString());
-
+            decimal newCost = currentOrder.OrderTotal * devider;
 
             SetPartCost(newCost);
         }
 
         protected void SetPartCost(decimal newCost)
         {
-            
+            decimal orderTotal = currentOrder.OrderTotal;
             partCost = Math.Abs(newCost);
+            if (partCost <= orderTotal)
+            {
+                buttonConfirm.Visible = true;
+            }
+            else
+            {
+                buttonConfirm.Visible = false;
+            }
+
+
             labelDevidePartCost.Text = partCost.ToString("F");
         }
 
         protected void TextBoxCustomAmount_OnTextChange(object sender, EventArgs e)
         {
             string input = textBoxCustomAmount.Text;
-            decimal orderTotal = PaymentService.CurrentOrder.Getinstance().OrderTotal;
+            decimal orderTotal = currentOrder.OrderTotal;
             decimal newCost = 0;
 
-            try 
+            try
             {
                 if (input.Contains('/'))
                 {
                     string[] split = input.Split('/');
-                    newCost = orderTotal*(decimal.Parse(split[0]) / decimal.Parse(split[1]));
-                }else if (input.Contains('%'))
+                    decimal.TryParse(split[0], out decimal devideAmount);
+                    decimal.TryParse((split[1]), out decimal devider);
+                    newCost = orderTotal * (devideAmount);
+                }
+                else if (input.Contains('%'))
                 {
                     decimal precentage = decimal.Parse(input.Substring(1)) / 100;
                     newCost = orderTotal * precentage;
-                }else 
+                }
+                else
                 {
-                    newCost =  int.Parse(input);
+                    newCost = decimal.Parse(input);
                 }
 
                 SetPartCost(newCost);
@@ -66,13 +81,14 @@ namespace UI.PaymentSystem
             {
 
             }
-            
+
         }
 
-        protected virtual void  buttonConfirm_Click(object sender, EventArgs e)
+        protected virtual void buttonConfirm_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
+
     }
     public class NewSplit : CustomSplit
     {

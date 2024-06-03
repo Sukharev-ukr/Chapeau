@@ -37,7 +37,7 @@ namespace DAL
                 Category = (string)row["category"],
                 Name = (string)row["Name"],
                 Stock = row["Stock"] as int?,
-                VAT = row["VAT"] as int?,
+                VAT = row["VAT"] as decimal?,
                 Card = (string)row["Card"],
                 Price = (decimal)row["Price"]
             };

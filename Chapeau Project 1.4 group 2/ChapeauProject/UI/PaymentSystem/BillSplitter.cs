@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 using Model;
 using Service;
+using System.Diagnostics.Eventing.Reader;
 
 
 namespace UI.PaymentSystem
@@ -19,10 +20,12 @@ namespace UI.PaymentSystem
     public partial class BillSplitter : Form
     {
         private decimal remainingAmount;
+        PaymentService.CurrentOrder currentOrder;
+
         public BillSplitter()
         {
             InitializeComponent();
-            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.Getinstance();
+            currentOrder = PaymentService.CurrentOrder.Getinstance();
             labelTotal.Text = currentOrder.OrderTotal.ToString();
 
             remainingAmount = currentOrder.OrderTotal;
@@ -32,15 +35,14 @@ namespace UI.PaymentSystem
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            PaymentService.CurrentOrder current = PaymentService.CurrentOrder.Getinstance();
 
-            Form newForm = new BillDetails(current.orderId);
+            Form newForm = new BillDetails(currentOrder.orderId);
             Program.WindowSwitcher(this, newForm);
         }
 
         private void UpdateRemainingAmount()
         {
-            remainingAmount = PaymentService.CurrentOrder.Getinstance().OrderTotal;
+            remainingAmount = currentOrder.OrderTotal;
 
             foreach (UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
             {
@@ -86,7 +88,7 @@ namespace UI.PaymentSystem
             EqualSplit equalSplit = new EqualSplit(this);
 
             this.flowLayoutPanelSplit.Controls.Clear();
-            remainingAmount = PaymentService.CurrentOrder.Getinstance().OrderTotal;
+            remainingAmount = currentOrder.OrderTotal;
             equalSplit.ShowDialog();
 
         }
@@ -94,6 +96,13 @@ namespace UI.PaymentSystem
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
 
+            if (remainingAmount < 0 || remainingAmount > 0)
+            {
+                labelNotification.Text = "make sure the entire order is split into parts";
+                labelNotification.Visible = true;
+            }else {
+                //do
+            }
         }
     }
 }

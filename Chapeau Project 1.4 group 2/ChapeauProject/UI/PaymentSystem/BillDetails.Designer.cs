@@ -32,6 +32,7 @@
             columnAmount = new ColumnHeader();
             columnPrice = new ColumnHeader();
             columnSum = new ColumnHeader();
+            columnVAT = new ColumnHeader();
             label1 = new Label();
             labelTotal = new Label();
             LabelOrderNR = new Label();
@@ -40,6 +41,7 @@
             button2 = new Button();
             label2 = new Label();
             buttonComment = new Button();
+            buttonAddTip = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -64,7 +66,7 @@
             // 
             // listViewBillList
             // 
-            listViewBillList.Columns.AddRange(new ColumnHeader[] { columnItemName, columnAmount, columnPrice, columnSum });
+            listViewBillList.Columns.AddRange(new ColumnHeader[] { columnItemName, columnAmount, columnPrice, columnSum, columnVAT });
             listViewBillList.Location = new Point(-1, 247);
             listViewBillList.Name = "listViewBillList";
             listViewBillList.Size = new Size(403, 232);
@@ -75,7 +77,7 @@
             // columnItemName
             // 
             columnItemName.Text = "Item name";
-            columnItemName.Width = 215;
+            columnItemName.Width = 160;
             // 
             // columnAmount
             // 
@@ -88,6 +90,11 @@
             // columnSum
             // 
             columnSum.Text = "Sum";
+            // 
+            // columnVAT
+            // 
+            columnVAT.Text = "VAT";
+            columnVAT.Width = 45;
             // 
             // label1
             // 
@@ -134,6 +141,7 @@
             button1.BackColor = Color.Black;
             button1.FlatAppearance.BorderColor = Color.Black;
             button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             button1.ForeColor = SystemColors.ButtonHighlight;
             button1.Location = new Point(282, 202);
@@ -147,6 +155,7 @@
             // button2
             // 
             button2.BackColor = Color.Black;
+            button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             button2.ForeColor = Color.White;
             button2.Location = new Point(166, 202);
@@ -171,14 +180,30 @@
             buttonComment.BackColor = Color.Black;
             buttonComment.FlatAppearance.BorderColor = Color.Black;
             buttonComment.FlatAppearance.BorderSize = 0;
+            buttonComment.FlatStyle = FlatStyle.Flat;
             buttonComment.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             buttonComment.ForeColor = SystemColors.ButtonHighlight;
-            buttonComment.Location = new Point(236, 157);
+            buttonComment.Location = new Point(236, 129);
             buttonComment.Name = "buttonComment";
             buttonComment.Size = new Size(153, 39);
             buttonComment.TabIndex = 10;
             buttonComment.Text = "Add Comment";
             buttonComment.UseVisualStyleBackColor = false;
+            buttonComment.Click += buttonComment_Click;
+            // 
+            // buttonAddTip
+            // 
+            buttonAddTip.BackColor = Color.Black;
+            buttonAddTip.FlatStyle = FlatStyle.Flat;
+            buttonAddTip.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonAddTip.ForeColor = Color.White;
+            buttonAddTip.Location = new Point(111, 129);
+            buttonAddTip.Name = "buttonAddTip";
+            buttonAddTip.Size = new Size(110, 39);
+            buttonAddTip.TabIndex = 11;
+            buttonAddTip.Text = "Add Tip";
+            buttonAddTip.UseVisualStyleBackColor = false;
+            buttonAddTip.Click += buttonAddTip_Click;
             // 
             // BillDetails
             // 
@@ -186,6 +211,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(401, 558);
+            Controls.Add(buttonAddTip);
             Controls.Add(buttonComment);
             Controls.Add(LabelOrderNR);
             Controls.Add(label2);
@@ -222,5 +248,7 @@
         private Button button2;
         private Label label2;
         private Button buttonComment;
+        private ColumnHeader columnVAT;
+        private Button buttonAddTip;
     }
 }

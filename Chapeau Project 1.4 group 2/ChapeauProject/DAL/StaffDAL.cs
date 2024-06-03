@@ -57,16 +57,14 @@ namespace DAL
             string query = "SELECT COUNT(*) FROM Staff WHERE Username = @Username AND PasswordHash = @PasswordHash";
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
-                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username.ToLower() },
+                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username.ToLower() }, //Case incencitivyvy, might change evrything to lower also queary
                 new SqlParameter("@PasswordHash", SqlDbType.NVarChar) { Value = hashedPassword }
             };
 
             DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
-            if (dataTable.Rows.Count > 0 && (int)dataTable.Rows[0][0] > 0)
-            {
-                return true;
-            }
-            return false;
+
+            return dataTable.Rows.Count > 0 && (int)dataTable.Rows[0][0] > 0;
+            
         }
 
         // Hashes the provided password using SHA-256

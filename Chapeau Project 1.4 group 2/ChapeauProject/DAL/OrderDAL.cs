@@ -43,8 +43,8 @@ namespace DAL
                 },
                 Table = new Table()
                 {
-                    tableId = (int)dr["TableID"],
-                    tableNumber = (int)dr["TableNumber"]
+                    TableId = (int)dr["TableID"],
+                    TableNumber = (int)dr["number"]
                 },
                 Feedback = (string)dr["Feedback"],
                 Items = GetOrderItems((int)dr["OrderID"])

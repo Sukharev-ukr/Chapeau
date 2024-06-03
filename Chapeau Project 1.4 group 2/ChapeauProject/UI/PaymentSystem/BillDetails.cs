@@ -18,7 +18,7 @@ namespace UI
         public BillDetails(int order)
         {
             InitializeComponent();
-            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.Getinstance(order);
+            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.NewInstance(order);
             LabelOrderNR.Text = currentOrder.orderDetail.Keys.First().OrderId.ToString();
             LoadOrderItems();
         }

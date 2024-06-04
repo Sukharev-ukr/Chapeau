@@ -12,9 +12,31 @@ namespace UI.PaymentSystem
 {
     public partial class UserControlSplitBill : UserControl
     {
-        public UserControlSplitBill()
+
+        BillSplitter parentForm;
+        private decimal _splitCost;
+        public decimal SplitCost { get { return _splitCost; } set { _splitCost = value; setSplitCost(value); } }
+        public int PartNR { get; set; }
+
+        public UserControlSplitBill(decimal partCost, int partNR,BillSplitter billSplitter)
         {
             InitializeComponent();
+
+            SplitCost = partCost;
+            labelPart.Text = $"Part {partNR}:";
+            PartNR = partNR;
+            setSplitCost(SplitCost);
+            parentForm = billSplitter;
+
+        }
+        private void setSplitCost(decimal newCost)
+        {
+            textBoxSplit.Text = newCost.ToString("F");
+        }
+        public void buttonSplitByPorion_Click(object sender, EventArgs e)
+        {
+            UpdateSplit split = new UpdateSplit(parentForm,PartNR);
+            split.ShowDialog();
         }
     }
 }

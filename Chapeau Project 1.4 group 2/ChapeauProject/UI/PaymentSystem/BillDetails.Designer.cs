@@ -39,6 +39,7 @@
             button1 = new Button();
             button2 = new Button();
             label2 = new Label();
+            buttonComment = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -165,12 +166,27 @@
             label2.TabIndex = 9;
             label2.Text = "Order";
             // 
+            // buttonComment
+            // 
+            buttonComment.BackColor = Color.Black;
+            buttonComment.FlatAppearance.BorderColor = Color.Black;
+            buttonComment.FlatAppearance.BorderSize = 0;
+            buttonComment.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonComment.ForeColor = SystemColors.ButtonHighlight;
+            buttonComment.Location = new Point(236, 157);
+            buttonComment.Name = "buttonComment";
+            buttonComment.Size = new Size(153, 39);
+            buttonComment.TabIndex = 10;
+            buttonComment.Text = "Add Comment";
+            buttonComment.UseVisualStyleBackColor = false;
+            // 
             // BillDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(401, 558);
+            Controls.Add(buttonComment);
             Controls.Add(LabelOrderNR);
             Controls.Add(label2);
             Controls.Add(button2);
@@ -205,5 +221,6 @@
         private Button button1;
         private Button button2;
         private Label label2;
+        private Button buttonComment;
     }
 }

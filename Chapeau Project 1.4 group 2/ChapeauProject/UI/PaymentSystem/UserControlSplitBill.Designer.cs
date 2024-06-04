@@ -28,26 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            buttonSplitByPorion = new Button();
             textBoxSplit = new TextBox();
             labelPart = new Label();
             SuspendLayout();
             // 
-            // button1
+            // buttonSplitByPorion
             // 
-            button1.BackColor = Color.Black;
-            button1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(229, 15);
-            button1.Name = "button1";
-            button1.Size = new Size(132, 32);
-            button1.TabIndex = 0;
-            button1.Text = "Split by portion";
-            button1.UseVisualStyleBackColor = false;
+            buttonSplitByPorion.BackColor = Color.Black;
+            buttonSplitByPorion.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonSplitByPorion.ForeColor = Color.White;
+            buttonSplitByPorion.Location = new Point(229, 4);
+            buttonSplitByPorion.Name = "buttonSplitByPorion";
+            buttonSplitByPorion.Size = new Size(132, 32);
+            buttonSplitByPorion.TabIndex = 0;
+            buttonSplitByPorion.Text = "Split by portion";
+            buttonSplitByPorion.UseVisualStyleBackColor = false;
+            buttonSplitByPorion.Click += buttonSplitByPorion_Click;
             // 
             // textBoxSplit
             // 
-            textBoxSplit.Location = new Point(103, 19);
+            textBoxSplit.Location = new Point(103, 8);
             textBoxSplit.Name = "textBoxSplit";
             textBoxSplit.Size = new Size(100, 23);
             textBoxSplit.TabIndex = 1;
@@ -56,11 +57,11 @@
             // 
             labelPart.AutoSize = true;
             labelPart.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            labelPart.Location = new Point(22, 15);
+            labelPart.Location = new Point(22, 4);
             labelPart.Name = "labelPart";
-            labelPart.Size = new Size(65, 28);
+            labelPart.Size = new Size(46, 28);
             labelPart.TabIndex = 2;
-            labelPart.Text = "label1";
+            labelPart.Text = "Part";
             // 
             // UserControlSplitBill
             // 
@@ -68,16 +69,16 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(labelPart);
             Controls.Add(textBoxSplit);
-            Controls.Add(button1);
+            Controls.Add(buttonSplitByPorion);
             Name = "UserControlSplitBill";
-            Size = new Size(469, 58);
+            Size = new Size(469, 47);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
+        private Button buttonSplitByPorion;
         private TextBox textBoxSplit;
         private Label labelPart;
     }

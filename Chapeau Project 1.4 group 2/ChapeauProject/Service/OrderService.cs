@@ -1,57 +1,71 @@
 ﻿using DAL;
 using Model;
+using System.Data.SqlClient;
 
 namespace Service
 {
     public class OrderService
     {
-        OrderDao orderDAL;
-
-        public List<OrderItem> starters;
-        public List<OrderItem> mains;
-        public List<OrderItem> deserts;
-        public List<OrderItem> drinks;
+        OrderDao orderDao;
 
         public OrderService()
         {
-            orderDAL = new OrderDao();
-            starters = new List<OrderItem>();
-            mains = new List<OrderItem>();
-            deserts = new List<OrderItem>();
-            drinks = new List<OrderItem>();
+            orderDao = new OrderDao();
         }
 
         public List<Order> GetOrders(bool drink, Status status)
         {
-            List<Order> orders = orderDAL.GetOrders(drink, status);
-            CategorizeItems(orders);
+            List<Order> orders = orderDao.GetOrders(drink, status);
+
+            if (!drink)
+            {
+                orders = CategorizeItems(orders);
+            }
 
             return orders;
         }
 
-        private void CategorizeItems(List<Order> orders)
+        private static void SplitFoodOrders(Order order, Dictionary<Category, List<OrderItem>> categorizedItems)
         {
+            foreach (OrderItem item in order.Items)
+            {
+                Category category = item.MenuItem.Category;
+                if (!categorizedItems.ContainsKey(category))
+                {
+                    categorizedItems[category] = new List<OrderItem>();
+                }
+                categorizedItems[category].Add(item);
+            }
+        }
+
+        public List<Order> CategorizeItems(List<Order> orders)
+        {
+            List<Order> categorizedOrders = new List<Order>();
+
             foreach (Order order in orders)
             {
-                foreach (OrderItem item in order.Items)
-                {
-                    switch (item.MenuItem.Category)
-                    {
-                        case "Starters - Entrees":
-                            starters.Add(item);
-                            break;
-                        case "Mains - Le plat principal":
-                            starters.Add(item);
-                            break;
-                        case "Deserts - Les Desserts":
-                            starters.Add(item);
-                            break;
-                        case "Drinks":
-                            starters.Add(item);
-                            break;
-                    }
-                }
+                var categorizedItems = new Dictionary<Category, List<OrderItem>>();
+                SplitFoodOrders(order, categorizedItems);
+                categorizedOrders.AddRange(CreateOrdersFromCategories(order, categorizedItems));
             }
+
+            return categorizedOrders;
+        }
+
+        private List<Order> CreateOrdersFromCategories(Order originalOrder, Dictionary<Category, List<OrderItem>> categorizedItems)
+        {
+            List<Order> splitOrders = new List<Order>();
+
+            foreach (var category in categorizedItems.Keys)
+            {
+                Order newOrder = new Order(originalOrder)
+                {
+                    Items = categorizedItems[category]
+                };
+                splitOrders.Add(newOrder);
+            }
+
+            return splitOrders;
         }
     }
 }

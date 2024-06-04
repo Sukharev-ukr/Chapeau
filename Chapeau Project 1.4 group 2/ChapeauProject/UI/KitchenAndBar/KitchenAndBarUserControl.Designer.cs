@@ -28,48 +28,90 @@
         /// </summary>
         private void InitializeComponent()
         {
-            columnHeader4 = new ColumnHeader();
-            columnHeader5 = new ColumnHeader();
-            listViewOrder = new ListView();
+            lblCategory = new Label();
+            btnStatus = new Button();
+            lblTableNumber = new Label();
+            lblOrderTime = new Label();
+            lblOrderStatus = new Label();
+            listViewOrderItems = new ListView();
             SuspendLayout();
             // 
-            // columnHeader4
+            // lblCategory
             // 
-            columnHeader4.Text = "";
-            columnHeader4.Width = 0;
+            lblCategory.AutoSize = true;
+            lblCategory.Location = new Point(22, 98);
+            lblCategory.Name = "lblCategory";
+            lblCategory.Size = new Size(81, 25);
+            lblCategory.TabIndex = 8;
+            lblCategory.Text = "category";
             // 
-            // columnHeader5
+            // btnStatus
             // 
-            columnHeader5.Text = "";
-            columnHeader5.TextAlign = HorizontalAlignment.Center;
-            columnHeader5.Width = 312;
+            btnStatus.Location = new Point(189, 93);
+            btnStatus.Name = "btnStatus";
+            btnStatus.Size = new Size(112, 34);
+            btnStatus.TabIndex = 10;
+            btnStatus.Text = "Status";
+            btnStatus.UseVisualStyleBackColor = true;
             // 
-            // listViewOrder
+            // lblTableNumber
             // 
-            listViewOrder.BackColor = Color.White;
-            listViewOrder.Columns.AddRange(new ColumnHeader[] { columnHeader4, columnHeader5 });
-            listViewOrder.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
-            listViewOrder.FullRowSelect = true;
-            listViewOrder.Location = new Point(330, 63);
-            listViewOrder.Name = "listViewOrder";
-            listViewOrder.Size = new Size(316, 351);
-            listViewOrder.TabIndex = 7;
-            listViewOrder.UseCompatibleStateImageBehavior = false;
-            listViewOrder.View = System.Windows.Forms.View.Details;
+            lblTableNumber.AutoSize = true;
+            lblTableNumber.Location = new Point(22, 50);
+            lblTableNumber.Name = "lblTableNumber";
+            lblTableNumber.Size = new Size(67, 25);
+            lblTableNumber.TabIndex = 11;
+            lblTableNumber.Text = "tablenr";
+            // 
+            // lblOrderTime
+            // 
+            lblOrderTime.AutoSize = true;
+            lblOrderTime.Location = new Point(234, 50);
+            lblOrderTime.Name = "lblOrderTime";
+            lblOrderTime.Size = new Size(90, 25);
+            lblOrderTime.TabIndex = 12;
+            lblOrderTime.Text = "ordertime";
+            // 
+            // lblOrderStatus
+            // 
+            lblOrderStatus.AutoSize = true;
+            lblOrderStatus.Location = new Point(125, 50);
+            lblOrderStatus.Name = "lblOrderStatus";
+            lblOrderStatus.Size = new Size(106, 25);
+            lblOrderStatus.TabIndex = 13;
+            lblOrderStatus.Text = "OrderStatus";
+            // 
+            // listViewOrderItems
+            // 
+            listViewOrderItems.Location = new Point(22, 133);
+            listViewOrderItems.Name = "listViewOrderItems";
+            listViewOrderItems.Size = new Size(279, 203);
+            listViewOrderItems.TabIndex = 14;
+            listViewOrderItems.UseCompatibleStateImageBehavior = false;
+            listViewOrderItems.View = System.Windows.Forms.View.Details;
             // 
             // KitchenAndBarUserControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(listViewOrder);
+            Controls.Add(listViewOrderItems);
+            Controls.Add(lblOrderStatus);
+            Controls.Add(lblOrderTime);
+            Controls.Add(lblTableNumber);
+            Controls.Add(btnStatus);
+            Controls.Add(lblCategory);
             Name = "KitchenAndBarUserControl";
-            Size = new Size(1056, 592);
+            Size = new Size(317, 352);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-        private ColumnHeader columnHeader4;
-        private ColumnHeader columnHeader5;
-        private ListView listViewOrder;
+        private Label lblCategory;
+        private Button btnStatus;
+        private Label lblTableNumber;
+        private Label lblOrderTime;
+        private Label lblOrderStatus;
+        private ListView listViewOrderItems;
     }
 }

@@ -14,28 +14,36 @@ namespace UI
 {
     public partial class KitchenAndBarUserControl : UserControl
     {
-        public KitchenAndBarUserControl()
+        private Order order;
+        public Order Order
         {
-            InitializeComponent();
+            get { return order; }
         }
 
-        public void DisplayOrder(Order order)
+        public KitchenAndBarUserControl(Order order)
         {
-            listViewOrder.Items.Clear(); // Clear existing items
+            InitializeComponent();
+            this.order = order;
+        }
 
-            foreach (OrderItem orderItem in order.Items)
+        public void UpdateOrderDetails(Order order)
+        {
+            // Clear previous orders
+            listViewOrderItems.Items.Clear();
+
+            // Add new orders
+            lblTableNumber.Text = $"Table {order.Table.tableNumber}";
+            lblOrderStatus.Text = order.Items.First().OrderStatus.ToString();
+            lblOrderTime.Text = order.OrderTime?.ToString("HH:mm:ss");
+
+            listViewOrderItems.Items.Clear();
+            foreach (var item in order.Items)
             {
-                ListViewItem item = new ListViewItem(order.Table.ToString());
-                item.SubItems.Add(order.OrderTime.ToString());
-                item.SubItems.Add(orderItem.MenuItem.Category.ToString());
-                item.SubItems.Add($"{orderItem.Count.ToString()}x {orderItem.MenuItem.Name.ToString()}");
-                item.SubItems.Add(orderItem.OrderStatus.ToString());
-
-                // Add a tag to store the order object
-                item.Tag = order;
-
-                listViewOrder.Items.Add(item);
+                ListViewItem viewItem = new ListViewItem($"{item.Count}x {item.MenuItem.Name}");
+                viewItem.Tag = item;
             }
+
+            
         }
     }
 }

@@ -32,10 +32,12 @@
             runningToolStripMenuItem = new ToolStripMenuItem();
             finishedToolStripMenuItem = new ToolStripMenuItem();
             pnlRunningOrders = new Panel();
+            label1 = new Label();
             pictureBox1 = new PictureBox();
             lblEmployee = new Label();
             pnlFinishedOrders = new Panel();
             menuStrip1.SuspendLayout();
+            pnlRunningOrders.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -68,10 +70,20 @@
             // 
             // pnlRunningOrders
             // 
-            pnlRunningOrders.Location = new Point(20, 80);
+            pnlRunningOrders.Controls.Add(label1);
+            pnlRunningOrders.Location = new Point(5, 80);
             pnlRunningOrders.Name = "pnlRunningOrders";
-            pnlRunningOrders.Size = new Size(1269, 440);
+            pnlRunningOrders.Size = new Size(1284, 440);
             pnlRunningOrders.TabIndex = 8;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(382, 192);
+            label1.Name = "label1";
+            label1.Size = new Size(59, 25);
+            label1.TabIndex = 0;
+            label1.Text = "label1";
             // 
             // pictureBox1
             // 
@@ -96,9 +108,9 @@
             // 
             // pnlFinishedOrders
             // 
-            pnlFinishedOrders.Location = new Point(20, 80);
+            pnlFinishedOrders.Location = new Point(5, 80);
             pnlFinishedOrders.Name = "pnlFinishedOrders";
-            pnlFinishedOrders.Size = new Size(1269, 440);
+            pnlFinishedOrders.Size = new Size(1284, 440);
             pnlFinishedOrders.TabIndex = 9;
             // 
             // KitchenAndBarForm
@@ -107,15 +119,17 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(1328, 532);
-            Controls.Add(pnlFinishedOrders);
             Controls.Add(lblEmployee);
             Controls.Add(menuStrip1);
             Controls.Add(pictureBox1);
             Controls.Add(pnlRunningOrders);
+            Controls.Add(pnlFinishedOrders);
             Name = "KitchenAndBarForm";
             Text = "Form1";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            pnlRunningOrders.ResumeLayout(false);
+            pnlRunningOrders.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -130,5 +144,6 @@
         private PictureBox pictureBox1;
         private Label lblEmployee;
         private Panel pnlFinishedOrders;
+        private Label label1;
     }
 }

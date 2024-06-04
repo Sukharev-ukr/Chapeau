@@ -34,7 +34,7 @@ namespace DAL
             MenuItem menuItem = new MenuItem()
             {
                 Id = (int)row["ItemID"],
-                Category = (string)row["category"],
+                Category = (Category)row["category"],
                 Name = (string)row["Name"],
                 Stock = row["Stock"] as int?,
                 VAT = row["VAT"] as int?,

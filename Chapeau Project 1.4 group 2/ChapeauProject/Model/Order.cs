@@ -14,5 +14,18 @@ namespace Model
         public List<OrderItem> Items { get; set; }
         public Table Table { get; set; }
         public Employee Employee { get; set; }
+
+        public Order() { }
+
+        // Copy constructor for service layer
+        public Order(Order order)
+        {
+            this.OrderId = order.OrderId;
+            this.OrderTime = order.OrderTime;
+            this.Feedback = order.Feedback;
+            this.Items = order.Items;
+            this.Table = order.Table;
+            this.Items = new List<OrderItem>(order.Items);
+        }
     }
 }

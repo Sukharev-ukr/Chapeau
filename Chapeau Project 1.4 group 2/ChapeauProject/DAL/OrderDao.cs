@@ -15,12 +15,11 @@ namespace DAL
             string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
                            "FROM Order AS O " +
                            "JOIN Table AS T ON O.TableID = T.TableID " +
-                           "WHERE O.OrderStatus = @status AND @category";
+                           "WHERE O.OrderStatus = @status AND" + category;
 
             SqlParameter[] parameters =
             {
-                new SqlParameter("@status", status),
-                new SqlParameter("@category", category)
+                new SqlParameter("@status", status)
             };
 
             return ReadOrders(ExecuteSelectQuery(query, parameters));
@@ -59,8 +58,6 @@ namespace DAL
                 Items = GetOrderItems((int)dr["OrderID"])
             };
         }
-
-
 
         public List<OrderItem> GetOrderItems(int orderId)
         {

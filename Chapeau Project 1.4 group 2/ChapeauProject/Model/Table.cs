@@ -8,7 +8,8 @@ namespace Model
 {
     public class Table
     {
-        public int tableId;
-        public int tableNumber;
+        public int TableId { get; set; }
+        public TableStatus Status { get; set; }
+        public int TableNumber { get; set; }
     }
 }

@@ -3,6 +3,8 @@ using Model;
 using Service;
 using DAL;
 using UI.PaymentSystem;
+using System.Drawing.Text;
+using System.Windows.Forms;
 
 namespace UI
 {
@@ -20,25 +22,23 @@ namespace UI
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new KitchenAndBarForm());
+            //Application.Run(new BillDetails(2));
+            Application.Run(new LoginForm());
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)
         {
-
-            
-
+            // this just hides the old forms, need something beter
             newForm.StartPosition = FormStartPosition.Manual;
             newForm.Location = oldForm.Location;
 
 
 
             oldForm.Hide();
-            newForm.Closed += (s,args) => oldForm.Close();
+            newForm.Closed += (s, args) => oldForm.Close();
 
 
             newForm.Show();
-
         }
 
 

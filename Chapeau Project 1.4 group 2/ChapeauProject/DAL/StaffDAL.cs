@@ -39,17 +39,22 @@ namespace DAL
             return staffList;
         }
 
-        // Create a Staff object from a DataRow
-        //private Staff CreateStaff(DataRow dr)
-        //{
-        //    return new Staff()
-        //    {
-        //        StaffID = (int)dr["StaffID"],
-        //        Username = (string)dr["Username"],
-        //        PasswordHash = (string)dr["PasswordHash"],
-        //        Role = (Role)dr["Role"]
-        //    };
-        //}
+        public Staff GetStaffByUsername(string username)
+        {
+            string query = "SELECT StaffID, Username, Role, PasswordHash FROM Staff WHERE Username = @username";
+            SqlParameter[] sqlParameters = new SqlParameter[]
+            {
+            new SqlParameter("@username", username)
+            };
+            DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
+            if (dataTable.Rows.Count == 0)
+            {
+                return null; // Username not found
+            }
+            return ReadStaff(dataTable);
+        }
+
+
 
         // Validates the password for a given username
         public bool ValidatePassword(string username, string hashedPassword)
@@ -65,6 +70,19 @@ namespace DAL
 
             return dataTable.Rows.Count > 0 && (int)dataTable.Rows[0][0] > 0;
             
+        }
+
+        private Staff ReadStaff(DataTable data)
+        {
+            DataRow dataRow = data.Rows[0];
+            Staff staff = new Staff
+            {
+                StaffID = (int)dataRow["StaffID"],
+                Username = (string)dataRow["Username"],
+                PasswordHash = (string)dataRow["PasswordHash"],
+                Role = (Role)Enum.Parse(typeof(Role), (string)dataRow["Role"])
+            };
+            return staff;
         }
 
         // Hashes the provided password using SHA-256

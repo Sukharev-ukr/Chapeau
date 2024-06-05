@@ -32,15 +32,27 @@ namespace Service
             return null;
         }
 
-        public bool ValidateStaffCredentials(string username, string password)
+        private bool VerifyPassword(string password, string storedHash)
         {
-            string hashedPassword = HashPassword(password);
-            return _staffDAL.ValidatePassword(username, hashedPassword);
+            string hashedPasswordInput = HashPassword(password);
+            return storedHash == hashedPasswordInput;
         }
 
+        public Staff CheckLoginCredentials(string username, string password)
+        {
+            Staff staff = GetStaffByUsername(username);
+            if (staff != null)
+            {
+                bool isPasswordCorrect = VerifyPassword(password, staff.PasswordHash);
+                if (isPasswordCorrect)
+                {
+                    return staff;
+                }
+            }
+            return null;
+        }
 
-
-        public string HashPassword(string password)
+        private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
             {

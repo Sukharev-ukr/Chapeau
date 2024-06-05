@@ -11,9 +11,22 @@ namespace DAL
 
         public List<Table> GetAllTables()
         {
-            string query = "SELECT TableID, Status, number FROM [Table]";
-            return ReadTables(ExecuteSelectQuery(query));
+            string query = "SELECT TableID, Status FROM [Table]";
+            DataTable dataTable = ExecuteSelectQuery(query);
+
+            List<Table> tables = new List<Table>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Table table = new Table
+                {
+                    TableId = (int)row["TableID"],
+                    Status = Enum.Parse<TableStatus>((string)row["Status"])
+                };
+                tables.Add(table);
+            }
+            return tables;
         }
+
         public void UpdateTableStatus(Table table)
         {
             string updateQuery = "UPDATE [Table] SET Status = @Status WHERE TableID = @TableID";

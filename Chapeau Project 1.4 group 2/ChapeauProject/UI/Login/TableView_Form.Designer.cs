@@ -34,6 +34,9 @@
             Nav_barOccupied = new Label();
             Nav_barReserved = new Label();
             Nav_barFree = new Label();
+            Small_Free = new Panel();
+            SmallReserved = new Panel();
+            Small_Occupied = new Panel();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -58,6 +61,9 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(122, 0, 0, 0);
+            panel1.Controls.Add(Small_Occupied);
+            panel1.Controls.Add(SmallReserved);
+            panel1.Controls.Add(Small_Free);
             panel1.Controls.Add(Nav_barOccupied);
             panel1.Controls.Add(Nav_barReserved);
             panel1.Controls.Add(Nav_barFree);
@@ -96,11 +102,35 @@
             Nav_barFree.BackColor = Color.Transparent;
             Nav_barFree.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             Nav_barFree.ForeColor = Color.Black;
-            Nav_barFree.Location = new Point(42, 3);
+            Nav_barFree.Location = new Point(68, 3);
             Nav_barFree.Name = "Nav_barFree";
             Nav_barFree.Size = new Size(67, 37);
             Nav_barFree.TabIndex = 0;
             Nav_barFree.Text = "Free";
+            // 
+            // Small_Free
+            // 
+            Small_Free.BackColor = Color.FromArgb(108, 255, 84);
+            Small_Free.Location = new Point(27, 11);
+            Small_Free.Name = "Small_Free";
+            Small_Free.Size = new Size(35, 29);
+            Small_Free.TabIndex = 3;
+            // 
+            // SmallReserved
+            // 
+            SmallReserved.BackColor = Color.FromArgb(254, 231, 24);
+            SmallReserved.Location = new Point(325, 11);
+            SmallReserved.Name = "SmallReserved";
+            SmallReserved.Size = new Size(35, 29);
+            SmallReserved.TabIndex = 4;
+            // 
+            // Small_Occupied
+            // 
+            Small_Occupied.BackColor = Color.FromArgb(255, 86, 86);
+            Small_Occupied.Location = new Point(635, 11);
+            Small_Occupied.Name = "Small_Occupied";
+            Small_Occupied.Size = new Size(35, 29);
+            Small_Occupied.TabIndex = 5;
             // 
             // TableView_Form
             // 
@@ -126,5 +156,8 @@
         private Label Nav_barReserved;
         private Label Nav_barFree;
         private Label Nav_barOccupied;
+        private Panel Small_Occupied;
+        private Panel SmallReserved;
+        private Panel Small_Free;
     }
 }

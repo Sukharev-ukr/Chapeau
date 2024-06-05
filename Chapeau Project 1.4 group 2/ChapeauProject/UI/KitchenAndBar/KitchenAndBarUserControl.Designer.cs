@@ -53,6 +53,7 @@
             btnStatus.TabIndex = 10;
             btnStatus.Text = "Status";
             btnStatus.UseVisualStyleBackColor = true;
+            btnStatus.Click += btnStatus_Click;
             // 
             // lblTableNumber
             // 

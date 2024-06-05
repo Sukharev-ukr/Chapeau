@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using DAL;
+using Model;
 using Service;
 using System;
 using System.Collections.Generic;
@@ -24,26 +25,44 @@ namespace UI
         {
             InitializeComponent();
             this.order = order;
+            UpdateOrderDetails(order);
         }
 
         public void UpdateOrderDetails(Order order)
         {
+            this.order = order;
+
             // Clear previous orders
             listViewOrderItems.Items.Clear();
 
             // Add new orders
-            lblTableNumber.Text = $"Table {order.Table.tableNumber}";
+            lblTableNumber.Text = $"Table {order.Table.TableNumber}";
             lblOrderStatus.Text = order.Items.First().OrderStatus.ToString();
             lblOrderTime.Text = order.OrderTime?.ToString("HH:mm:ss");
 
             listViewOrderItems.Items.Clear();
-            foreach (var item in order.Items)
-            {
-                ListViewItem viewItem = new ListViewItem($"{item.Count}x {item.MenuItem.Name}");
-                viewItem.Tag = item;
-            }
 
-            
+            // Add new order items
+            foreach (OrderItem item in order.Items)
+            {
+                ListViewItem viewItem = new ListViewItem($"{item.Count}x {item.MenuItem.Name}")
+                {
+                    Tag = item
+                };
+
+                listViewOrderItems.Items.Add(viewItem);
+            }
+        }
+
+        private void btnStatus_Click(object sender, EventArgs e)
+        {
+            // Change order status logic
+            string newStatus = "Completed"; // Example status change
+            KitchenAndBarDao kitchenAndBarDao = new KitchenAndBarDao();
+            kitchenAndBarDao.ChangeStatus(order.OrderId, newStatus);
+
+            // Update order status in UI
+            lblOrderStatus.Text = newStatus;
         }
     }
 }

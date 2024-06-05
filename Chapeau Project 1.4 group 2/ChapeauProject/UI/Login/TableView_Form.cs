@@ -16,6 +16,7 @@ namespace UI.Login
     {
         private TableDAL tableDAL;
         private Panel popupPanel;
+        private Dictionary<TableStatus, List<Button>> statusButtons;
 
         public TableView_Form()
         {
@@ -88,7 +89,9 @@ namespace UI.Login
                 Font = new Font("Roboto", 20, FontStyle.Regular),
                 ForeColor = Color.Black,
                 Tag = table,
-                TextAlign = ContentAlignment.MiddleCenter
+                TextAlign = ContentAlignment.MiddleCenter,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
             };
 
             button.Click += TableButton_Click;
@@ -138,19 +141,42 @@ namespace UI.Login
             popupPanel.Location = new Point(this.ClientSize.Width / 2 - popupPanel.Width / 2, this.ClientSize.Height / 2 - popupPanel.Height / 2);
             popupPanel.Visible = true;
 
-            // Update buttons' visibility or text based on table status
-            // Example:
-            // btnSwitch.Visible = table.Status == "Occupied";
+            // Clear existing buttons
+            foreach (Control control in popupPanel.Controls)
+            {
+                if (control is Button)
+                {
+                    control.Visible = false;
+                }
+            }
+
+            // Show buttons based on table status
+            List<Button> buttonsToShow = statusButtons[table.Status];
+            int startX = (popupPanel.Width - buttonsToShow[0].Width * 2 - 60) / 2;
+            int startY = lblStatus.Bottom + 60;
+            for (int i = 0; i < buttonsToShow.Count; i++)
+            {
+                buttonsToShow[i].Location = new Point(startX + (i % 2) * (buttonsToShow[i].Width + 60), startY + (i / 2) * (buttonsToShow[i].Height + 60));
+                buttonsToShow[i].Visible = true;
+            }
+        }
+        private void PopupPanel_Paint(object sender, PaintEventArgs e)
+        {
+            using (SolidBrush brush = new SolidBrush(Color.FromArgb(115, Color.White))) 
+            {
+                e.Graphics.FillRectangle(brush, popupPanel.ClientRectangle);
+            }
         }
         private void InitializePopupPanel()
         {
             popupPanel = new Panel
             {
-                Width = 300,
-                Height = 200,
+                Width = 636,
+                Height = 325,
                 BorderStyle = BorderStyle.FixedSingle,
                 Visible = false,
-                BackColor = Color.White
+                //BackColor = Color.White
+                BackColor = Color.Transparent
             };
 
             Label lblStatus = new Label
@@ -164,16 +190,72 @@ namespace UI.Login
                 Height = 40
             };
 
-            Button btnSwitch = new Button { Text = "Switch to another table", Dock = DockStyle.Top, Height = 40 };
-            Button btnFree = new Button { Text = "Free table", Dock = DockStyle.Top, Height = 40 };
-            Button btnTakeOrder = new Button { Text = "Take Order", Dock = DockStyle.Top, Height = 40 };
-            Button btnViewOrder = new Button { Text = "View order", Dock = DockStyle.Top, Height = 40 };
+            Button btnSwitch = new Button { Text = "Switch to another table", Width = 250, Height = 60, Visible = false,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 2 }
+            };
+            Button btnFree = new Button { Text = "Free table", Width = 250, Height = 60, Visible = false,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+            Button btnTakeOrder = new Button { Text = "Take Order", Width = 250, Height = 60, Visible = false,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+            Button btnViewOrder = new Button { Text = "View order", Width = 250, Height = 60, Visible = false,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+            Button btnReserve = new Button { Text = "Reserve", Width = 250, Height = 60, Visible = false,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+            Button btnSeatCustomer = new Button { Text = "Seat customer", Width = 250, Height = 60, Visible = false,BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+            Button btnViewReservationDetails = new Button { Text = "View reservation details", Width = 250, Height = 60, Visible = false ,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+            Button btnCancelReservation = new Button { Text = "Cancel reservation", Width = 250, Height = 60, Visible = false ,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+
+
+            statusButtons = new Dictionary<TableStatus, List<Button>>
+            {
+                { TableStatus.free, new List<Button> { btnFree, btnReserve } },
+                { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnViewOrder, btnSwitch } },
+                { TableStatus.reserved, new List<Button> { btnFree, btnSeatCustomer, btnViewReservationDetails, btnCancelReservation } }
+            };
+            popupPanel.Paint += PopupPanel_Paint;
 
             popupPanel.Controls.Add(lblStatus);
             popupPanel.Controls.Add(btnSwitch);
             popupPanel.Controls.Add(btnFree);
             popupPanel.Controls.Add(btnTakeOrder);
             popupPanel.Controls.Add(btnViewOrder);
+            popupPanel.Controls.Add(btnReserve);
+            popupPanel.Controls.Add(btnSeatCustomer);
+            popupPanel.Controls.Add(btnViewReservationDetails);
+            popupPanel.Controls.Add(btnCancelReservation);
 
             this.Controls.Add(popupPanel);
         }

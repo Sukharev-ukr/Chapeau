@@ -15,11 +15,13 @@ namespace UI.Login
     public partial class TableView_Form : Form
     {
         private TableDAL tableDAL;
+        private Panel popupPanel;
 
         public TableView_Form()
         {
             InitializeComponent();
             tableDAL = new TableDAL();
+            InitializePopupPanel();
             LoadTables();
         }
 
@@ -27,82 +29,155 @@ namespace UI.Login
         {
             List<Table> tables = tableDAL.GetAllTables();
 
+            // Spacing values
             int tableWidth = 100;
             int tableHeight = 100;
-            int verticalSpacing = 80;
-            int horizontalSpacing = 240;
+            int verticalSpacing = 80; // Space between tables vertically
+            int horizontalSpacing = 240; // Space between columns
 
+            // Calculate the total height needed for the tables in one column
             int totalTableHeight = (tables.Count / 2) * (tableHeight + verticalSpacing) - verticalSpacing;
+
+            // Calculate the starting Y position to center the tables vertically in the form
             int startY = (this.ClientSize.Height - totalTableHeight) / 2; // Centering vertically
 
-            int column1X = 170;  // Increased X position for the first column to add more left space
-            int column2X = column1X + tableWidth + horizontalSpacing;  // X position for the second column
+            // X positions for the two columns
+            int column1X = 170; // Position for the first row of tables
+            int column2X = column1X + tableWidth + horizontalSpacing; // X position for the second column
 
+            // Calculate the midpoint to split tables between the two columns
             int midPoint = tables.Count / 2;
+
+            // Initial Y positions for both columns
             int currentY1 = startY;
             int currentY2 = startY;
 
+            // Loop through each table and place it in the correct column and position
             for (int i = 0; i < tables.Count; i++)
             {
-                Panel tablePanel = CreateTablePanel(tables[i]);
+                // Create a button for each table
+                Button tableButton = CreateTableButton(tables[i]);
 
                 if (i < midPoint)
                 {
-                    // First column
-                    tablePanel.Location = new Point(column1X, currentY1);
+                    // Here we are placing tables in the first column
+                    tableButton.Location = new Point(column1X, currentY1);
+                    // Update the Y position for the next table
                     currentY1 += tableHeight + verticalSpacing;
                 }
                 else
                 {
-                    // Second column
-                    tablePanel.Location = new Point(column2X, currentY2);
+                    // Here we are placing tables in the second column
+                    tableButton.Location = new Point(column2X, currentY2);
+                    // Update the Y position for the next table
                     currentY2 += tableHeight + verticalSpacing;
                 }
 
-                this.Controls.Add(tablePanel);
+                // Add the table button to the form
+                this.Controls.Add(tableButton);
             }
         }
 
-        private Panel CreateTablePanel(Table table)
+        private Button CreateTableButton(Table table)
         {
-            Panel panel = new Panel
+            Button button = new Button
             {
                 Width = 100,
                 Height = 100,
-                BorderStyle = BorderStyle.FixedSingle
-            };
-
-            Label lblTableID = new Label
-            {
                 Text = table.TableId.ToString(),
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Fill,
-                Font = new Font("Roboto", 40, FontStyle.Regular),
-                ForeColor = Color.Black
+                Font = new Font("Roboto", 20, FontStyle.Regular),
+                ForeColor = Color.Black,
+                Tag = table,
+                TextAlign = ContentAlignment.MiddleCenter
             };
 
-            panel.Controls.Add(lblTableID);
+            button.Click += TableButton_Click;
 
             switch (table.Status)
             {
                 case TableStatus.free:
-                    panel.BackColor = Color.FromArgb(255, 108, 255, 84);
+                    button.BackColor = Color.FromArgb(255, 108, 255, 84);
                     break;
                 case TableStatus.reserved:
-                    panel.BackColor = Color.FromArgb(255, 254, 231, 24);
+                    button.BackColor = Color.FromArgb(255, 254, 231, 24);
                     break;
                 case TableStatus.occupied:
                 case TableStatus.Ordered:
-                    panel.BackColor = Color.FromArgb(255, 255, 86, 86);
+                    button.BackColor = Color.FromArgb(255, 255, 86, 86);
                     break;
                 default:
-                    panel.BackColor = Color.Gray;
+                    button.BackColor = Color.Gray;
                     break;
             }
 
-            return panel;
+            return button;
         }
+
+        private void TableButton_Click(object sender, EventArgs e)
+        {
+            // Retrieve the button that was clicked
+            Button clickedButton = sender as Button;
+            if (clickedButton != null)
+            {
+                // Retrieve the table object from the button's Tag property
+                Table clickedTable = clickedButton.Tag as Table;
+                if (clickedTable != null)
+                {
+                    // Handle the click event
+                    ShowPopup(clickedTable);
+                }
+            }
+        }
+
+        private void ShowPopup(Table table)
+        {
+            Label lblStatus = popupPanel.Controls["lblStatus"] as Label;
+            lblStatus.Text = $"Table - {table.TableId} ({table.Status})";
+
+            // Adjust popupPanel location based on where you want to show it
+            popupPanel.Location = new Point(this.ClientSize.Width / 2 - popupPanel.Width / 2, this.ClientSize.Height / 2 - popupPanel.Height / 2);
+            popupPanel.Visible = true;
+
+            // Update buttons' visibility or text based on table status
+            // Example:
+            // btnSwitch.Visible = table.Status == "Occupied";
+        }
+        private void InitializePopupPanel()
+        {
+            popupPanel = new Panel
+            {
+                Width = 300,
+                Height = 200,
+                BorderStyle = BorderStyle.FixedSingle,
+                Visible = false,
+                BackColor = Color.White
+            };
+
+            Label lblStatus = new Label
+            {
+                Name = "lblStatus",
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Top,
+                Font = new Font("Roboto", 20, FontStyle.Regular),
+                ForeColor = Color.Black,
+                Height = 40
+            };
+
+            Button btnSwitch = new Button { Text = "Switch to another table", Dock = DockStyle.Top, Height = 40 };
+            Button btnFree = new Button { Text = "Free table", Dock = DockStyle.Top, Height = 40 };
+            Button btnTakeOrder = new Button { Text = "Take Order", Dock = DockStyle.Top, Height = 40 };
+            Button btnViewOrder = new Button { Text = "View order", Dock = DockStyle.Top, Height = 40 };
+
+            popupPanel.Controls.Add(lblStatus);
+            popupPanel.Controls.Add(btnSwitch);
+            popupPanel.Controls.Add(btnFree);
+            popupPanel.Controls.Add(btnTakeOrder);
+            popupPanel.Controls.Add(btnViewOrder);
+
+            this.Controls.Add(popupPanel);
+        }
+
 
     }
 }

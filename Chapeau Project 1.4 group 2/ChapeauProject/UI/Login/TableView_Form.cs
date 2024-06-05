@@ -26,21 +26,40 @@ namespace UI.Login
         private void LoadTables()
         {
             List<Table> tables = tableDAL.GetAllTables();
-            int x = 20, y = 80; // Starting position for placing tables
 
-            foreach (var table in tables)
+            int tableWidth = 100;
+            int tableHeight = 100;
+            int verticalSpacing = 80;
+            int horizontalSpacing = 240;
+
+            int totalTableHeight = (tables.Count / 2) * (tableHeight + verticalSpacing) - verticalSpacing;
+            int startY = (this.ClientSize.Height - totalTableHeight) / 2; // Centering vertically
+
+            int column1X = 170;  // Increased X position for the first column to add more left space
+            int column2X = column1X + tableWidth + horizontalSpacing;  // X position for the second column
+
+            int midPoint = tables.Count / 2;
+            int currentY1 = startY;
+            int currentY2 = startY;
+
+            for (int i = 0; i < tables.Count; i++)
             {
-                Panel tablePanel = CreateTablePanel(table);
-                tablePanel.Location = new Point(x, y);
+                Panel tablePanel = CreateTablePanel(tables[i]);
+
+                if (i < midPoint)
+                {
+                    // First column
+                    tablePanel.Location = new Point(column1X, currentY1);
+                    currentY1 += tableHeight + verticalSpacing;
+                }
+                else
+                {
+                    // Second column
+                    tablePanel.Location = new Point(column2X, currentY2);
+                    currentY2 += tableHeight + verticalSpacing;
+                }
 
                 this.Controls.Add(tablePanel);
-
-                y += tablePanel.Height + 20; // Adjust the y-coordinate for the next table
-                if (y + tablePanel.Height + 20 > this.Height)
-                {
-                    y = 80;
-                    x += tablePanel.Width + 20;
-                }
             }
         }
 
@@ -59,7 +78,7 @@ namespace UI.Login
                 AutoSize = false,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Fill,
-                Font = new Font("Roboto", 64, FontStyle.Regular),
+                Font = new Font("Roboto", 40, FontStyle.Regular),
                 ForeColor = Color.Black
             };
 

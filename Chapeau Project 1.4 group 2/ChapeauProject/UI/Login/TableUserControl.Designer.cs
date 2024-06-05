@@ -15,32 +15,31 @@
 
         private void InitializeComponent()
         {
-            this.lblTableNumber = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            lblTableNumber = new Label();
+            SuspendLayout();
             // 
             // lblTableNumber
             // 
-            this.lblTableNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTableNumber.Font = new System.Drawing.Font("Roboto", 64F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTableNumber.ForeColor = System.Drawing.Color.Black;
-            this.lblTableNumber.Location = new System.Drawing.Point(0, 0);
-            this.lblTableNumber.Name = "lblTableNumber";
-            this.lblTableNumber.Size = new System.Drawing.Size(100, 100);
-            this.lblTableNumber.TabIndex = 0;
-            this.lblTableNumber.Text = "1";
-            this.lblTableNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            lblTableNumber.Dock = DockStyle.Fill;
+            lblTableNumber.Font = new Font("Microsoft Sans Serif", 40F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTableNumber.ForeColor = Color.Black;
+            lblTableNumber.Location = new Point(0, 0);
+            lblTableNumber.Name = "lblTableNumber";
+            lblTableNumber.Size = new Size(100, 100);
+            lblTableNumber.TabIndex = 0;
+            lblTableNumber.Text = "1";
+            lblTableNumber.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // TableUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblTableNumber);
-            this.Name = "TableUserControl";
-            this.Size = new System.Drawing.Size(100, 100);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(lblTableNumber);
+            Name = "TableUserControl";
+            Size = new Size(100, 100);
+            ResumeLayout(false);
         }
 
-        private System.Windows.Forms.Label lblTableNumber;
+        private Label lblTableNumber;
     }
 }

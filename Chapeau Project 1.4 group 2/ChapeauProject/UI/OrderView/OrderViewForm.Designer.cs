@@ -32,63 +32,131 @@
             btnDiner = new Button();
             btnDrinks = new Button();
             pnlOrderView = new Panel();
-            ucOrderView = new UCOrderView();
-            pnlOrderView.SuspendLayout();
+            pbOrderViewHeader = new PictureBox();
+            pbOrderViewFooter = new PictureBox();
+            pictureBox1 = new PictureBox();
+            lblOrderViewTotalTxt = new Label();
+            lblOrderViewTotal = new Label();
+            btnOrderViewSummary = new Button();
+            ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // btnLunch
             // 
-            btnLunch.Location = new Point(12, 12);
+            btnLunch.BackColor = Color.FromArgb(255, 223, 223);
+            btnLunch.Location = new Point(6, 81);
             btnLunch.Name = "btnLunch";
-            btnLunch.Size = new Size(261, 172);
+            btnLunch.Size = new Size(187, 82);
             btnLunch.TabIndex = 1;
             btnLunch.Text = "Lunch";
-            btnLunch.UseVisualStyleBackColor = true;
+            btnLunch.UseVisualStyleBackColor = false;
             btnLunch.Click += btnLunch_Click;
             // 
             // btnDiner
             // 
-            btnDiner.Location = new Point(279, 12);
+            btnDiner.BackColor = Color.FromArgb(255, 223, 223);
+            btnDiner.Location = new Point(199, 81);
             btnDiner.Name = "btnDiner";
-            btnDiner.Size = new Size(261, 172);
+            btnDiner.Size = new Size(180, 82);
             btnDiner.TabIndex = 2;
             btnDiner.Text = "Diner";
-            btnDiner.UseVisualStyleBackColor = true;
+            btnDiner.UseVisualStyleBackColor = false;
             btnDiner.Click += btnDiner_Click;
             // 
             // btnDrinks
             // 
-            btnDrinks.Location = new Point(546, 12);
+            btnDrinks.BackColor = Color.FromArgb(255, 223, 223);
+            btnDrinks.Location = new Point(385, 81);
             btnDrinks.Name = "btnDrinks";
-            btnDrinks.Size = new Size(254, 172);
+            btnDrinks.Size = new Size(176, 82);
             btnDrinks.TabIndex = 3;
             btnDrinks.Text = "Drinks";
-            btnDrinks.UseVisualStyleBackColor = true;
+            btnDrinks.UseVisualStyleBackColor = false;
             btnDrinks.Click += btnDrinks_Click;
             // 
             // pnlOrderView
             // 
-            pnlOrderView.Controls.Add(ucOrderView);
-            pnlOrderView.Location = new Point(12, 190);
+            pnlOrderView.AutoScroll = true;
+            pnlOrderView.Location = new Point(6, 169);
             pnlOrderView.Name = "pnlOrderView";
-            pnlOrderView.Size = new Size(788, 642);
+            pnlOrderView.Size = new Size(555, 611);
             pnlOrderView.TabIndex = 4;
             // 
-            // ucOrderView
+            // pbOrderViewHeader
             // 
-            ucOrderView.BackColor = Color.White;
-            ucOrderView.Item = null;
-            ucOrderView.Location = new Point(3, 3);
-            ucOrderView.Name = "ucOrderView";
-            ucOrderView.Size = new Size(782, 66);
-            ucOrderView.TabIndex = 1;
+            pbOrderViewHeader.BackColor = Color.FromArgb(117, 30, 55);
+            pbOrderViewHeader.Location = new Point(-1, 1);
+            pbOrderViewHeader.Margin = new Padding(4, 5, 4, 5);
+            pbOrderViewHeader.Name = "pbOrderViewHeader";
+            pbOrderViewHeader.Size = new Size(576, 72);
+            pbOrderViewHeader.TabIndex = 5;
+            pbOrderViewHeader.TabStop = false;
+            // 
+            // pbOrderViewFooter
+            // 
+            pbOrderViewFooter.BackColor = Color.FromArgb(117, 30, 55);
+            pbOrderViewFooter.Location = new Point(-1, 860);
+            pbOrderViewFooter.Margin = new Padding(4, 5, 4, 5);
+            pbOrderViewFooter.Name = "pbOrderViewFooter";
+            pbOrderViewFooter.Size = new Size(576, 72);
+            pbOrderViewFooter.TabIndex = 6;
+            pbOrderViewFooter.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.White;
+            pictureBox1.Location = new Point(-1, 788);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(576, 72);
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
+            // 
+            // lblOrderViewTotalTxt
+            // 
+            lblOrderViewTotalTxt.AutoSize = true;
+            lblOrderViewTotalTxt.BackColor = Color.White;
+            lblOrderViewTotalTxt.Location = new Point(15, 815);
+            lblOrderViewTotalTxt.Name = "lblOrderViewTotalTxt";
+            lblOrderViewTotalTxt.Size = new Size(53, 25);
+            lblOrderViewTotalTxt.TabIndex = 8;
+            lblOrderViewTotalTxt.Text = "Total:";
+            // 
+            // lblOrderViewTotal
+            // 
+            lblOrderViewTotal.AutoSize = true;
+            lblOrderViewTotal.BackColor = Color.White;
+            lblOrderViewTotal.Location = new Point(96, 816);
+            lblOrderViewTotal.Name = "lblOrderViewTotal";
+            lblOrderViewTotal.Size = new Size(85, 25);
+            lblOrderViewTotal.TabIndex = 9;
+            lblOrderViewTotal.Text = "totalPrice";
+            // 
+            // btnOrderViewSummary
+            // 
+            btnOrderViewSummary.BackColor = Color.Black;
+            btnOrderViewSummary.ForeColor = Color.White;
+            btnOrderViewSummary.Location = new Point(423, 802);
+            btnOrderViewSummary.Name = "btnOrderViewSummary";
+            btnOrderViewSummary.Size = new Size(138, 50);
+            btnOrderViewSummary.TabIndex = 10;
+            btnOrderViewSummary.Text = "Summary";
+            btnOrderViewSummary.UseVisualStyleBackColor = false;
             // 
             // OrderViewForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
-            ClientSize = new Size(812, 844);
+            ClientSize = new Size(573, 930);
+            Controls.Add(btnOrderViewSummary);
+            Controls.Add(lblOrderViewTotal);
+            Controls.Add(lblOrderViewTotalTxt);
+            Controls.Add(pictureBox1);
+            Controls.Add(pbOrderViewFooter);
+            Controls.Add(pbOrderViewHeader);
             Controls.Add(btnDrinks);
             Controls.Add(btnDiner);
             Controls.Add(btnLunch);
@@ -96,8 +164,11 @@
             Name = "OrderViewForm";
             Text = "Form1";
             Load += OrderView_Load;
-            pnlOrderView.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -105,6 +176,11 @@
         private Button btnDiner;
         private Button btnDrinks;
         private Panel pnlOrderView;
-        private UCOrderView ucOrderView;
+        private PictureBox pbOrderViewHeader;
+        private PictureBox pbOrderViewFooter;
+        private PictureBox pictureBox1;
+        private Label lblOrderViewTotalTxt;
+        private Label lblOrderViewTotal;
+        private Button btnOrderViewSummary;
     }
 }

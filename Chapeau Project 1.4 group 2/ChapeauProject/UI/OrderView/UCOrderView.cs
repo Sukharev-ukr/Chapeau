@@ -17,12 +17,10 @@ namespace UI.OrderView
         public UCOrderView()
         {
             InitializeComponent();
-            //lblItemName = new Label();
-            //lblItemName.AutoSize = true;
-            //this.Controls.Add(lblItemName);
         }
 
         private MenuItem _item;
+        private Dictionary<int, int> _quantityDict = new Dictionary<int, int>();
 
         public MenuItem Item
         {
@@ -32,25 +30,30 @@ namespace UI.OrderView
                 _item = value;
                 if (_item != null)
                 {
-                    lblItemName.Text = _item.Name; // Set the label text to the item name
-                }
-                else
-                {
-                    lblItemName.Text = "Item Not Available"; // Handle the case when _item is null
+                    lblItemName.Text = _item.Name;
+                    if (!_quantityDict.ContainsKey(_item.Id))
+                    {
+                        _quantityDict[_item.Id] = 0;
+                    }
+                    lblItemAmount.Text = _quantityDict[_item.Id].ToString();
                 }
             }
         }
 
         private void btnMinus_Click(object sender, EventArgs e)
         {
-            lblItemName.Text = "Minus Clicked";
+            if (_quantityDict[_item.Id] > 0) 
+            {
+                _quantityDict[_item.Id]--;
+                lblItemAmount.Text = _quantityDict[_item.Id].ToString();
+            }
         }
 
         private void btnPlus_Click(object sender, EventArgs e)
         {
-            // item.quan++
-            // change lbl of tetx
-            // update select items
+            _quantityDict[_item.Id]++;
+            lblItemAmount.Text = _quantityDict[_item.Id].ToString();
         }
     }
+
 }

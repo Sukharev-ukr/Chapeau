@@ -70,6 +70,7 @@
             // 
             lblItemName.AutoSize = true;
             lblItemName.Location = new Point(135, 19);
+            lblItemName.MaximumSize = new Size(500, 40);
             lblItemName.Name = "lblItemName";
             lblItemName.Size = new Size(94, 25);
             lblItemName.TabIndex = 3;
@@ -85,7 +86,7 @@
             Controls.Add(btnMinus);
             Controls.Add(btnPlus);
             Name = "UCOrderView";
-            Size = new Size(830, 60);
+            Size = new Size(555, 60);
             ResumeLayout(false);
             PerformLayout();
         }

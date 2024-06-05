@@ -6,21 +6,25 @@ namespace Service
     public class OrderService
     {
         OrderDAL orderDAL;
+        MenuDAL menuDAL; 
 
         public List<Order> orders;
         public List<OrderItem> starters;
         public List<OrderItem> mains;
         public List<OrderItem> deserts;
         public List<OrderItem> drinks;
+        public List<MenuItem> allMenuItems; 
 
         public OrderService()
         {
             orderDAL = new OrderDAL();
+            menuDAL = new MenuDAL(); 
             orders = new List<Order>();
             starters = new List<OrderItem>();
             mains = new List<OrderItem>();
             deserts = new List<OrderItem>();
             drinks = new List<OrderItem>();
+            allMenuItems = menuDAL.GetMenuItems();
         }
 
         public List<Order> GetOrders(bool drink, Status status)
@@ -54,6 +58,16 @@ namespace Service
                     }
                 }
             }
+        }
+
+        public List<MenuItem> GetAllMenuItems()
+        {
+            return allMenuItems;
+        }
+
+        public List<MenuItem> GetMenuItemsByCard(string card)
+        {
+            return allMenuItems.Where(item => item.Card == card).ToList();
         }
     }
 }

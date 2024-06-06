@@ -3,6 +3,7 @@ using Model;
 using Service;
 using DAL;
 using UI.PaymentSystem;
+using UI.OrderView;
 using System.Drawing.Text;
 using System.Windows.Forms;
 
@@ -23,7 +24,7 @@ namespace UI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new BillDetails(2));
-            Application.Run(new LoginForm());
+            Application.Run(new OrderViewForm());
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Login;
-
+using View;
 
 namespace UI
 {
@@ -30,18 +30,14 @@ namespace UI
 
             StaffService staffService = new StaffService();
 
-            Staff loggedUser = staffService.CheckLoginCredentials(username, password);
+            Staff loggedUser = staffService.GetStaffByUsernameAndpassword(username, password);
 
             if (loggedUser != null)
             {
-                // go to the View bassed on the employeeRole
                 getUIForStaff(loggedUser);
-
-
             }
             else
             {
-
                 MessageBox.Show("Invalid username or password.");
             }
         }
@@ -54,13 +50,13 @@ namespace UI
                     OpenUI(new TableView_Form());
                     break;
                 case Role.Chef:
-                    //go to kitchenview
+                    OpenUI(new KitchenAndBar());
                     break;
                 case Role.Bartender:
-                    //go to barview
+                    //barview
                     break;
                 case Role.Manager:
-                    //go to managerview
+                    //managerview
                     break;
             }
         }

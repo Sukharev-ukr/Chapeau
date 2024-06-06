@@ -17,19 +17,12 @@ namespace Service
             _staffDAL = new StaffDAL();
         }
 
-        
 
-        public Staff GetStaffByUsername(string username)
+
+        public Staff GetStaffByUsernameAndpassword(string username, string password)
         {
-            var staffList = _staffDAL.GetAllStaff();
-            foreach (var staff in staffList)
-            {
-                if (staff.Username.Equals(username, StringComparison.OrdinalIgnoreCase))
-                {
-                    return staff;
-                }
-            }
-            return null;
+            var hashedPassword = HashPassword(password);
+            return _staffDAL.GetStaffByUsernameAndpassword(username, hashedPassword);
         }
 
         private bool VerifyPassword(string password, string storedHash)
@@ -40,14 +33,11 @@ namespace Service
 
         public Staff CheckLoginCredentials(string username, string password)
         {
-            Staff staff = GetStaffByUsername(username);
+            Staff staff = _staffDAL.GetStaffByUsernameAndpassword(username, password);
             if (staff != null)
             {
-                bool isPasswordCorrect = VerifyPassword(password, staff.PasswordHash);
-                if (isPasswordCorrect)
-                {
-                    return staff;
-                }
+                string hashedPassword = HashPassword(password);
+                
             }
             return null;
         }

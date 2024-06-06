@@ -206,7 +206,8 @@ namespace UI.Login
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                FlatAppearance = { BorderSize = 0 }
+                FlatAppearance = { BorderSize = 0 },
+                
             };
             Button btnViewOrder = new Button { Text = "View order", Width = 250, Height = 60, Visible = false,
                 BackColor = Color.Black,

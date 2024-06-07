@@ -29,6 +29,7 @@ namespace DAL
             }
             return list;
         }
+
         public MenuItem ReadDataRow(DataRow row)
         {
             MenuItem menuItem = new MenuItem()

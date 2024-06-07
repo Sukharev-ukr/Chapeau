@@ -19,7 +19,7 @@ namespace DAL
             return ReadOrderMenuItems(ExecuteSelectQuery(query, sp));
         }
 
-        public Dictionary<OrderItem,MenuItem> ReadOrderMenuItems (DataTable dr)
+        public Dictionary<OrderItem, MenuItem> ReadOrderMenuItems(DataTable dr)
         {
 
             Dictionary<OrderItem, MenuItem> orderDetails = new Dictionary<OrderItem, MenuItem>();
@@ -47,5 +47,18 @@ namespace DAL
                 Comment = (string)dr["Comment"],
             };
         }
+
+        public void UpdateQuantity(int orderId, int itemId, int quantity)
+        {
+            string query = "UPDATE OrderItem SET Count = @quantity WHERE OrderID = @orderId AND ItemID = @itemId";
+            SqlParameter[] sqlParameters = new SqlParameter[3]
+            {
+                new SqlParameter("@quantity", quantity),
+                new SqlParameter("@orderId", orderId),
+                new SqlParameter("@itemId", itemId)
+            };
+            ExecuteEditQuery(query, sqlParameters);
+        }
+
     }
 }

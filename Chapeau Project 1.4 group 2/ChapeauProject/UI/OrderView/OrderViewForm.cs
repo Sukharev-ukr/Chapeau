@@ -35,26 +35,27 @@ namespace UI.OrderView
         {
             pnlOrderView.Controls.Clear();
 
-            //List<MenuItem> menuItems = orderService.GetMenuItemsByCard(card);
+
+            List<MenuItem> menuItems = orderService.GetMenuItemsByCard(card);
 
             int verticalPosition = 5;
 
-            //foreach (MenuItem item in menuItems)
-            //{
-            //    UCOrderView ucOrderView;
-            //    if (!ucOrderViews.TryGetValue(item.Name, out ucOrderView))
-            //    {
-            //        ucOrderView = new UCOrderView();
-            //        ucOrderView.Item = item;
-            //        ucOrderViews[item.Name] = ucOrderView;
-            //    }
+            foreach (MenuItem item in menuItems)
+            {
+                UCOrderView ucOrderView;
+                if (!ucOrderViews.TryGetValue(item.Name, out ucOrderView))
+                {
+                    ucOrderView = new UCOrderView();
+                    ucOrderView.Item = item;
+                    ucOrderViews[item.Name] = ucOrderView;
+                }
 
-            //    ucOrderView.Location = new Point(5, verticalPosition);
-            //    verticalPosition += ucOrderView.Height + 5;
-            //    ucOrderView.Visible = true;
+                ucOrderView.Location = new Point(5, verticalPosition);
+                verticalPosition += ucOrderView.Height + 5;
+                ucOrderView.Visible = true;
 
-            //    pnlOrderView.Controls.Add(ucOrderView);
-            //}
+                pnlOrderView.Controls.Add(ucOrderView);
+            }
         }
 
         private void OrderView_Load(object sender, EventArgs e)

@@ -11,7 +11,7 @@ namespace DAL
     {
         public void ChangeStatus(int id, string OrderStatus)
         {
-            string query = "UPDATE [Order] SET OrderStatus = @OrderStatus " +
+            string query = "UPDATE [OrderItem] SET OrderStatus = @OrderStatus " +
                            "WHERE OrderID = @id";
 
             SqlParameter[] parameters =

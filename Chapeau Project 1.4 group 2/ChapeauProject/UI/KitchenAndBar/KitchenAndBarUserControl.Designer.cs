@@ -29,36 +29,28 @@
         private void InitializeComponent()
         {
             lblCategory = new Label();
-            btnStatus = new Button();
             lblTableNumber = new Label();
             lblOrderTime = new Label();
-            lblOrderStatus = new Label();
             listViewOrderItems = new ListView();
+            columnHeader1 = new ColumnHeader();
+            groupBox1 = new GroupBox();
+            comboBoxStatus = new ComboBox();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // lblCategory
             // 
             lblCategory.AutoSize = true;
-            lblCategory.Location = new Point(22, 98);
+            lblCategory.Location = new Point(41, 98);
             lblCategory.Name = "lblCategory";
             lblCategory.Size = new Size(81, 25);
             lblCategory.TabIndex = 8;
             lblCategory.Text = "category";
             // 
-            // btnStatus
-            // 
-            btnStatus.Location = new Point(189, 93);
-            btnStatus.Name = "btnStatus";
-            btnStatus.Size = new Size(112, 34);
-            btnStatus.TabIndex = 10;
-            btnStatus.Text = "Status";
-            btnStatus.UseVisualStyleBackColor = true;
-            btnStatus.Click += btnStatus_Click;
-            // 
             // lblTableNumber
             // 
             lblTableNumber.AutoSize = true;
-            lblTableNumber.Location = new Point(22, 50);
+            lblTableNumber.Location = new Point(41, 50);
             lblTableNumber.Name = "lblTableNumber";
             lblTableNumber.Size = new Size(67, 25);
             lblTableNumber.TabIndex = 11;
@@ -67,52 +59,73 @@
             // lblOrderTime
             // 
             lblOrderTime.AutoSize = true;
-            lblOrderTime.Location = new Point(234, 50);
+            lblOrderTime.Location = new Point(252, 19);
             lblOrderTime.Name = "lblOrderTime";
             lblOrderTime.Size = new Size(90, 25);
             lblOrderTime.TabIndex = 12;
             lblOrderTime.Text = "ordertime";
             // 
-            // lblOrderStatus
-            // 
-            lblOrderStatus.AutoSize = true;
-            lblOrderStatus.Location = new Point(125, 50);
-            lblOrderStatus.Name = "lblOrderStatus";
-            lblOrderStatus.Size = new Size(106, 25);
-            lblOrderStatus.TabIndex = 13;
-            lblOrderStatus.Text = "OrderStatus";
-            // 
             // listViewOrderItems
             // 
-            listViewOrderItems.Location = new Point(22, 133);
+            listViewOrderItems.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            listViewOrderItems.FullRowSelect = true;
+            listViewOrderItems.Location = new Point(41, 133);
             listViewOrderItems.Name = "listViewOrderItems";
-            listViewOrderItems.Size = new Size(279, 203);
+            listViewOrderItems.Size = new Size(324, 203);
             listViewOrderItems.TabIndex = 14;
             listViewOrderItems.UseCompatibleStateImageBehavior = false;
             listViewOrderItems.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            columnHeader1.Text = "";
+            columnHeader1.Width = 300;
+            // 
+            // groupBox1
+            // 
+            groupBox1.BackColor = SystemColors.Info;
+            groupBox1.Controls.Add(lblOrderTime);
+            groupBox1.Controls.Add(comboBoxStatus);
+            groupBox1.ForeColor = SystemColors.ControlText;
+            groupBox1.Location = new Point(23, 31);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(356, 332);
+            groupBox1.TabIndex = 15;
+            groupBox1.TabStop = false;
+            // 
+            // comboBoxStatus
+            // 
+            comboBoxStatus.FormattingEnabled = true;
+            comboBoxStatus.Items.AddRange(new object[] { "placed", "BeingPrepared", "ready" });
+            comboBoxStatus.Location = new Point(232, 59);
+            comboBoxStatus.Name = "comboBoxStatus";
+            comboBoxStatus.Size = new Size(110, 33);
+            comboBoxStatus.TabIndex = 14;
+            comboBoxStatus.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // KitchenAndBarUserControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(listViewOrderItems);
-            Controls.Add(lblOrderStatus);
-            Controls.Add(lblOrderTime);
             Controls.Add(lblTableNumber);
-            Controls.Add(btnStatus);
             Controls.Add(lblCategory);
+            Controls.Add(groupBox1);
             Name = "KitchenAndBarUserControl";
-            Size = new Size(317, 352);
+            Size = new Size(392, 390);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private Label lblCategory;
-        private Button btnStatus;
         private Label lblTableNumber;
         private Label lblOrderTime;
-        private Label lblOrderStatus;
         private ListView listViewOrderItems;
+        private GroupBox groupBox1;
+        private ComboBox comboBoxStatus;
+        private ColumnHeader columnHeader1;
     }
 }

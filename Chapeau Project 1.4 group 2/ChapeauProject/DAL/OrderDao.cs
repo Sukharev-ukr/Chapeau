@@ -3,24 +3,17 @@ using System.Collections.Generic;
 using System.Data;
 using Model;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace DAL
 {
     public class OrderDao : BaseDao
     {
-        public List<Order> GetOrders(bool drinks, Status status)
+        public List<Order> GetOrders()
         {
-            string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber FROM [Order]";
 
-            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
-                           "FROM Order AS O " +
-                           "JOIN Table AS T ON O.TableID = T.TableID " +
-                           "WHERE O.OrderStatus = @status AND" + category;
-
-            SqlParameter[] parameters =
-            {
-                new SqlParameter("@status", status)
-            };
+            SqlParameter[] parameters = new SqlParameter[0];
 
             return ReadOrders(ExecuteSelectQuery(query, parameters));
         }
@@ -43,7 +36,7 @@ namespace DAL
         {
             return new Order()
             {
-                OrderId = (int)dr["orderId"],
+                OrderId = (int)dr["OrderID"],
                 OrderTime = dr["OrderTime"] as DateTime?,
                 Employee = new Employee()
                 {
@@ -52,7 +45,7 @@ namespace DAL
                 Table = new Table()
                 {
                     TableId = (int)dr["TableID"],
-                    TableNumber = (int)dr["number"]
+                    TableNumber = (int)dr["TableNumber"]
                 },
                 Feedback = (string)dr["Feedback"],
                 Items = GetOrderItems((int)dr["OrderID"])
@@ -62,14 +55,13 @@ namespace DAL
         public List<OrderItem> GetOrderItems(int orderId)
         {
             string query = "SELECT OI.OrderID, OI.ItemID, OI.Count, OI.Status, OI.StatusTime, OI.comment " +
-                           "FROM [OrderItem] AS OI  " +
-                           "JOIN Item AS I ON OI.ItemID = I.ItemID " +
-                           "WHERE OI.OrderID = @orderId; ";
+                           "FROM [OrderItem] AS OI " +
+                           "WHERE OI.OrderID = @orderId";
 
             SqlParameter[] parameters =
             {
-                new SqlParameter("@orderId", orderId)
-            };
+            new SqlParameter("@orderId", orderId)
+        };
 
             List<OrderItem> orderItems = CreateOrderItems(query, parameters);
             return orderItems;
@@ -79,11 +71,10 @@ namespace DAL
         {
             List<OrderItem> orderItems = new List<OrderItem>();
             DataTable dataTable = ExecuteSelectQuery(query, parameters);
-            OrderItemDAL orderItemDAL = new OrderItemDAL();
+            OrderItemDao orderItemDAL = new OrderItemDao();
 
             foreach (DataRow dr in dataTable.Rows)
             {
-                
                 OrderItem orderItem = orderItemDAL.ReadDataRow(dr);
 
                 orderItems.Add(orderItem);

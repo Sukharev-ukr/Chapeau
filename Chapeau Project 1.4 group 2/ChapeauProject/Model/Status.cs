@@ -8,14 +8,11 @@ namespace Model
 {
     public enum Status
     {
-        Placed,
-        BeingPrepared,
-        Ready,
-        Served,
         placed,
-        beingprepared,
+        BeingPrepared,
         ready,
-        served
-
+        served,
+        running,
+        finished
     }
 }

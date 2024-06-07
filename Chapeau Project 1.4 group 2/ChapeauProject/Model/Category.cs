@@ -10,7 +10,8 @@ namespace Model
     {
         Starters,
         Mains,
-        Deserts,
+        Entremets,
+        Desserts,
         Drinks
     }
 }

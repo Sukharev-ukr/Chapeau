@@ -31,9 +31,10 @@
             menuStrip1 = new MenuStrip();
             runningToolStripMenuItem = new ToolStripMenuItem();
             finishedToolStripMenuItem = new ToolStripMenuItem();
-            pnlRunningOrders = new Panel();
-            pnlFinishedOrders = new Panel();
+            flowLayoutPanelRunning = new FlowLayoutPanel();
+            flowLayoutPanelFinished = new FlowLayoutPanel();
             menuStrip1.SuspendLayout();
+            flowLayoutPanelRunning.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -51,42 +52,47 @@
             runningToolStripMenuItem.Name = "runningToolStripMenuItem";
             runningToolStripMenuItem.Size = new Size(94, 29);
             runningToolStripMenuItem.Text = "Running";
-            runningToolStripMenuItem.Click += runningToolStripMenuItem_Click;
+            runningToolStripMenuItem.Click += runningToolStripMenuItem_Click_1;
             // 
             // finishedToolStripMenuItem
             // 
             finishedToolStripMenuItem.Name = "finishedToolStripMenuItem";
             finishedToolStripMenuItem.Size = new Size(93, 29);
             finishedToolStripMenuItem.Text = "Finished";
-            finishedToolStripMenuItem.Click += finishedToolStripMenuItem_Click_1;
+            finishedToolStripMenuItem.Click += finishedToolStripMenuItem_Click;
             // 
-            // pnlRunningOrders
+            // flowLayoutPanelRunning
             // 
-            pnlRunningOrders.Location = new Point(28, 64);
-            pnlRunningOrders.Name = "pnlRunningOrders";
-            pnlRunningOrders.Size = new Size(760, 320);
-            pnlRunningOrders.TabIndex = 1;
+            flowLayoutPanelRunning.AutoScroll = true;
+            flowLayoutPanelRunning.Controls.Add(flowLayoutPanelFinished);
+            flowLayoutPanelRunning.Dock = DockStyle.Fill;
+            flowLayoutPanelRunning.Location = new Point(0, 33);
+            flowLayoutPanelRunning.Name = "flowLayoutPanelRunning";
+            flowLayoutPanelRunning.Size = new Size(800, 417);
+            flowLayoutPanelRunning.TabIndex = 1;
             // 
-            // pnlFinishedOrders
+            // flowLayoutPanelFinished
             // 
-            pnlFinishedOrders.Location = new Point(25, 64);
-            pnlFinishedOrders.Name = "pnlFinishedOrders";
-            pnlFinishedOrders.Size = new Size(760, 320);
-            pnlFinishedOrders.TabIndex = 2;
+            flowLayoutPanelFinished.AutoScroll = true;
+            flowLayoutPanelFinished.Dock = DockStyle.Fill;
+            flowLayoutPanelFinished.Location = new Point(3, 3);
+            flowLayoutPanelFinished.Name = "flowLayoutPanelFinished";
+            flowLayoutPanelFinished.Size = new Size(776, 0);
+            flowLayoutPanelFinished.TabIndex = 2;
             // 
             // OrderView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(pnlFinishedOrders);
+            Controls.Add(flowLayoutPanelRunning);
             Controls.Add(menuStrip1);
-            Controls.Add(pnlRunningOrders);
             MainMenuStrip = menuStrip1;
             Name = "OrderView";
             Text = "OrderView";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            flowLayoutPanelRunning.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -96,7 +102,7 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem runningToolStripMenuItem;
         private ToolStripMenuItem finishedToolStripMenuItem;
-        private Panel pnlRunningOrders;
-        private Panel pnlFinishedOrders;
+        private FlowLayoutPanel flowLayoutPanelRunning;
+        private FlowLayoutPanel flowLayoutPanelFinished;
     }
 }

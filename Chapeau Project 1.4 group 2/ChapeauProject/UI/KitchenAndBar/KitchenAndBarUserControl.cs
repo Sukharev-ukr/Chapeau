@@ -15,54 +15,55 @@ namespace UI
 {
     public partial class KitchenAndBarUserControl : UserControl
     {
-        private Order order;
-        public Order Order
-        {
-            get { return order; }
-        }
+        public Order currentOrder;
 
-        public KitchenAndBarUserControl(Order order)
+        public KitchenAndBarUserControl()
         {
             InitializeComponent();
-            this.order = order;
-            UpdateOrderDetails(order);
+            comboBoxStatus.SelectedIndex = 0; // Set default to 'Start'
         }
 
         public void UpdateOrderDetails(Order order)
         {
-            this.order = order;
-
+            currentOrder = order;
             // Clear previous orders
             listViewOrderItems.Items.Clear();
 
             // Add new orders
             lblTableNumber.Text = $"Table {order.Table.TableNumber}";
-            lblOrderStatus.Text = order.Items.First().OrderStatus.ToString();
             lblOrderTime.Text = order.OrderTime?.ToString("HH:mm:ss");
-
-            listViewOrderItems.Items.Clear();
-
-            // Add new order items
-            foreach (OrderItem item in order.Items)
-            {
-                ListViewItem viewItem = new ListViewItem($"{item.Count}x {item.MenuItem.Name}")
-                {
-                    Tag = item
-                };
-
-                listViewOrderItems.Items.Add(viewItem);
-            }
         }
 
-        private void btnStatus_Click(object sender, EventArgs e)
+        public void AddOrderItem(OrderItem orderItem)
         {
-            // Change order status logic
-            string newStatus = "Completed"; // Example status change
-            KitchenAndBarDao kitchenAndBarDao = new KitchenAndBarDao();
-            kitchenAndBarDao.ChangeStatus(order.OrderId, newStatus);
+            lblCategory.Text = orderItem.MenuItem.Category.ToString();
+            ListViewItem listViewItem = new ListViewItem($"{orderItem.Count}x {orderItem.MenuItem.Name}");
+            listViewItem.Tag = orderItem;
+            listViewOrderItems.Items.Add(listViewItem);
+        }
 
-            // Update order status in UI
-            lblOrderStatus.Text = newStatus;
+      
+        //// Event handler for ComboBox selection change
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        //    if (currentOrder != null)
+        //    {
+        //        // Update the order status for all items in the order
+        //        Status newStatus = (Status)Enum.Parse(typeof(Status), comboBoxStatus.SelectedItem.ToString());
+
+        //        foreach (ListViewItem item in listViewOrderItems.Items)
+        //        {
+        //            OrderItem orderItem = item.Tag as OrderItem;
+        //            orderItem.OrderStatus = newStatus;
+        //            SaveOrderItemStatus(orderItem);
+        //        }
+
+        //        // Update the order's overall status
+        //        currentOrder.OrderStatus = newStatus;
+
+        //        // Notify the parent form about the status change
+        //        OnOrderStatusChanged(newStatus);
+        //    }
         }
     }
 }

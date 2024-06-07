@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class MenuDAL : BaseDao
+    public class MenuDao : BaseDao
     {
         public List<MenuItem> GetMenuItems()
         {
@@ -34,15 +34,30 @@ namespace DAL
             MenuItem menuItem = new MenuItem()
             {
                 Id = (int)row["ItemID"],
-                Category = (Category)row["category"],
                 Name = (string)row["Name"],
+                Category = MapCategory(row["Category"].ToString()),
+                Card = (string)row["Card"],
+                Price = (decimal)row["Price"],
                 Stock = row["Stock"] as int?,
                 VAT = row["VAT"] as int?,
-                Card = (string)row["Card"],
-                Price = (decimal)row["Price"]
             };
             return menuItem;
         }
-
+        private Category MapCategory(string category)
+        {
+            switch (category.ToLower())
+            {
+                case "starters - entrees":
+                    return Category.Starters;
+                case "mains - le plat principal":
+                    return Category.Mains;
+                case "deserts - les desserts":
+                    return Category.Desserts;
+                case "entremets":
+                    return Category.Entremets;
+                default:
+                    return Category.Drinks;
+            }
+        }
     }
 }

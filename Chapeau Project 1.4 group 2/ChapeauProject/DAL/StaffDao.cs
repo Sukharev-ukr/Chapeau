@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace DAL
 {
-    public class StaffDAL : BaseDAL
+    public class StaffDao : BaseDao
     {
         // Retrieves all staff members from the database
         public List<Staff> GetAllStaff()

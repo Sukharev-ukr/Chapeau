@@ -17,8 +17,10 @@ namespace Service
             return _tableDAL.GetAllTables();
         }
 
-        public void UpdateTableStatus(Table table)
+        public void UpdateTableStatus(int tableId, TableStatus status)
         {
+            Table table = _tableDAL.getTableById(tableId);
+            table.Status = status;
             _tableDAL.UpdateTableStatus(table);
         }
         public Table GetTableById(int id)

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using Model;
@@ -39,32 +39,48 @@ namespace DAL
             return staffList;
         }
 
-        // Create a Staff object from a DataRow
-        //private Staff CreateStaff(DataRow dr)
-        //{
-        //    return new Staff()
-        //    {
-        //        StaffID = (int)dr["StaffID"],
-        //        Username = (string)dr["Username"],
-        //        PasswordHash = (string)dr["PasswordHash"],
-        //        Role = (Role)dr["Role"]
-        //    };
-        //}
-
-        // Validates the password for a given username
-        public bool ValidatePassword(string username, string hashedPassword)
+        public Staff GetStaffByUsernameAndpassword(string username, string hashedPassword)
         {
-            string query = "SELECT COUNT(*) FROM Staff WHERE Username = @Username AND PasswordHash = @PasswordHash";
+            string query = "SELECT StaffID, Username, Role, PasswordHash FROM Staff WHERE Username = @username AND PasswordHash = @PasswordHash";
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
-                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username.ToLower() }, //Case incencitivyvy, might change evrything to lower also queary
+                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username }, //Case incencitivyvy, might change evrything to lower also queary
                 new SqlParameter("@PasswordHash", SqlDbType.NVarChar) { Value = hashedPassword }
             };
-
             DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
 
-            return dataTable.Rows.Count > 0 && (int)dataTable.Rows[0][0] > 0;
+            return ReadStaff(dataTable);
+        }
+
+
+
+        // Validates the password for a given username
+        //public bool ValidatePassword(string username, string hashedPassword)
+        //{
+        //    string query = "SELECT COUNT(*) FROM Staff WHERE Username = @Username AND PasswordHash = @PasswordHash";
+        //    SqlParameter[] sqlParameters = new SqlParameter[]
+        //    {
+        //        new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username.ToLower() }, //Case incencitivyvy, might change evrything to lower also queary
+        //        new SqlParameter("@PasswordHash", SqlDbType.NVarChar) { Value = hashedPassword }
+        //    };
+
+        //    DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
+
+        //    return dataTable.Rows.Count > 0 && (int)dataTable.Rows[0][0] > 0;
             
+        //}
+
+        private Staff ReadStaff(DataTable data)
+        {
+            DataRow dataRow = data.Rows[0];
+            Staff staff = new Staff
+            {
+                StaffID = (int)dataRow["StaffID"],
+                Username = (string)dataRow["Username"],
+                PasswordHash = (string)dataRow["PasswordHash"],
+                Role = (Role)Enum.Parse(typeof(Role), (string)dataRow["Role"])
+            };
+            return staff;
         }
 
         // Hashes the provided password using SHA-256

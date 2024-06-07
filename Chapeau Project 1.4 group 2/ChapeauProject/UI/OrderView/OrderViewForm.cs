@@ -35,6 +35,7 @@ namespace UI.OrderView
         {
             pnlOrderView.Controls.Clear();
 
+
             List<MenuItem> menuItems = orderService.GetMenuItemsByCard(card);
 
             int verticalPosition = 5;

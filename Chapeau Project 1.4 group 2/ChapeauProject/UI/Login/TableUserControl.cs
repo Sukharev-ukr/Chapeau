@@ -41,7 +41,7 @@ namespace UI.Login
                     this.BackColor = Color.Gray;
                     break;
             }
-        }   
+        }
 
     }
 }

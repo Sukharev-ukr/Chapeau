@@ -1,5 +1,6 @@
 ﻿using DAL;
 using Model;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,11 +18,15 @@ namespace UI.Login
         private TableDAL tableDAL;
         private Panel popupPanel;
         private Dictionary<TableStatus, List<Button>> statusButtons;
+        private TableService tableService;
+        private Button selectedTableButton;
+        private int selectedTableId;
 
         public TableView_Form()
         {
             InitializeComponent();
             tableDAL = new TableDAL();
+            tableService = new TableService();
             InitializePopupPanel();
             LoadTables();
         }
@@ -118,15 +123,14 @@ namespace UI.Login
 
         private void TableButton_Click(object sender, EventArgs e)
         {
-            // Retrieve the button that was clicked
             Button clickedButton = sender as Button;
             if (clickedButton != null)
             {
-                // Retrieve the table object from the button's Tag property
                 Table clickedTable = clickedButton.Tag as Table;
                 if (clickedTable != null)
                 {
-                    // Handle the click event
+                    selectedTableButton = clickedButton; // Store the selected button
+                    selectedTableId = clickedTable.TableId;
                     ShowPopup(clickedTable);
                 }
             }
@@ -190,59 +194,105 @@ namespace UI.Login
                 Height = 40
             };
 
-            Button btnSwitch = new Button { Text = "Switch to another table", Width = 250, Height = 60, Visible = false,
+            Button btnSwitch = new Button
+            {
+                Text = "Switch to another table",
+                Width = 250,
+                Height = 60,
+                Visible = false,
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 2 }
             };
-            Button btnFree = new Button { Text = "Free table", Width = 250, Height = 60, Visible = false,
+            Button btnFree = new Button
+            {
+                Text = "Free table",
+                Width = 250,
+                Height = 60,
+                Visible = false,
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 0 }
             };
-            Button btnTakeOrder = new Button { Text = "Take Order", Width = 250, Height = 60, Visible = false,
+            btnFree.Click += BtnFree_Click;
+            // Add this line
+            Button btnTakeOrder = new Button
+            {
+                Text = "Take Order",
+                Width = 250,
+                Height = 60,
+                Visible = false,
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 0 },
-                
+
             };
-            Button btnViewOrder = new Button { Text = "View order", Width = 250, Height = 60, Visible = false,
+            Button btnViewOrder = new Button
+            {
+                Text = "View order",
+                Width = 250,
+                Height = 60,
+                Visible = false,
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 0 }
             };
-            Button btnReserve = new Button { Text = "Reserve", Width = 250, Height = 60, Visible = false,
+            Button btnReserve = new Button
+            {
+                Text = "Reserve",
+                Width = 250,
+                Height = 60,
+                Visible = false,
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 0 }
             };
-            Button btnSeatCustomer = new Button { Text = "Seat customer", Width = 250, Height = 60, Visible = false,BackColor = Color.Black,
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                FlatAppearance = { BorderSize = 0 }
-            };
-            Button btnViewReservationDetails = new Button { Text = "View reservation details", Width = 250, Height = 60, Visible = false ,
+            btnReserve.Click += BtnReserve_Click; // Add this line
+            Button btnSeatCustomer = new Button
+            {
+                Text = "Seat customer",
+                Width = 250,
+                Height = 60,
+                Visible = false,
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 0 }
             };
-            Button btnCancelReservation = new Button { Text = "Cancel reservation", Width = 250, Height = 60, Visible = false ,
+            btnSeatCustomer.Click += BtnSeatCustomer_Click; // Add this line
+            Button btnViewReservationDetails = new Button
+            {
+                Text = "View reservation details",
+                Width = 250,
+                Height = 60,
+                Visible = false,
                 BackColor = Color.Black,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 0 }
             };
+            Button btnCancelReservation = new Button
+            {
+                Text = "Cancel reservation",
+                Width = 250,
+                Height = 60,
+                Visible = false,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 }
+            };
+            btnCancelReservation.Click += BtnCancelReservation_Click;
 
 
             statusButtons = new Dictionary<TableStatus, List<Button>>
             {
-                { TableStatus.free, new List<Button> { btnFree, btnReserve } },
+                { TableStatus.free, new List<Button> { btnSeatCustomer, btnReserve } },
                 { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnViewOrder, btnSwitch } },
                 { TableStatus.reserved, new List<Button> { btnFree, btnSeatCustomer, btnViewReservationDetails, btnCancelReservation } }
             };
@@ -260,7 +310,57 @@ namespace UI.Login
 
             this.Controls.Add(popupPanel);
         }
+        private void BtnFree_Click(object sender, EventArgs e)
+        {
+            UpdateTableStatusAndColor(TableStatus.free);
+        }
 
+        private void BtnReserve_Click(object sender, EventArgs e)
+        {
+            UpdateTableStatusAndColor(TableStatus.reserved);
+        }
+
+        private void BtnSeatCustomer_Click(object sender, EventArgs e)
+        {
+            UpdateTableStatusAndColor(TableStatus.occupied);
+        }
+
+        private void BtnCancelReservation_Click(object sender, EventArgs e)
+        {
+            UpdateTableStatusAndColor(TableStatus.free);
+        }
+
+        private void UpdateTableStatusAndColor(TableStatus status)
+        {
+            tableService.UpdateTableStatus(selectedTableId, status);
+            UpdateTableButtonColor(selectedTableButton, status);
+            ClosePopup();
+        }
+
+        private void UpdateTableButtonColor(Button button, TableStatus status)
+        {
+            switch (status)
+            {
+                case TableStatus.free:
+                    button.BackColor = Color.FromArgb(255, 108, 255, 84); // Green
+                    break;
+                case TableStatus.occupied:
+                    button.BackColor = Color.FromArgb(255, 255, 0, 0); // Red
+                    break;
+                case TableStatus.reserved:
+                    button.BackColor = Color.FromArgb(255, 254, 231, 44); // Yellow
+                    break;
+                default:
+                    button.BackColor = Color.Gray;
+                    break;
+            }
+        }
+
+        private void ClosePopup()
+        {
+            this.popupPanel.Visible = false;
+        }
+        
 
     }
 }

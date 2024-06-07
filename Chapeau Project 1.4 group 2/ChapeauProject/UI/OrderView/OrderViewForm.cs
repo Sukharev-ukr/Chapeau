@@ -2,6 +2,8 @@
 using Model;
 using Service;
 using System.Windows.Forms;
+using UI.PaymentSystem;
+
 
 namespace UI.OrderView
 {
@@ -60,6 +62,13 @@ namespace UI.OrderView
         private void OrderView_Load(object sender, EventArgs e)
         {
             LoadMenuItems("Lunch");
+        }
+
+        private void btnOrderViewSummary_Click(object sender, EventArgs e)
+        {
+            OrderSummaryForm newForm = new OrderSummaryForm();
+
+            Program.WindowSwitcher(this, newForm);
         }
     }
 }

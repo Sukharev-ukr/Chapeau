@@ -86,7 +86,7 @@
             Controls.Add(btnMinus);
             Controls.Add(btnPlus);
             Name = "UCOrderView";
-            Size = new Size(555, 60);
+            Size = new Size(725, 60);
             ResumeLayout(false);
             PerformLayout();
         }

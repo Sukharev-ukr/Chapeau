@@ -34,21 +34,22 @@
             pnlOrderView = new Panel();
             pbOrderViewHeader = new PictureBox();
             pbOrderViewFooter = new PictureBox();
-            pictureBox1 = new PictureBox();
+            pbOrderViewTotalPriceFooter = new PictureBox();
             lblOrderViewTotalTxt = new Label();
             lblOrderViewTotal = new Label();
             btnOrderViewSummary = new Button();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbOrderViewTotalPriceFooter).BeginInit();
             SuspendLayout();
             // 
             // btnLunch
             // 
             btnLunch.BackColor = Color.FromArgb(255, 223, 223);
+            btnLunch.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnLunch.Location = new Point(6, 81);
             btnLunch.Name = "btnLunch";
-            btnLunch.Size = new Size(187, 82);
+            btnLunch.Size = new Size(235, 132);
             btnLunch.TabIndex = 1;
             btnLunch.Text = "Lunch";
             btnLunch.UseVisualStyleBackColor = false;
@@ -57,9 +58,10 @@
             // btnDiner
             // 
             btnDiner.BackColor = Color.FromArgb(255, 223, 223);
-            btnDiner.Location = new Point(199, 81);
+            btnDiner.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDiner.Location = new Point(247, 81);
             btnDiner.Name = "btnDiner";
-            btnDiner.Size = new Size(180, 82);
+            btnDiner.Size = new Size(235, 132);
             btnDiner.TabIndex = 2;
             btnDiner.Text = "Diner";
             btnDiner.UseVisualStyleBackColor = false;
@@ -68,9 +70,10 @@
             // btnDrinks
             // 
             btnDrinks.BackColor = Color.FromArgb(255, 223, 223);
-            btnDrinks.Location = new Point(385, 81);
+            btnDrinks.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDrinks.Location = new Point(488, 81);
             btnDrinks.Name = "btnDrinks";
-            btnDrinks.Size = new Size(176, 82);
+            btnDrinks.Size = new Size(235, 132);
             btnDrinks.TabIndex = 3;
             btnDrinks.Text = "Drinks";
             btnDrinks.UseVisualStyleBackColor = false;
@@ -79,9 +82,9 @@
             // pnlOrderView
             // 
             pnlOrderView.AutoScroll = true;
-            pnlOrderView.Location = new Point(6, 169);
+            pnlOrderView.Location = new Point(-1, 219);
             pnlOrderView.Name = "pnlOrderView";
-            pnlOrderView.Size = new Size(555, 611);
+            pnlOrderView.Size = new Size(729, 574);
             pnlOrderView.TabIndex = 4;
             // 
             // pbOrderViewHeader
@@ -90,35 +93,35 @@
             pbOrderViewHeader.Location = new Point(-1, 1);
             pbOrderViewHeader.Margin = new Padding(4, 5, 4, 5);
             pbOrderViewHeader.Name = "pbOrderViewHeader";
-            pbOrderViewHeader.Size = new Size(576, 72);
+            pbOrderViewHeader.Size = new Size(729, 72);
             pbOrderViewHeader.TabIndex = 5;
             pbOrderViewHeader.TabStop = false;
             // 
             // pbOrderViewFooter
             // 
             pbOrderViewFooter.BackColor = Color.FromArgb(117, 30, 55);
-            pbOrderViewFooter.Location = new Point(-1, 860);
+            pbOrderViewFooter.Location = new Point(-1, 873);
             pbOrderViewFooter.Margin = new Padding(4, 5, 4, 5);
             pbOrderViewFooter.Name = "pbOrderViewFooter";
-            pbOrderViewFooter.Size = new Size(576, 72);
+            pbOrderViewFooter.Size = new Size(729, 72);
             pbOrderViewFooter.TabIndex = 6;
             pbOrderViewFooter.TabStop = false;
             // 
-            // pictureBox1
+            // pbOrderViewTotalPriceFooter
             // 
-            pictureBox1.BackColor = Color.White;
-            pictureBox1.Location = new Point(-1, 788);
-            pictureBox1.Margin = new Padding(4, 5, 4, 5);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(576, 72);
-            pictureBox1.TabIndex = 7;
-            pictureBox1.TabStop = false;
+            pbOrderViewTotalPriceFooter.BackColor = Color.White;
+            pbOrderViewTotalPriceFooter.Location = new Point(-1, 801);
+            pbOrderViewTotalPriceFooter.Margin = new Padding(4, 5, 4, 5);
+            pbOrderViewTotalPriceFooter.Name = "pbOrderViewTotalPriceFooter";
+            pbOrderViewTotalPriceFooter.Size = new Size(729, 72);
+            pbOrderViewTotalPriceFooter.TabIndex = 7;
+            pbOrderViewTotalPriceFooter.TabStop = false;
             // 
             // lblOrderViewTotalTxt
             // 
             lblOrderViewTotalTxt.AutoSize = true;
             lblOrderViewTotalTxt.BackColor = Color.White;
-            lblOrderViewTotalTxt.Location = new Point(15, 815);
+            lblOrderViewTotalTxt.Location = new Point(12, 828);
             lblOrderViewTotalTxt.Name = "lblOrderViewTotalTxt";
             lblOrderViewTotalTxt.Size = new Size(53, 25);
             lblOrderViewTotalTxt.TabIndex = 8;
@@ -128,33 +131,36 @@
             // 
             lblOrderViewTotal.AutoSize = true;
             lblOrderViewTotal.BackColor = Color.White;
-            lblOrderViewTotal.Location = new Point(96, 816);
+            lblOrderViewTotal.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblOrderViewTotal.Location = new Point(93, 829);
             lblOrderViewTotal.Name = "lblOrderViewTotal";
-            lblOrderViewTotal.Size = new Size(85, 25);
+            lblOrderViewTotal.Size = new Size(94, 25);
             lblOrderViewTotal.TabIndex = 9;
             lblOrderViewTotal.Text = "totalPrice";
             // 
             // btnOrderViewSummary
             // 
             btnOrderViewSummary.BackColor = Color.Black;
+            btnOrderViewSummary.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnOrderViewSummary.ForeColor = Color.White;
-            btnOrderViewSummary.Location = new Point(423, 802);
+            btnOrderViewSummary.Location = new Point(578, 815);
             btnOrderViewSummary.Name = "btnOrderViewSummary";
             btnOrderViewSummary.Size = new Size(138, 50);
             btnOrderViewSummary.TabIndex = 10;
             btnOrderViewSummary.Text = "Summary";
             btnOrderViewSummary.UseVisualStyleBackColor = false;
+            btnOrderViewSummary.Click += btnOrderViewSummary_Click;
             // 
             // OrderViewForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
-            ClientSize = new Size(573, 930);
+            ClientSize = new Size(728, 944);
             Controls.Add(btnOrderViewSummary);
             Controls.Add(lblOrderViewTotal);
             Controls.Add(lblOrderViewTotalTxt);
-            Controls.Add(pictureBox1);
+            Controls.Add(pbOrderViewTotalPriceFooter);
             Controls.Add(pbOrderViewFooter);
             Controls.Add(pbOrderViewHeader);
             Controls.Add(btnDrinks);
@@ -162,11 +168,11 @@
             Controls.Add(btnLunch);
             Controls.Add(pnlOrderView);
             Name = "OrderViewForm";
-            Text = "Form1";
+            Text = "Order View";
             Load += OrderView_Load;
             ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbOrderViewTotalPriceFooter).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -178,7 +184,7 @@
         private Panel pnlOrderView;
         private PictureBox pbOrderViewHeader;
         private PictureBox pbOrderViewFooter;
-        private PictureBox pictureBox1;
+        private PictureBox pbOrderViewTotalPriceFooter;
         private Label lblOrderViewTotalTxt;
         private Label lblOrderViewTotal;
         private Button btnOrderViewSummary;

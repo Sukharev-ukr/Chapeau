@@ -69,9 +69,10 @@ namespace UI
                 {
                     orderItem.OrderStatus = (Status)Enum.Parse(typeof(Status), newStatus);
                     orderItemService.UpdateOrderItemStatus(orderItem, newStatus);
-
                 }
             }
+
+            //update main form
         }
     }
 }

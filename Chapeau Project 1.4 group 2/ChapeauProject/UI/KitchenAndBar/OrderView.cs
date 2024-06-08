@@ -139,23 +139,8 @@ namespace UI
         }
     
 
-        // This method can be hooked to the order status changed event
-        private void OrderControl_OrderStatusChanged(Order order, Status newStatus)
-        {
-            // Find the control corresponding to the order
-            KitchenAndBarUserControl orderControl = flowLayoutPanelRunning.Controls.OfType<KitchenAndBarUserControl>()
-                .FirstOrDefault(c => c.currentOrder == order);
+        // method to change order status 
 
-            if (orderControl != null)
-            {
-                // Move the control to the finished panel if the status is Ready
-                if (newStatus == Status.ready)
-                {
-                    flowLayoutPanelRunning.Controls.Remove(orderControl);
-                    flowLayoutPanelFinished.Controls.Add(orderControl);
-                }
-            }
-        }
 
         private void runningToolStripMenuItem_Click_1(object sender, EventArgs e)
         {

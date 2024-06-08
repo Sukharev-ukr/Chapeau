@@ -15,36 +15,43 @@ namespace UI
 {
     public partial class OrderView : Form
     {
+        private OrderService orderService = new OrderService();
+        private OrderItemService orderItemService = new OrderItemService();
+        private List<Order> orders = new List<Order>();
+        private Employee employee;
         private bool isChef;
-        private FlowLayoutPanel flowLayoutPanel;
-        private StaffService staffService;
 
         public OrderView()
         {
+            employee = new Employee(); // Initialize your employee object
             InitializeComponent();
             InitializeFlowLayoutPanel();
-            staffService = new StaffService();
         }
 
         private void InitializeFlowLayoutPanel()
         {
-            // Initialize and configure the FlowLayoutPanel
-            flowLayoutPanel = new FlowLayoutPanel
+            // Initialize and configure the FlowLayoutPanels
+            flowLayoutPanelRunning = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 AutoScroll = true,
             };
-            this.Controls.Add(flowLayoutPanel); // Add the FlowLayoutPanel to the form
+            flowLayoutPanelFinished = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+            };
+
             this.Controls.Add(flowLayoutPanelRunning); // Add the running orders panel to the form
             this.Controls.Add(flowLayoutPanelFinished); // Add the finished orders panel to the form
         }
 
-        // showing the current panel
-        private void ShowCurrentPanel(Panel panel)
+        // Show the current panel
+        private void ShowCurrentPanel(FlowLayoutPanel panel)
         {
             foreach (Control control in Controls)
             {
-                if (control is Panel)
+                if (control is FlowLayoutPanel)
                 {
                     control.Hide();
                 }
@@ -52,31 +59,36 @@ namespace UI
             panel.Show();
         }
 
-        private static bool PersonLoggedIn()
+        private bool PersonLoggedIn()       
         {
-            bool drink;
-
-            // check who's logged in
-            Staff staff = new Staff();
-            return drink = staff.Username == "Pierre Dubois";
+            return employee.Role == Role.Chef;
         }
 
-        private Dictionary<Order, List<OrderItem>> GetOrders()
+        private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()
         {
-            OrderService orderService = new OrderService();
-            List<Order> orders = orderService.GetOrders();
-            Dictionary<Order, List<OrderItem>> ordersItems = new Dictionary<Order, List<OrderItem>>();
+            isChef=PersonLoggedIn();
+            orders = orderService.GetAllOrders();
+            Dictionary<Order, Dictionary<Category, List<OrderItem>>> ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();
 
             foreach (Order order in orders)
             {
-                List<OrderItem> items = orderService.GetOrderItems(order.OrderId);
-                ordersItems.Add(order, items);
+                Dictionary<Category, List<OrderItem>> itemsByCategory = new Dictionary<Category, List<OrderItem>>();
+
+                foreach (Category category in Enum.GetValues(typeof(Category)))
+                {
+                    List<OrderItem> items = orderItemService.GetOrderItemsByCategory(order.OrderId, category.ToString());
+                    itemsByCategory[category] = items;
+                }
+
+                ordersItems.Add(order, itemsByCategory);
             }
 
             return ordersItems;
         }
 
-        private void ShowOrdersPanel(Panel panel)
+
+
+        private void ShowOrdersPanel(FlowLayoutPanel panel)
         {
             // Show orders
             ShowCurrentPanel(panel);
@@ -84,25 +96,34 @@ namespace UI
             try
             {
                 // Get and display all orders
-                Dictionary<Order, List<OrderItem>> orders = GetOrders();
-                flowLayoutPanel.Controls.Clear(); // Clear existing controls in FlowLayoutPanel
+                var orders = GetOrders();
+                panel.Controls.Clear(); // Clear existing controls in the specified panel
 
                 foreach (var orderPair in orders)
                 {
                     var order = orderPair.Key;
-                    var orderItems = orderPair.Value;
+                    var itemsByCategory = orderPair.Value;
 
-                    // Create a new KitchenAndBarUserControl for each order
-                    KitchenAndBarUserControl orderControl = new KitchenAndBarUserControl();
-                    orderControl.UpdateOrderDetails(order);
-
-                    foreach (OrderItem orderItem in orderItems)
+                    foreach (var categoryPair in itemsByCategory)
                     {
-                        orderControl.AddOrderItem(orderItem);
-                    }
+                        var category = categoryPair.Key;
+                        var orderItems = categoryPair.Value;
 
-                    // Add the user control to the FlowLayoutPanel
-                    flowLayoutPanel.Controls.Add(orderControl);
+                        if (orderItems.Count > 0)
+                        {
+                            // Create a new KitchenAndBarUserControl for each order category
+                            KitchenAndBarUserControl orderControl = new KitchenAndBarUserControl();
+                            orderControl.UpdateOrderDetails(order);
+
+                            foreach (OrderItem orderItem in orderItems)
+                            {
+                                orderControl.AddOrderItem(orderItem);
+                            }
+
+                            // Add the user control to the specified panel
+                            panel.Controls.Add(orderControl);
+                        }
+                    }
                 }
             }
             catch (Exception e)
@@ -112,7 +133,7 @@ namespace UI
             }
         }
 
-        //not working yet
+        // This method can be hooked to the order status changed event
         private void OrderControl_OrderStatusChanged(Order order, Status newStatus)
         {
             // Find the control corresponding to the order
@@ -132,12 +153,12 @@ namespace UI
 
         private void runningToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            ShowOrdersPanel(flowLayoutPanel);
+            ShowOrdersPanel(flowLayoutPanelRunning);
         }
 
         private void finishedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowOrdersPanel(flowLayoutPanel);
+            ShowOrdersPanel(flowLayoutPanelFinished);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Model
         public Status OrderStatus { get; set; }
         public string? OrderTime { get; set; }
         public int Count { get; set; }
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
         public MenuItem MenuItem { get; set; }
     }
 }

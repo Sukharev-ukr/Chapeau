@@ -79,7 +79,7 @@
             // columnHeader1
             // 
             columnHeader1.Text = "";
-            columnHeader1.Width = 300;
+            columnHeader1.Width = 400;
             // 
             // groupBox1
             // 

@@ -35,29 +35,13 @@ namespace DAL
             {
                 Id = (int)row["ItemID"],
                 Name = (string)row["Name"],
-                Category = MapCategory(row["Category"].ToString()),
+                Category = Enum.Parse<Category>((string)row["Category"], true),
                 Card = (string)row["Card"],
                 Price = (decimal)row["Price"],
                 Stock = row["Stock"] as int?,
                 VAT = row["VAT"] as int?,
             };
             return menuItem;
-        }
-        private Category MapCategory(string category)
-        {
-            switch (category.ToLower())
-            {
-                case "starters - entrees":
-                    return Category.Starters;
-                case "mains - le plat principal":
-                    return Category.Mains;
-                case "deserts - les desserts":
-                    return Category.Desserts;
-                case "entremets":
-                    return Category.Entremets;
-                default:
-                    return Category.Drinks;
-            }
         }
     }
 }

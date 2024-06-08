@@ -53,11 +53,9 @@ namespace UI
                     OpenUI(new KitchenAndBar());
                     break;
                 case Role.Bartender:
-                    //barview
+                    OpenUI(new KitchenAndBar());
                     break;
-                case Role.Manager:
-                    //managerview
-                    break;
+                
             }
         }
 

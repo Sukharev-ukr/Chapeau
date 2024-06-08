@@ -17,19 +17,6 @@ namespace Service
             orderItemDao = new OrderItemDao();
         }
 
-        //public List<OrderItem> GetOrderItems(int orderId)
-        //{
-        //    Dictionary<OrderItem, MenuItem> itemOrders = orderItemDao.GetOrderDetails(orderId);
-        //    return new List<OrderItem>(itemOrders.Keys);
-        //}
-
-        
-        public List<OrderItem> GetAllOrderItems(int orderId)
-        {
-            Dictionary<OrderItem, MenuItem> itemOrders = orderItemDao.GetAllOrdersItems();
-            return new List<OrderItem>(itemOrders.Keys);
-        }
-
         public List<OrderItem> GetOrderItemsByCategory(int orderId, string category)
         {
             Dictionary<OrderItem, MenuItem> itemOrders = orderItemDao.GetOrderItemsByCategory(orderId, category);

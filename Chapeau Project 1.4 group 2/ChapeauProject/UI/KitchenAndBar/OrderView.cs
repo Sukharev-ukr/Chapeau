@@ -112,16 +112,21 @@ namespace UI
                         if (orderItems.Count > 0)
                         {
                             // Create a new KitchenAndBarUserControl for each order category
-                            KitchenAndBarUserControl orderControl = new KitchenAndBarUserControl();
+                            KitchenAndBarUserControl orderControl = new KitchenAndBarUserControl(order);
                             orderControl.UpdateOrderDetails(order);
 
                             foreach (OrderItem orderItem in orderItems)
                             {
                                 orderControl.AddOrderItem(orderItem);
+                                if (orderItem.OrderStatus == Status.ready || orderItem.OrderStatus == Status.served)
+                                {
+                                    flowLayoutPanelFinished.Controls.Add(orderControl);
+                                }
+                                else
+                                {
+                                    flowLayoutPanelRunning.Controls.Add(orderControl);
+                                }
                             }
-
-                            // Add the user control to the specified panel
-                            panel.Controls.Add(orderControl);
                         }
                     }
                 }
@@ -132,6 +137,7 @@ namespace UI
                 MessageBox.Show("Something went wrong while loading the orders: " + e.Message);
             }
         }
+    
 
         // This method can be hooked to the order status changed event
         private void OrderControl_OrderStatusChanged(Order order, Status newStatus)

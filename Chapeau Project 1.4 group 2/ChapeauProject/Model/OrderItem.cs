@@ -11,7 +11,7 @@ namespace Model
         public int OrderId { get; set; }
         public int ItemId { get; set; }
         public Status OrderStatus { get; set; }
-        public string? OrderTime { get; set; }
+        public DateTime? OrderTime { get; set; }
         public int Count { get; set; }
         public string? Comment { get; set; }
         public MenuItem MenuItem { get; set; }

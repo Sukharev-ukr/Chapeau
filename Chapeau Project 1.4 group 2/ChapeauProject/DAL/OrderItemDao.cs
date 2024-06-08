@@ -50,7 +50,7 @@ namespace DAL
                 ItemId = (int)dr["ItemID"],
                 OrderStatus = Enum.Parse<Status>((string)dr["Status"], true),
                 Count = (int)dr["Count"],
-                OrderTime = dr["StatusTime"]?.ToString(),
+                OrderTime = dr["StatusTime"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["StatusTime"]),
                 Comment = dr["Comment"]?.ToString(),
                 MenuItem = new MenuItem()
             };
@@ -105,7 +105,7 @@ namespace DAL
             
             SqlParameter[] parameter = new SqlParameter[]
             {
-                new SqlParameter("@orderStatus", status),
+                new SqlParameter("@status", status),
                 new SqlParameter("@orderID", orderItem.OrderId),
                 new SqlParameter("@ItemID", orderItem.ItemId)
             };

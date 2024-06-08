@@ -25,11 +25,7 @@ namespace Service
             return _staffDAL.GetStaffByUsernameAndpassword(username, hashedPassword);
         }
 
-        private bool VerifyPassword(string password, string storedHash)
-        {
-            string hashedPasswordInput = HashPassword(password);
-            return storedHash == hashedPasswordInput;
-        }
+        
 
         public Staff CheckLoginCredentials(string username, string password)
         {

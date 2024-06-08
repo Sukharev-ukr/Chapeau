@@ -3,8 +3,10 @@ using Model;
 using Service;
 using DAL;
 using UI.PaymentSystem;
+using UI.OrderView;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using UI.Login;
 
 namespace UI
 {
@@ -22,11 +24,8 @@ namespace UI
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-<<<<<<< Updated upstream
-=======
             //Application.Run(new BillDetails(2));
->>>>>>> Stashed changes
-            Application.Run(new BillDetails(2));
+            Application.Run(new TableView_Form());
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)

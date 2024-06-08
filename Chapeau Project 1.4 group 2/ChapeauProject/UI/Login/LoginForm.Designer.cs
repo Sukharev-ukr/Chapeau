@@ -76,12 +76,11 @@
             // txtPassword
             // 
             txtPassword.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            txtPassword.Location = new Point(249, 532);
-            txtPassword.Multiline = true;
+            txtPassword.Location = new Point(249, 488);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.PlaceholderText = "Enter your password";
-            txtPassword.Size = new Size(330, 56);
+            txtPassword.Size = new Size(330, 34);
             txtPassword.TabIndex = 4;
             txtPassword.UseSystemPasswordChar = true;
             // 
@@ -92,7 +91,7 @@
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(249, 623);
+            btnLogin.Location = new Point(249, 570);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(330, 56);
             btnLogin.TabIndex = 2;
@@ -104,8 +103,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(255, 192, 192);
-            ClientSize = new Size(817, 749);
+            BackColor = Color.FromArgb(255, 223, 223);
+            ClientSize = new Size(817, 1155);
             Controls.Add(btnLogin);
             Controls.Add(txtPassword);
             Controls.Add(txtUsername);

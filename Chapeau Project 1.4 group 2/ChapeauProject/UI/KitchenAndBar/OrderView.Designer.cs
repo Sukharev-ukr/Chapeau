@@ -43,6 +43,7 @@
             // 
             // menuStrip1
             // 
+            menuStrip1.BackColor = Color.FromArgb(117, 30, 55);
             menuStrip1.ImageScalingSize = new Size(24, 24);
             menuStrip1.Items.AddRange(new ToolStripItem[] { runningToolStripMenuItem, finishedToolStripMenuItem, toolStripMenuItem1, toolStripMenuItem2, lblTime, lblEmployee });
             menuStrip1.Location = new Point(0, 0);
@@ -53,6 +54,7 @@
             // 
             // runningToolStripMenuItem
             // 
+            runningToolStripMenuItem.ForeColor = SystemColors.Control;
             runningToolStripMenuItem.Name = "runningToolStripMenuItem";
             runningToolStripMenuItem.Size = new Size(94, 29);
             runningToolStripMenuItem.Text = "Running";
@@ -60,6 +62,7 @@
             // 
             // finishedToolStripMenuItem
             // 
+            finishedToolStripMenuItem.ForeColor = Color.White;
             finishedToolStripMenuItem.Name = "finishedToolStripMenuItem";
             finishedToolStripMenuItem.Size = new Size(93, 29);
             finishedToolStripMenuItem.Text = "Finished";
@@ -79,12 +82,14 @@
             // lblTime
             // 
             lblTime.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTime.ForeColor = SystemColors.Control;
             lblTime.Name = "lblTime";
-            lblTime.Size = new Size(220, 29);
-            lblTime.Text = "                                ";
+            lblTime.Size = new Size(334, 29);
+            lblTime.Text = "                                                   ";
             // 
             // lblEmployee
             // 
+            lblEmployee.ForeColor = SystemColors.Control;
             lblEmployee.Name = "lblEmployee";
             lblEmployee.Size = new Size(113, 29);
             lblEmployee.Text = "                 ";
@@ -92,11 +97,12 @@
             // flowLayoutPanelRunning
             // 
             flowLayoutPanelRunning.AutoScroll = true;
+            flowLayoutPanelRunning.BackColor = Color.FromArgb(255, 223, 223);
             flowLayoutPanelRunning.Controls.Add(flowLayoutPanelFinished);
             flowLayoutPanelRunning.Dock = DockStyle.Fill;
-            flowLayoutPanelRunning.Location = new Point(0, 33);
+            flowLayoutPanelRunning.Location = new Point(0, 0);
             flowLayoutPanelRunning.Name = "flowLayoutPanelRunning";
-            flowLayoutPanelRunning.Size = new Size(800, 417);
+            flowLayoutPanelRunning.Size = new Size(800, 450);
             flowLayoutPanelRunning.TabIndex = 1;
             // 
             // flowLayoutPanelFinished
@@ -113,8 +119,8 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(flowLayoutPanelRunning);
             Controls.Add(menuStrip1);
+            Controls.Add(flowLayoutPanelRunning);
             MainMenuStrip = menuStrip1;
             Name = "OrderView";
             Text = "OrderView";

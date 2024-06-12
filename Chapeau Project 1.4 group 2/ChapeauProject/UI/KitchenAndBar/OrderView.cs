@@ -25,11 +25,12 @@ namespace UI
             this.employee = employee;
             orderService = new OrderService();
             orderItemService = new OrderItemService();
-            //lblEmployee.Text =employee.Name;
+            
            
             InitializeComponent();
             InitializeFlowLayoutPanel();
             InitializeClockTimer();
+            //lblEmployee.Text = employee.Name;
         }
 
         private void InitializeClockTimer()
@@ -43,22 +44,11 @@ namespace UI
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
             lblTime.Text = DateTime.Now.ToString("hh:mm");
-           // lblEmployee.Text = employee.Name;
         }
 
         private void InitializeFlowLayoutPanel()
         {
-            // Initialize and configure the FlowLayoutPanels
-            flowLayoutPanelRunning = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                AutoScroll = true,
-            };
-            flowLayoutPanelFinished = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                AutoScroll = true,
-            };
+            // Initialize the FlowLayoutPanels
 
             this.Controls.Add(flowLayoutPanelRunning); // Add the running orders panel to the form
             this.Controls.Add(flowLayoutPanelFinished); // Add the finished orders panel to the form

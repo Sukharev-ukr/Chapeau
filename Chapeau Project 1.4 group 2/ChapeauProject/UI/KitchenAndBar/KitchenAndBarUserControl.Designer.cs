@@ -32,10 +32,10 @@
             lblTableNumber = new Label();
             lblOrderTime = new Label();
             listViewOrderItems = new ListView();
-            columnHeader1 = new ColumnHeader();
             groupBox1 = new GroupBox();
             lblOrderItemTime = new Label();
             comboBoxStatus = new ComboBox();
+            columnHeader2 = new ColumnHeader();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -62,13 +62,12 @@
             lblOrderTime.AutoSize = true;
             lblOrderTime.Location = new Point(18, 27);
             lblOrderTime.Name = "lblOrderTime";
-            lblOrderTime.Size = new Size(87, 25);
+            lblOrderTime.Size = new Size(0, 25);
             lblOrderTime.TabIndex = 12;
-            lblOrderTime.Text = "Placed at:";
             // 
             // listViewOrderItems
             // 
-            listViewOrderItems.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            listViewOrderItems.Columns.AddRange(new ColumnHeader[] { columnHeader2 });
             listViewOrderItems.FullRowSelect = true;
             listViewOrderItems.Location = new Point(18, 147);
             listViewOrderItems.Name = "listViewOrderItems";
@@ -76,11 +75,6 @@
             listViewOrderItems.TabIndex = 14;
             listViewOrderItems.UseCompatibleStateImageBehavior = false;
             listViewOrderItems.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            columnHeader1.Text = "";
-            columnHeader1.Width = 400;
             // 
             // groupBox1
             // 
@@ -111,11 +105,16 @@
             // 
             comboBoxStatus.FormattingEnabled = true;
             comboBoxStatus.Items.AddRange(new object[] { "placed", "BeingPrepared", "ready" });
-            comboBoxStatus.Location = new Point(208, 108);
+            comboBoxStatus.Location = new Point(198, 108);
             comboBoxStatus.Name = "comboBoxStatus";
-            comboBoxStatus.Size = new Size(134, 33);
+            comboBoxStatus.Size = new Size(144, 33);
             comboBoxStatus.TabIndex = 14;
             comboBoxStatus.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "";
+            columnHeader2.Width = 400;
             // 
             // KitchenAndBarUserControl
             // 
@@ -136,7 +135,7 @@
         private ListView listViewOrderItems;
         private GroupBox groupBox1;
         private ComboBox comboBoxStatus;
-        private ColumnHeader columnHeader1;
         private Label lblOrderItemTime;
+        private ColumnHeader columnHeader2;
     }
 }

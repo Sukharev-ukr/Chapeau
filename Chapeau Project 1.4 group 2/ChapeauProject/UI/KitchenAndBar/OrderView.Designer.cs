@@ -31,6 +31,10 @@
             menuStrip1 = new MenuStrip();
             runningToolStripMenuItem = new ToolStripMenuItem();
             finishedToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripMenuItem2 = new ToolStripMenuItem();
+            lblTime = new ToolStripMenuItem();
+            lblEmployee = new ToolStripMenuItem();
             flowLayoutPanelRunning = new FlowLayoutPanel();
             flowLayoutPanelFinished = new FlowLayoutPanel();
             menuStrip1.SuspendLayout();
@@ -40,7 +44,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(24, 24);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { runningToolStripMenuItem, finishedToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { runningToolStripMenuItem, finishedToolStripMenuItem, toolStripMenuItem1, toolStripMenuItem2, lblTime, lblEmployee });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 33);
@@ -60,6 +64,30 @@
             finishedToolStripMenuItem.Size = new Size(93, 29);
             finishedToolStripMenuItem.Text = "Finished";
             finishedToolStripMenuItem.Click += finishedToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(16, 29);
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(123, 29);
+            toolStripMenuItem2.Text = "                   ";
+            // 
+            // lblTime
+            // 
+            lblTime.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTime.Name = "lblTime";
+            lblTime.Size = new Size(220, 29);
+            lblTime.Text = "                                ";
+            // 
+            // lblEmployee
+            // 
+            lblEmployee.Name = "lblEmployee";
+            lblEmployee.Size = new Size(113, 29);
+            lblEmployee.Text = "                 ";
             // 
             // flowLayoutPanelRunning
             // 
@@ -104,5 +132,9 @@
         private ToolStripMenuItem finishedToolStripMenuItem;
         private FlowLayoutPanel flowLayoutPanelRunning;
         private FlowLayoutPanel flowLayoutPanelFinished;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem lblTime;
+        private ToolStripMenuItem lblEmployee;
     }
 }

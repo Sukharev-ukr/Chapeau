@@ -7,9 +7,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace UI
 {
@@ -17,12 +19,36 @@ namespace UI
     {
         public Order currentOrder;
         private OrderItemService orderItemService;
+        DateTime finishedTime;
+        TimeSpan waitingTime;
+        private Timer orderUpdateTimer;
 
         public KitchenAndBarUserControl(Order order)
         {
             InitializeComponent();
+            InitializeOrderUpdateTimer();
             currentOrder = order;
             orderItemService = new OrderItemService();
+        }
+
+        private void InitializeOrderUpdateTimer()
+        {
+            orderUpdateTimer = new Timer();
+            orderUpdateTimer.Interval = 1000; // Set the interval to 1 second (1000 milliseconds)
+            orderUpdateTimer.Tick += OrderUpdateTimer_Tick;
+            orderUpdateTimer.Start();
+        }
+
+        private void OrderUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            // Iterate through the ListView items
+            foreach (ListViewItem item in listViewOrderItems.Items)
+            {
+                OrderItem orderItem = (OrderItem)item.Tag;
+                TimeSpan? elapsedTime = DateTime.Now - orderItem.OrderTime;
+
+                lblOrderItemTime.Text = $"Waiting: {elapsedTime?.ToString(@"mm':'ss''")}";
+            }
         }
 
         public void UpdateOrderDetails(Order order)
@@ -33,12 +59,6 @@ namespace UI
 
             // Add new orders
             lblTableNumber.Text = $"Table {order.Table.TableNumber}";
-            lblOrderTime.Text += order.OrderTime?.ToString("HH:mm");
-            // Disable the comboBoxStatus if the order is ready
-            if (order.OrderStatus == Status.ready)
-            {
-                comboBoxStatus.Enabled = false;
-            }
         }
 
         public void AddOrderItem(OrderItem orderItem)
@@ -48,17 +68,31 @@ namespace UI
             ListViewItem listViewItem = new ListViewItem($"{orderItem.Count}x {orderItem.MenuItem.Name}");
             listViewItem.Tag = orderItem;
             listViewOrderItems.Items.Add(listViewItem);
+         
+            // hide the comboBoxStatus if the order is ready
+            if (orderItem.OrderStatus == Status.ready)
+            {
+                comboBoxStatus.Hide();
+                waitingTime = DateTime.Now - orderItem.OrderTime.Value;
+
+                lblOrderItemTime.Hide();
+                lblOrderTime.Text = $"Finished at: {finishedTime.ToString("HH:mm")}";
+            }
+            else
+            {
+                lblOrderTime.Text = $"Placed at: {orderItem.OrderTime?.ToString("HH:mm")}";
+            }
 
             // Calculate the TimeSpan if OrderTime is not null
             if (orderItem.OrderTime.HasValue)
             {
-                TimeSpan timeSpan = DateTime.Now - orderItem.OrderTime.Value;
-                lblOrderItemTime.Text = $"Waiting: {(int)timeSpan.TotalHours:D2}:{timeSpan.Minutes:D2}";
+                waitingTime = DateTime.Now - orderItem.OrderTime.Value;
+                lblOrderItemTime.Text = $"Waiting: {(int)waitingTime.TotalHours:D2}:{waitingTime.Minutes:D2}";
             }
         }
 
 
-        //// Event handler for ComboBox selection change
+        // Event handler for ComboBox selection change
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string newStatus = comboBoxStatus.SelectedItem.ToString();
@@ -69,6 +103,14 @@ namespace UI
                 {
                     orderItem.OrderStatus = (Status)Enum.Parse(typeof(Status), newStatus);
                     orderItemService.UpdateOrderItemStatus(orderItem, newStatus);
+                }
+                if(orderItem.OrderStatus == Status.ready)
+                {
+                     waitingTime = DateTime.Now - orderItem.OrderTime.Value;
+                    finishedTime = DateTime.Now - waitingTime;
+
+                    lblOrderItemTime.Hide();
+                    lblOrderTime.Text = $"Waited: {waitingTime.ToString("HH:mm")}";
                 }
             }
 

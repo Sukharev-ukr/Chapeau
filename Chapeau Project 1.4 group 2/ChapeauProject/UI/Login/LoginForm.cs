@@ -47,7 +47,7 @@ namespace UI
             switch (staff.Role)
             {
                 case Role.Waiter:
-                    OpenUI(new TableView_Form());
+                    OpenUI(new TableView_Form(staff.Username));
                     break;
                 case Role.Chef:
                     OpenUI(new KitchenAndBar());

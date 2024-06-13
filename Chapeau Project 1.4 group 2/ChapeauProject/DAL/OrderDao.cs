@@ -17,21 +17,7 @@ namespace DAL
 
             return ReadOrders(ExecuteSelectQuery(query, parameters));
         }
-        //
-        //public List<Order> GetFilteredOrders()
-        //{
-        //    string query = @"SELECT  OK.OrderID, OK.OrderTime, OK.OrderStatus, OK.StaffID, OK.TableID, CAST(OK.Feedback AS VARCHAR(MAX)) AS Feedback, OK.TableNumber 
-        //             FROM [Order] OK
-        //             JOIN OrderItem OI ON OK.OrderID = OI.OrderID
-        //             JOIN Item I ON OI.ItemID = I.ItemID
-        //             WHERE (OK.OrderStatus = 'running' OR OK.OrderStatus = 'finished')
-        //             AND (OI.Status = 'placed' OR OI.Status = 'BeingPrepared' OR OI.Status = 'served')";
 
-        //    SqlParameter[] parameters = new SqlParameter[0]; // No parameters needed in this case
-
-        //    return ReadOrders(ExecuteSelectQuery(query, parameters));
-        //}
-        //
         private List<Order> ReadOrders(DataTable dataTable)
         {
             List<Order> orders = new List<Order>();

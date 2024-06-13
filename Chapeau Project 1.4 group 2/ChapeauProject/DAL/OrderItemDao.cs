@@ -56,25 +56,7 @@ namespace DAL
             };
         }
 
-        //separate orders per category
-        //public Dictionary<OrderItem, MenuItem> GetFilteredOrderItems(int orderId)
-        //{
-        //    string query = @"SELECT OI.*, I.*, OK.*
-        //             FROM OrderItem OI
-        //             JOIN Item I ON OI.ItemID = I.ItemID
-        //             JOIN [Order] OK ON OK.OrderID = OI.OrderID
-        //             WHERE OK.OrderID = @orderID
-        //             AND (OI.Status = 'placed' OR OI.Status = 'BeingPrepared' OR OI.Status = 'served')";
-
-        //    SqlParameter[] sp = new SqlParameter[]
-        //    {
-        //new SqlParameter("@orderID", orderId)
-        //    };
-
-        //    return ReadOrderMenuItems(ExecuteSelectQuery(query, sp));
-        //}
-
-            public Dictionary<OrderItem, MenuItem> GetOrderItemsByCategory(int orderId, string category)
+        public Dictionary<OrderItem, MenuItem> GetOrderItemsByCategory(int orderId, string category)
         {
             string query = "SELECT O.*, I.*, OK.* " +
                            "FROM OrderItem AS O " +
@@ -102,7 +84,7 @@ namespace DAL
         {
 
             string query = "UPDATE OrderItem SET [Status] = @status WHERE OrderID = @orderID AND ItemID = @ItemID";
-            
+
             SqlParameter[] parameter = new SqlParameter[]
             {
                 new SqlParameter("@status", status),

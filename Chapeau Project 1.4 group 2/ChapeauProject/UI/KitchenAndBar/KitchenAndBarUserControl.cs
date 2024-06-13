@@ -22,6 +22,7 @@ namespace UI
         DateTime finishedTime;
         TimeSpan waitingTime;
         private Timer orderUpdateTimer;
+        public event EventHandler StatusChanged;
 
         public KitchenAndBarUserControl(Order order)
         {
@@ -45,9 +46,9 @@ namespace UI
             foreach (ListViewItem item in listViewOrderItems.Items)
             {
                 OrderItem orderItem = (OrderItem)item.Tag;
-                TimeSpan? elapsedTime = DateTime.Now - orderItem.OrderTime;
+                waitingTime = DateTime.Now - orderItem.OrderTime.Value;
 
-                lblOrderItemTime.Text = $"Waiting: {elapsedTime?.ToString(@"mm':'ss''")}";
+                lblOrderItemTime.Text = $"Waiting: {waitingTime.ToString(@"mm':'ss''")}";
             }
         }
 
@@ -65,12 +66,14 @@ namespace UI
         {
             lblCategory.Text = orderItem.MenuItem.Category.ToString();
             comboBoxStatus.Text=orderItem.OrderStatus.ToString();
+            waitingTime = DateTime.Now - orderItem.OrderTime.Value;
+            finishedTime = DateTime.Now - waitingTime;
 
             ListViewItem listViewItem = new ListViewItem($"{orderItem.Count}x {orderItem.MenuItem.Name}");
             listViewItem.SubItems.Add($"   -{orderItem.Comment}");
             listViewItem.Tag = orderItem;
             listViewOrderItems.Items.Add(listViewItem);
-         
+
             // hide the comboBoxStatus if the order is ready
             if (orderItem.OrderStatus == Status.ready)
             {
@@ -79,17 +82,18 @@ namespace UI
 
                 lblOrderItemTime.Hide();
                 lblOrderTime.Text = $"Finished at: {finishedTime.ToString("HH:mm")}";
+                lblOrderItemTime.Text += $"Waited: {waitingTime.ToString(@"mm':'ss''")}";
             }
             else
             {
                 lblOrderTime.Text = $"Placed at: {orderItem.OrderTime?.ToString("HH:mm")}";
+                lblOrderItemTime.Text = $"Waiting: {(int)waitingTime.TotalHours:D2}:{waitingTime.Minutes:D2}";
             }
 
             // Calculate the TimeSpan if OrderTime is not null
             if (orderItem.OrderTime.HasValue)
             {
                 waitingTime = DateTime.Now - orderItem.OrderTime.Value;
-                lblOrderItemTime.Text = $"Waiting: {(int)waitingTime.TotalHours:D2}:{waitingTime.Minutes:D2}";
             }
         }
 
@@ -108,15 +112,16 @@ namespace UI
                 }
                 if(orderItem.OrderStatus == Status.ready)
                 {
-                     waitingTime = DateTime.Now - orderItem.OrderTime.Value;
-                    finishedTime = DateTime.Now - waitingTime;
-
-                    lblOrderItemTime.Hide();
-                    lblOrderTime.Text = $"Waited: {waitingTime.ToString("HH:mm")}";
                 }
             }
 
             //update main form
+            OnStatusChanged(EventArgs.Empty);
+        }
+
+        protected virtual void OnStatusChanged(EventArgs e)
+        {
+            StatusChanged?.Invoke(this, e);
         }
     }
 }

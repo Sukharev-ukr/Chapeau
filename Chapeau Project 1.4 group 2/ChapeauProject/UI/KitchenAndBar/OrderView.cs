@@ -75,7 +75,8 @@ namespace UI
         private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()
         {
             // Determine the role of the logged-in user
-            isChef = true;
+            isChef = true;  //remove later
+           // isChef = PersonLoggedIn()
             List<Order> orders = orderService.GetAllOrders();
             Dictionary<Order, Dictionary<Category, List<OrderItem>>> ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();
             GetItemsByCategory(ordersItems);
@@ -160,16 +161,31 @@ namespace UI
         {
             if (orderItems.Count > 0)
             {
-                // Create a new KitchenAndBarUserControl for each order category
                 KitchenAndBarUserControl orderControl = new KitchenAndBarUserControl(order);
                 orderControl.UpdateOrderDetails(order);
+                orderControl.StatusChanged += OrderControl_StatusChanged;
 
                 foreach (OrderItem orderItem in orderItems)
                 {
                     orderControl.AddOrderItem(orderItem);
-                    FlowLayoutPanel targetPanel = (orderItem.OrderStatus == Status.ready || orderItem.OrderStatus == Status.served) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
-                    targetPanel.Controls.Add(orderControl);
                 }
+
+                FlowLayoutPanel targetPanel = (orderItems.Any(oi => oi.OrderStatus == Status.ready || oi.OrderStatus == Status.served)) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
+                targetPanel.Controls.Add(orderControl);
+            }
+        }
+
+        private void OrderControl_StatusChanged(object sender, EventArgs e)
+        {
+            // Reload the relevant panel when the status changes
+            KitchenAndBarUserControl orderControl = sender as KitchenAndBarUserControl;
+            if (orderControl != null)
+            {
+                FlowLayoutPanel sourcePanel = (FlowLayoutPanel)orderControl.Parent;
+             //   sourcePanel.Controls.Remove(orderControl);see why it doesn t work, source oanel is null
+
+                FlowLayoutPanel targetPanel = orderControl.currentOrder.Items.Any(oi => oi.OrderStatus == Status.ready || oi.OrderStatus == Status.served) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
+                targetPanel.Controls.Add(orderControl);
             }
         }
 

@@ -10,27 +10,68 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace UI.Login
 {
     public partial class TableView_Form : Form
     {
-        private System.Windows.Forms.Timer pollingTimer; // Timer for polling the database
-        private TableDAL tableDAL; // Data Access Layer for tables
-        private Panel popupPanel; // Panel to display popup for table actions
-        private Dictionary<TableStatus, List<Button>> statusButtons; // Dictionary to hold buttons for each table status
-        private TableService tableService; // Service to handle table operations
-        private Button selectedTableButton; // Currently selected table button
-        private int selectedTableId; // ID of the currently selected table
+        private System.Windows.Forms.Timer pollingTimer;
+        private StaffDAL staff;
+        private TableDAL tableDAL; 
+        private Panel popupPanel; 
+        private Dictionary<TableStatus, List<Button>> statusButtons; 
+        private TableService tableService; 
+        private Button selectedTableButton;
+        private Button closeButton;
+        private int selectedTableId;
+        private string employeeName;
+        private Label employeeNameLabel;
 
-        public TableView_Form()
+        public TableView_Form(string employeeName)
         {
             InitializeComponent();
+            this.employeeName = employeeName;
             tableDAL = new TableDAL();
             tableService = new TableService();
             InitializePopupPanel();
             LoadTables();
             InitializePollingTimer();
+            InitializeMainCloseButton();
+        }
+
+        private void InitializeMainCloseButton()
+        {
+            Button mainCloseButton = new Button
+            {
+                Text = "<",
+                Width = 30,
+                Height = 30,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                Font = new Font("Roboto", 13, FontStyle.Regular),
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 },
+                Location = new Point(20, 16)
+            };
+            mainCloseButton.Click += MainCloseButton_Click;
+
+            employeeNameLabel = new Label
+            {
+                Text = employeeName,
+                AutoSize = true,
+                BackColor = Color.FromArgb(117, 30, 55),
+                ForeColor = Color.White,
+                Font = new Font("Roboto", 20, FontStyle.Regular), // Increased font size
+                Location = new Point(this.ClientSize.Width - 20 - 25 - TextRenderer.MeasureText(employeeName, new Font("Roboto", 16)).Width, 20)
+            };
+            
+
+            
+            this.Controls.Add(mainCloseButton);
+            mainCloseButton.BringToFront();
+            this.Controls.Add(employeeNameLabel);
+            employeeNameLabel.BringToFront();
         }
 
 
@@ -103,6 +144,13 @@ namespace UI.Login
             // Initial Y positions for both columns
             int currentY1 = startY;
             int currentY2 = startY;
+
+
+
+
+            //MAKE IT A DIFFERENT METHOD CALLED SMTH LIKE SPLIT TABLES IN HALF
+
+
 
             // Loop through each table and place it in the correct column and position
             for (int i = 0; i < tables.Count; i++)
@@ -206,6 +254,7 @@ namespace UI.Login
             // Adjust popupPanel location based on where you want to show it
             popupPanel.Location = new Point(this.ClientSize.Width / 2 - popupPanel.Width / 2, this.ClientSize.Height / 2 - popupPanel.Height / 2);
             popupPanel.Visible = true;
+            popupPanel.BringToFront();
 
             // Clear existing buttons
             foreach (Control control in popupPanel.Controls)
@@ -298,7 +347,14 @@ namespace UI.Login
             popupPanel.Controls.Add(btnViewReservationDetails);
             popupPanel.Controls.Add(btnCancelReservation);
 
+
+
+            
+
             this.Controls.Add(popupPanel);
+            
+
+
         }
 
         /// <summary>
@@ -394,6 +450,11 @@ namespace UI.Login
                     button.BackColor = Color.Gray;
                     break;
             }
+        }
+
+        private void MainCloseButton_Click(object sender, EventArgs e)
+        {
+            ClosePopup();
         }
 
         // <summary>

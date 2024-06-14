@@ -12,7 +12,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace UI
 {
-    public partial class OrderView : Form
+    public partial class OrderOverview : Form
     {
         private OrderService orderService;
         private OrderItemService orderItemService;
@@ -20,7 +20,7 @@ namespace UI
         private bool isChef;
         private Timer clockTimer;
 
-        public OrderView(/*Employee employee*/)
+        public OrderOverview(/*Employee employee*/)
         {
             this.employee = employee;
             orderService = new OrderService();

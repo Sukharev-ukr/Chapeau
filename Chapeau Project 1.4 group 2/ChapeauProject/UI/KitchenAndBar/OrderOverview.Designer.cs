@@ -1,6 +1,6 @@
 ﻿namespace UI
 {
-    partial class OrderView
+    partial class OrderOverview
     {
         /// <summary>
         /// Required designer variable.

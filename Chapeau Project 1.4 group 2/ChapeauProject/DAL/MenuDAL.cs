@@ -41,9 +41,6 @@ namespace DAL
                 Price = (decimal)row["Price"],
                 Stock = row["Stock"] as int?,
                 VAT = row["VAT"] as decimal?,
-                Card = (string)row["Card"],
-                Price = (decimal)row["Price"]
-
             };
             return menuItem;
         }

@@ -87,6 +87,8 @@ namespace DAL
             }
         }
 
+       
+
         /* For Select Queries */
         protected DataTable ExecuteSelectQuery(string query, params SqlParameter[] sqlParameters)
         {

@@ -17,30 +17,28 @@ namespace Service
             _staffDAL = new StaffDAL();
         }
 
+
+
+        public Staff GetStaffByUsernameAndpassword(string username, string password)
+        {
+            var hashedPassword = HashPassword(password);
+            return _staffDAL.GetStaffByUsernameAndpassword(username, hashedPassword);
+        }
+
         
 
-        public Staff GetStaffByUsername(string username)
+        public Staff CheckLoginCredentials(string username, string password)
         {
-            var staffList = _staffDAL.GetAllStaff();
-            foreach (var staff in staffList)
+            Staff staff = _staffDAL.GetStaffByUsernameAndpassword(username, password);
+            if (staff != null)
             {
-                if (staff.Username.Equals(username, StringComparison.OrdinalIgnoreCase))
-                {
-                    return staff;
-                }
+                string hashedPassword = HashPassword(password);
+                
             }
             return null;
         }
 
-        public bool ValidateStaffCredentials(string username, string password)
-        {
-            string hashedPassword = HashPassword(password);
-            return _staffDAL.ValidatePassword(username, hashedPassword);
-        }
-
-
-
-        public string HashPassword(string password)
+        private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
             {

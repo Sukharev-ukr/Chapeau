@@ -11,9 +11,22 @@ namespace DAL
 
         public List<Table> GetAllTables()
         {
-            string query = "SELECT TableID, Status, number FROM [Table]";
-            return ReadTables(ExecuteSelectQuery(query));
+            string query = "SELECT TableID, Status FROM [Table]";
+            DataTable dataTable = ExecuteSelectQuery(query);
+
+            List<Table> tables = new List<Table>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Table table = new Table
+                {
+                    TableId = (int)row["TableID"],
+                    Status = Enum.Parse<TableStatus>((string)row["Status"])
+                };
+                tables.Add(table);
+            }
+            return tables;
         }
+
         public void UpdateTableStatus(Table table)
         {
             string updateQuery = "UPDATE [Table] SET Status = @Status WHERE TableID = @TableID";
@@ -32,7 +45,7 @@ namespace DAL
             string query = "SELECT TableID, number, Status FROM [Table] WHERE TableID = @TableID";
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
-        new SqlParameter("@TableID", tableId)
+                new SqlParameter("@TableID", tableId)
             };
 
             return ReadTable(ExecuteSelectQuery(query, sqlParameters));
@@ -41,22 +54,22 @@ namespace DAL
 
 
 
-        private List<Table> ReadTables(DataTable dataTable)
-        {
-            List<Table> tables = new List<Table>();
-            foreach (DataRow dataRow in dataTable.Rows)
-            {
-                Table table = new Table()
-                {
-                    TableId = (int)dataRow["TabelID"],
-                    TableNumber = (int)dataRow["number"],
-                    Status = (TableStatus)Enum.Parse(typeof(TableStatus), (string)dataRow["Status"])
-                };
-                tables.Add(table);
-            }
-            return tables;
+        //private List<Table> ReadTables(DataTable dataTable)
+        //{
+        //    List<Table> tables = new List<Table>();
+        //    foreach (DataRow dataRow in dataTable.Rows)
+        //    {
+        //        Table table = new Table()
+        //        {
+        //            TableId = (int)dataRow["TabelID"],
+        //            TableNumber = (int)dataRow["number"],
+        //            Status = (TableStatus)Enum.Parse(typeof(TableStatus), (string)dataRow["Status"])
+        //        };
+        //        tables.Add(table);
+        //    }
+        //    return tables;
 
-        }
+        //}
 
 
         private Table ReadTable(DataTable data)

@@ -1,4 +1,5 @@
-﻿using Service;
+﻿using Model;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using UI.Login;
+using View;
 
 namespace UI
 {
@@ -27,17 +29,48 @@ namespace UI
             string password = txtPassword.Text.Trim();
 
             StaffService staffService = new StaffService();
-            if (staffService.ValidateStaffCredentials(username, password))
+
+            Staff loggedUser = staffService.GetStaffByUsernameAndpassword(username, password);
+
+            if (loggedUser != null)
             {
-                // Login successful
-                MessageBox.Show("Login successful!");
-               
+                getUIForStaff(loggedUser);
             }
             else
             {
-                // Login failed
                 MessageBox.Show("Invalid username or password.");
             }
+        }
+
+        private void getUIForStaff(Staff staff)
+        {
+            switch (staff.Role)
+            {
+                case Role.Waiter:
+                    OpenUI(new TableView_Form(staff.Username));
+                    break;
+                case Role.Chef:
+                    OpenUI(new KitchenAndBar());
+                    break;
+                case Role.Bartender:
+                    OpenUI(new KitchenAndBar());
+                    break;
+                
+            }
+        }
+
+
+
+        private void OpenUI(Form newForm)
+        {
+
+            Form activeForm = ActiveForm;
+            activeForm.Hide();
+
+            newForm.ShowDialog();
+
+            
+            activeForm.Close();
         }
     }
 }

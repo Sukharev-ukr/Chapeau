@@ -41,4 +41,14 @@ public class OrderService
         List<Order> orders = orderDao.GetOrders();
         return orders;
     }
+
+    public Order GetRunningOrder(int tableId)
+    {
+        return orderDao.GetRunningOrderByTableId(tableId);
+    }
+
+    public void MarkOrderAsServed(int orderId)
+    {
+        orderDao.UpdateOrderStatus(orderId, Status.finished);
+    }
 }

@@ -149,7 +149,7 @@ namespace UI.Login
                 Label orderStatusLabel = new Label
                 {
                     AutoSize = true,
-                    Font = new Font("Roboto", 12, FontStyle.Regular),
+                    Font = new Font("Roboto", 14, FontStyle.Regular),
                     ForeColor = Color.Black,
                     Tag = tables[i]
                 };
@@ -192,6 +192,10 @@ namespace UI.Login
                     label.Text = $"🍽️ Running ({waitingTimeText})";
                 }
             }
+            //else if (runningOrder.OrderStatus == Status.ready)
+            //{
+            //    label.Text = "Ready to serve";
+            //}
             else
             {
                 label.Text = "";
@@ -307,19 +311,38 @@ namespace UI.Login
                 buttonsToShow[i].Location = new Point(startX + (i % 2) * (buttonsToShow[i].Width + 60), startY + (i / 2) * (buttonsToShow[i].Height + 60));
                 buttonsToShow[i].Visible = true;
 
+                var orderService = new OrderService();
+                var runningOrder = orderService.GetRunningOrder(table.TableId);
+
                 if (buttonsToShow[i].Text == "Mark as Served")
                 {
-                    var orderService = new OrderService();
-                    var runningOrder = orderService.GetRunningOrder(table.TableId);
-                    if (runningOrder == null)
+                    if (runningOrder != null && runningOrder.OrderStatus == Status.running)
                     {
-                        buttonsToShow[i].Enabled = false;
-                        buttonsToShow[i].BackColor = Color.FromArgb(150, 255, 255, 255); // Change to a whiter color
+                        buttonsToShow[i].Enabled = true;
+                        buttonsToShow[i].BackColor = Color.Black;
+                        buttonsToShow[i].ForeColor = Color.White;
                     }
                     else
                     {
+                        buttonsToShow[i].Enabled = false;
+                        buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
+                        buttonsToShow[i].ForeColor = Color.Black; // Text color
+                    }
+                }
+
+                if (buttonsToShow[i].Text == "Free table")
+                {
+                    if (runningOrder == null || runningOrder.OrderStatus == Status.finished)
+                    {
                         buttonsToShow[i].Enabled = true;
-                        buttonsToShow[i].BackColor = Color.Black; // Restore original color
+                        buttonsToShow[i].BackColor = Color.Black;
+                        buttonsToShow[i].ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        buttonsToShow[i].Enabled = false;
+                        buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
+                        buttonsToShow[i].ForeColor = Color.Black; // Text color
                     }
                 }
             }

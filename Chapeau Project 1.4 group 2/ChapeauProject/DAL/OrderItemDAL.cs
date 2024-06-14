@@ -18,8 +18,6 @@ namespace DAL
 
             SqlParameter[] sp = new SqlParameter[1] { new SqlParameter("@orderID", orderId) };
 
-            Console.WriteLine($"Executing query: {query} with parameter @orderID: {orderId}");
-
             return ReadOrderMenuItems(ExecuteSelectQuery(query, sp));
         }
         public Dictionary<OrderItem, MenuItem> ReadOrderMenuItems(DataTable dataTable)
@@ -65,8 +63,8 @@ namespace DAL
 
             SqlParameter[] sp = new SqlParameter[]
             {
-        new SqlParameter("@category", category),
-        new SqlParameter("@orderId", orderId)
+               new SqlParameter("@category", category),
+               new SqlParameter("@orderId", orderId)
             };
             return ReadOrderMenuItems(ExecuteSelectQuery(query, sp));
         }
@@ -105,6 +103,5 @@ namespace DAL
             };
             ExecuteEditQuery(query, sqlParameters);
         }
-
     }
 }

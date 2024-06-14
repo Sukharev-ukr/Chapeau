@@ -20,23 +20,25 @@ namespace UI
         private bool isChef;
         private Timer clockTimer;
 
-        public OrderOverview(/*Employee employee*/)
+        public OrderOverview(Employee employee)
         {
             this.employee = employee;
             orderService = new OrderService();
             orderItemService = new OrderItemService();
-            
-           
+
             InitializeComponent();
             InitializeFlowLayoutPanel();
             InitializeClockTimer();
-            //lblEmployee.Text = employee.Name;
+            lblEmployee.Text = employee.Name;
+            isChef = employee.Role == Role.Chef;
         }
 
         private void InitializeClockTimer()
         {
-            clockTimer = new Timer();
-            clockTimer.Interval = 1000; // interval set to 1 second (1000 milliseconds)
+            clockTimer = new Timer
+            {
+                Interval = 1000 // interval set to 1 second (1000 milliseconds)
+            };
             clockTimer.Tick += ClockTimer_Tick;
             clockTimer.Start();
         }
@@ -48,13 +50,10 @@ namespace UI
 
         private void InitializeFlowLayoutPanel()
         {
-            // Initialize the FlowLayoutPanels
-
             this.Controls.Add(flowLayoutPanelRunning); // Add the running orders panel to the form
             this.Controls.Add(flowLayoutPanelFinished); // Add the finished orders panel to the form
         }
 
-        // Show the current panel
         private void ShowCurrentPanel(FlowLayoutPanel panel)
         {
             foreach (Control control in Controls)
@@ -67,75 +66,46 @@ namespace UI
             panel.Show();
         }
 
-        private bool PersonLoggedIn()
-        {
-            return employee.Role == Role.Chef;
-        }
-
         private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()
         {
-            // Determine the role of the logged-in user
-            isChef = true;  //remove later
-           // isChef = PersonLoggedIn()
+            isChef = true;  // Assume isChef is true for simplicity. Replace with actual role check.
             List<Order> orders = orderService.GetAllOrders();
-            Dictionary<Order, Dictionary<Category, List<OrderItem>>> ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();
-            GetItemsByCategory(ordersItems);
+            var ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();
+
+            foreach (Order order in orders)
+            {
+                var itemsByCategory = new Dictionary<Category, List<OrderItem>>();
+                CategorizeOrdersByRole(order, itemsByCategory);
+                ordersItems.Add(order, itemsByCategory);
+            }
 
             return ordersItems;
         }
 
-        private void GetItemsByCategory(Dictionary<Order, Dictionary<Category, List<OrderItem>>> ordersItems)
-        {
-            List<Order> orders = orderService.GetAllOrders();
-            foreach (Order order in orders)
-            {
-                Dictionary<Category, List<OrderItem>> itemsByCategory = new Dictionary<Category, List<OrderItem>>();
-
-                CategorizeOrdersByRole(order, itemsByCategory);
-
-                // Add the categorized items to the ordersItems dictionary
-                ordersItems.Add(order, itemsByCategory);
-            }
-        }
-
         private void CategorizeOrdersByRole(Order order, Dictionary<Category, List<OrderItem>> itemsByCategory)
         {
-            if (isChef)
+            foreach (Category category in Enum.GetValues(typeof(Category)))
             {
-                // Show kitchen orders 
-                foreach (Category category in Enum.GetValues(typeof(Category)))
+                if (isChef && category != Category.Drinks || !isChef && category == Category.Drinks)
                 {
-                    if (category != Category.Drinks) // Exclude drinks if the user is a chef
-                    {
-                        List<OrderItem> items = orderItemService.GetOrderItemsByCategory(order.OrderId, category.ToString());
-                        itemsByCategory[category] = items;
-                    }
+                    List<OrderItem> items = orderItemService.GetOrderItemsByCategory(order.OrderId, category.ToString());
+                    itemsByCategory[category] = items;
                 }
-            }
-            else
-            {
-                // Show bar orders 
-                List<OrderItem> drinkItems = orderItemService.GetOrderItemsByCategory(order.OrderId, Category.Drinks.ToString());
-                itemsByCategory[Category.Drinks] = drinkItems;
             }
         }
 
         private void ShowOrdersPanel(FlowLayoutPanel panel)
         {
-            // Show orders
             ShowCurrentPanel(panel);
 
             try
             {
-                // Get and display all orders
                 var orders = GetOrders();
                 panel.Controls.Clear(); // Clear existing controls in the specified panel
-
                 CreateOrders(orders);
             }
             catch (Exception e)
             {
-                // Handle exception
                 MessageBox.Show("Something went wrong while loading the orders: " + e.Message);
             }
         }
@@ -144,49 +114,36 @@ namespace UI
         {
             foreach (var orderPair in orders)
             {
-                var order = orderPair.Key;
-                var itemsByCategory = orderPair.Value;
+                CreateUserControl(orderPair.Key, orderPair.Value);
+            }
+        }
 
-                foreach (var categoryPair in itemsByCategory)
+        private void CreateUserControl(Order order, Dictionary<Category, List<OrderItem>> itemsByCategory)
+        {
+            foreach (var categoryPair in itemsByCategory)
+            {
+                var orderItems = categoryPair.Value;
+                if (orderItems.Count > 0)
                 {
-                    var category = categoryPair.Key;
-                    var orderItems = categoryPair.Value;
+                    var orderControl = new KitchenAndBarUserControl(order);
+                    orderControl.UpdateOrderDetails(order);
 
-                    CreateUserControl(order, orderItems);
+                    foreach (OrderItem orderItem in orderItems)
+                    {
+                        orderControl.AddOrderItem(orderItem);
+                    }
+
+                    FlowLayoutPanel targetPanel = (orderItems.Any(oi => oi.OrderStatus == Status.ready || oi.OrderStatus == Status.served)) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
+                    targetPanel.Controls.Add(orderControl);
                 }
             }
         }
 
-        private void CreateUserControl(Order order, List<OrderItem> orderItems)
+        public void UpdateStatus(KitchenAndBarUserControl userControl)
         {
-            if (orderItems.Count > 0)
-            {
-                KitchenAndBarUserControl orderControl = new KitchenAndBarUserControl(order);
-                orderControl.UpdateOrderDetails(order);
-                orderControl.StatusChanged += OrderControl_StatusChanged;
-
-                foreach (OrderItem orderItem in orderItems)
-                {
-                    orderControl.AddOrderItem(orderItem);
-                }
-
-                FlowLayoutPanel targetPanel = (orderItems.Any(oi => oi.OrderStatus == Status.ready || oi.OrderStatus == Status.served)) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
-                targetPanel.Controls.Add(orderControl);
-            }
-        }
-
-        private void OrderControl_StatusChanged(object sender, EventArgs e)
-        {
-            // Reload the relevant panel when the status changes
-            KitchenAndBarUserControl orderControl = sender as KitchenAndBarUserControl;
-            if (orderControl != null)
-            {
-                FlowLayoutPanel sourcePanel = (FlowLayoutPanel)orderControl.Parent;
-             //   sourcePanel.Controls.Remove(orderControl);see why it doesn t work, source oanel is null
-
-                FlowLayoutPanel targetPanel = orderControl.currentOrder.Items.Any(oi => oi.OrderStatus == Status.ready || oi.OrderStatus == Status.served) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
-                targetPanel.Controls.Add(orderControl);
-            }
+            flowLayoutPanelRunning.Controls.Remove(userControl);
+            flowLayoutPanelFinished.Controls.Add(userControl);
+            ShowCurrentPanel(flowLayoutPanelRunning);
         }
 
         private void runningToolStripMenuItem_Click_1(object sender, EventArgs e)

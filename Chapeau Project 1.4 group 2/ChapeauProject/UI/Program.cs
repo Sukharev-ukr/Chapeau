@@ -25,8 +25,9 @@ namespace UI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new BillDetails(2));
-
-            Application.Run(new BillDetails(2));
+            //Application.Run(new BillDetails(2));
+            //Application.Run(new OrderOverview());
+            Application.Run(new LoginForm());
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)

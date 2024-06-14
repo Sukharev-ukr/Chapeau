@@ -32,10 +32,10 @@
             lblTableNumber = new Label();
             lblOrderTime = new Label();
             listViewOrderItems = new ListView();
+            columnHeader2 = new ColumnHeader();
             groupBox1 = new GroupBox();
             lblOrderItemTime = new Label();
             comboBoxStatus = new ComboBox();
-            columnHeader2 = new ColumnHeader();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -76,6 +76,11 @@
             listViewOrderItems.UseCompatibleStateImageBehavior = false;
             listViewOrderItems.View = System.Windows.Forms.View.Details;
             // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "";
+            columnHeader2.Width = 400;
+            // 
             // groupBox1
             // 
             groupBox1.BackColor = SystemColors.Info;
@@ -109,12 +114,7 @@
             comboBoxStatus.Name = "comboBoxStatus";
             comboBoxStatus.Size = new Size(144, 33);
             comboBoxStatus.TabIndex = 14;
-            comboBoxStatus.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            // 
-            // columnHeader2
-            // 
-            columnHeader2.Text = "";
-            columnHeader2.Width = 400;
+            comboBoxStatus.SelectedIndexChanged += comboBoxStatus_SelectedIndexChanged;
             // 
             // KitchenAndBarUserControl
             // 

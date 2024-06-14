@@ -10,8 +10,9 @@ namespace Model
     {
         public int OrderId { get; set; }
         public DateTime? OrderTime { get; set; }
-        public string Feedback { get; set; }
+        public string? Feedback { get; set; }
         public List<OrderItem> Items { get; set; }
+        public Status OrderStatus { get; set; }  // running or finished
         public Table Table { get; set; }
         public Employee Employee { get; set; }
     }

@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public enum Status
+    public enum Category
     {
-        placed,
-        BeingPrepared,
-        ready,
-        served,
-        running,
-        finished
+        Starters,
+        Mains,
+        Entremets,
+        Desserts,
+        Drinks
     }
 }

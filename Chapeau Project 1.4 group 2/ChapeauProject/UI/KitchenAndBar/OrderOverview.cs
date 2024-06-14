@@ -68,7 +68,6 @@ namespace UI
 
         private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()
         {
-            isChef = true;  // Assume isChef is true for simplicity. Replace with actual role check.
             List<Order> orders = orderService.GetAllOrders();
             var ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();
 

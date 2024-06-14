@@ -84,11 +84,12 @@
             lblTime.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblTime.ForeColor = SystemColors.Control;
             lblTime.Name = "lblTime";
-            lblTime.Size = new Size(334, 29);
-            lblTime.Text = "                                                   ";
+            lblTime.Size = new Size(652, 29);
+            lblTime.Text = "                                                                                                        ";
             // 
             // lblEmployee
             // 
+            lblEmployee.Alignment = ToolStripItemAlignment.Right;
             lblEmployee.ForeColor = SystemColors.Control;
             lblEmployee.Name = "lblEmployee";
             lblEmployee.Size = new Size(113, 29);
@@ -114,7 +115,7 @@
             flowLayoutPanelFinished.Size = new Size(776, 0);
             flowLayoutPanelFinished.TabIndex = 2;
             // 
-            // OrderView
+            // OrderOverview
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -122,7 +123,7 @@
             Controls.Add(menuStrip1);
             Controls.Add(flowLayoutPanelRunning);
             MainMenuStrip = menuStrip1;
-            Name = "OrderView";
+            Name = "OrderOverview";
             Text = "OrderView";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

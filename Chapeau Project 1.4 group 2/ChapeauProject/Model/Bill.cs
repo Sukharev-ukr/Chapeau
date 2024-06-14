@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    enum PaymentMethod {Cash,Debit,Card }
+    public enum PaymentMethod {Cash,Debit,Credit }
     public class Bill
     {
-        int BillId { get; set; }
-        int OrderId { get; set; } 
-        decimal TotalAmount { get; set; }
-        decimal VAT {  get; set; }
-        PaymentMethod PaymentMethod { get; set; }
+        public int BillId { get; set; }
+        public int OrderId { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal VAT {  get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
 
     }
 }

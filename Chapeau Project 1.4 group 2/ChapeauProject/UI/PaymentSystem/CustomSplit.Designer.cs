@@ -41,6 +41,7 @@
             LabelDevideTotal = new Label();
             labelDevidePartCost = new Label();
             buttonConfirm = new Button();
+            label5 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -56,6 +57,7 @@
             // 
             textBoxCustomAmount.Location = new Point(12, 27);
             textBoxCustomAmount.Name = "textBoxCustomAmount";
+            textBoxCustomAmount.PlaceholderText = "E.G. 1/2, 60, %30";
             textBoxCustomAmount.Size = new Size(100, 23);
             textBoxCustomAmount.TabIndex = 1;
             textBoxCustomAmount.TextChanged += TextBoxCustomAmount_OnTextChange;
@@ -91,13 +93,14 @@
             // 
             buttonDevide1.AccessibleName = "QuickDevider";
             buttonDevide1.BackColor = Color.Black;
+            buttonDevide1.FlatStyle = FlatStyle.Flat;
             buttonDevide1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonDevide1.ForeColor = Color.White;
             buttonDevide1.Location = new Point(170, 27);
             buttonDevide1.Name = "buttonDevide1";
             buttonDevide1.Size = new Size(79, 29);
             buttonDevide1.TabIndex = 11;
-            buttonDevide1.Tag = "0.5";
+            buttonDevide1.Tag = "50";
             buttonDevide1.Text = "1/2";
             buttonDevide1.UseVisualStyleBackColor = false;
             buttonDevide1.Click += QuickSelection_Click;
@@ -105,13 +108,14 @@
             // buttonDevide2
             // 
             buttonDevide2.BackColor = Color.Black;
+            buttonDevide2.FlatStyle = FlatStyle.Flat;
             buttonDevide2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonDevide2.ForeColor = Color.White;
             buttonDevide2.Location = new Point(254, 27);
             buttonDevide2.Name = "buttonDevide2";
             buttonDevide2.Size = new Size(79, 29);
             buttonDevide2.TabIndex = 12;
-            buttonDevide2.Tag = "0.33";
+            buttonDevide2.Tag = "33";
             buttonDevide2.Text = "1/3";
             buttonDevide2.UseVisualStyleBackColor = false;
             buttonDevide2.Click += QuickSelection_Click;
@@ -119,13 +123,14 @@
             // buttonDevide3
             // 
             buttonDevide3.BackColor = Color.Black;
+            buttonDevide3.FlatStyle = FlatStyle.Flat;
             buttonDevide3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonDevide3.ForeColor = Color.White;
             buttonDevide3.Location = new Point(170, 62);
             buttonDevide3.Name = "buttonDevide3";
             buttonDevide3.Size = new Size(79, 29);
             buttonDevide3.TabIndex = 13;
-            buttonDevide3.Tag = "0.66";
+            buttonDevide3.Tag = "66";
             buttonDevide3.Text = "2/3";
             buttonDevide3.UseVisualStyleBackColor = false;
             buttonDevide3.Click += QuickSelection_Click;
@@ -133,13 +138,14 @@
             // buttonDevide4
             // 
             buttonDevide4.BackColor = Color.Black;
+            buttonDevide4.FlatStyle = FlatStyle.Flat;
             buttonDevide4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonDevide4.ForeColor = Color.White;
             buttonDevide4.Location = new Point(255, 62);
             buttonDevide4.Name = "buttonDevide4";
             buttonDevide4.Size = new Size(79, 29);
             buttonDevide4.TabIndex = 14;
-            buttonDevide4.Tag = "0.75";
+            buttonDevide4.Tag = "75";
             buttonDevide4.Text = "3/4";
             buttonDevide4.UseVisualStyleBackColor = false;
             buttonDevide4.Click += QuickSelection_Click;
@@ -147,13 +153,14 @@
             // buttonDevide5
             // 
             buttonDevide5.BackColor = Color.Black;
+            buttonDevide5.FlatStyle = FlatStyle.Flat;
             buttonDevide5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonDevide5.ForeColor = Color.White;
             buttonDevide5.Location = new Point(254, 97);
             buttonDevide5.Name = "buttonDevide5";
             buttonDevide5.Size = new Size(79, 29);
             buttonDevide5.TabIndex = 15;
-            buttonDevide5.Tag = "0.25";
+            buttonDevide5.Tag = "25";
             buttonDevide5.Text = "1/4";
             buttonDevide5.UseVisualStyleBackColor = false;
             buttonDevide5.Click += QuickSelection_Click;
@@ -179,6 +186,7 @@
             // buttonConfirm
             // 
             buttonConfirm.BackColor = Color.Black;
+            buttonConfirm.FlatStyle = FlatStyle.Flat;
             buttonConfirm.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonConfirm.ForeColor = Color.White;
             buttonConfirm.Location = new Point(112, 169);
@@ -187,13 +195,24 @@
             buttonConfirm.TabIndex = 18;
             buttonConfirm.Text = "Confirm";
             buttonConfirm.UseVisualStyleBackColor = false;
+            buttonConfirm.Visible = false;
             buttonConfirm.Click += buttonConfirm_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(13, 53);
+            label5.Name = "label5";
+            label5.Size = new Size(93, 15);
+            label5.TabIndex = 19;
+            label5.Text = "E.G. 1/2, 60, %30";
             // 
             // CustomSplit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(345, 203);
+            Controls.Add(label5);
             Controls.Add(buttonConfirm);
             Controls.Add(labelDevidePartCost);
             Controls.Add(LabelDevideTotal);
@@ -228,5 +247,6 @@
         private Label LabelDevideTotal;
         private Label labelDevidePartCost;
         private Button buttonConfirm;
+        private Label label5;
     }
 }

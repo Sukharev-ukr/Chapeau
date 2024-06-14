@@ -127,19 +127,36 @@ namespace DAL
 
     return ReadOrders(ExecuteSelectQuery(query, parameters));
 }
-        
-        
+
+
         //update status of Order
-        public void UpdateOrderStatus(int order, Status status)
+        public void UpdateOrderStatus(int orderId, Status status)
         {
-            string query = "UPDATE [Order] SET OrderStatus = @status WHERE OrderID = @order";
-           
+            string query = "UPDATE [Order] SET OrderStatus = @status WHERE OrderID = @orderId";
+
             SqlParameter[] sqlParameters =
             {
-              new SqlParameter("@order", order),
-              new SqlParameter("@status", status.ToString())
-            };
+        new SqlParameter("@orderId", orderId),
+        new SqlParameter("@status", status.ToString())
+    };
+
             ExecuteEditQuery(query, sqlParameters);
+        }
+
+        public Order GetRunningOrderByTableId(int tableId)
+        {
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber " +
+                           "FROM [Order] " +
+                           "WHERE TableID = @tableId AND OrderStatus = @status";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@tableId", tableId),
+                new SqlParameter("@status", Status.running.ToString())
+            };
+
+            var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
+            return orders.FirstOrDefault();
         }
     }
 }

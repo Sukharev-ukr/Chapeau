@@ -52,6 +52,14 @@ namespace DAL
             };
         }
 
+        public Order GetOrderFromTableNr(int tableNR)
+        {
+            string query = "  SELECT * FROM [Order] WHERE TableID = @tableid AND OrderStatus = 'running'";
+
+            SqlParameter[] parameters = new SqlParameter[1] { new SqlParameter("@tableid", tableNR) };
+            return ReadOrders(ExecuteSelectQuery(query, parameters))[0];
+        }
+
         public List<OrderItem> GetOrderItems(int orderId)
         {
             string query = "SELECT OI.OrderID, OI.ItemID, OI.Count, OI.Status, OI.StatusTime, OI.comment " +
@@ -131,6 +139,7 @@ namespace DAL
         new SqlParameter("@orderId", orderId),
         new SqlParameter("@status", status.ToString())
     };
+
             ExecuteEditQuery(query, sqlParameters);
         }
 

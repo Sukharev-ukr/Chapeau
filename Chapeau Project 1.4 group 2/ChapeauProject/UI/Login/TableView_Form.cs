@@ -366,7 +366,8 @@ namespace UI.Login
             Button btnFree = CreatePopupButton("Free table");
             btnFree.Click += BtnFree_Click;
             Button btnTakeOrder = CreatePopupButton("Take Order");
-            Button btnViewOrder = CreatePopupButton("View order");
+            Button btnPayBill = CreatePopupButton("Pay the Bill");
+            btnPayBill.Click += BtnPayBill_Click;
             Button btnReserve = CreatePopupButton("Reserve");
             btnReserve.Click += BtnReserve_Click;
             Button btnSeatCustomer = CreatePopupButton("Seat customer");
@@ -378,18 +379,19 @@ namespace UI.Login
             btnMarkAsServed.Click += BtnMarkAsServed_Click;
 
             statusButtons = new Dictionary<TableStatus, List<Button>>
-    {
-        { TableStatus.free, new List<Button> { btnSeatCustomer, btnReserve } },
-        { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnViewOrder, btnMarkAsServed } },
-        { TableStatus.reserved, new List<Button> { btnFree, btnSeatCustomer, btnViewReservationDetails, btnCancelReservation } }
-    };
+
+            {
+                { TableStatus.free, new List<Button> { btnSeatCustomer, btnReserve } },
+                { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnPayBill, btnSwitch } },
+                { TableStatus.reserved, new List<Button> { btnFree, btnSeatCustomer, btnViewReservationDetails, btnCancelReservation } }
+            };
 
             popupPanel.Paint += PopupPanel_Paint;
             popupPanel.Controls.Add(lblStatus);
             popupPanel.Controls.Add(btnSwitch);
             popupPanel.Controls.Add(btnFree);
             popupPanel.Controls.Add(btnTakeOrder);
-            popupPanel.Controls.Add(btnViewOrder);
+            popupPanel.Controls.Add(btnPayBill);
             popupPanel.Controls.Add(btnReserve);
             popupPanel.Controls.Add(btnSeatCustomer);
             popupPanel.Controls.Add(btnViewReservationDetails);
@@ -450,6 +452,27 @@ namespace UI.Login
         private void BtnFree_Click(object sender, EventArgs e)
         {
             UpdateTableStatusAndColor(TableStatus.free);
+        }
+
+
+        //<summary>
+        //Handles the "Pay the Bill" button click event
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event data.</param>
+        private void BtnPayBill_Click(object sender, EventArgs e) 
+        {
+            
+            try 
+            {
+                // moves on to the PaymentSystem.BillDetails form
+                OrderService order = new OrderService();
+                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
+                Program.WindowSwitcher(this, billDetails);
+            }
+            catch (Exception ex) 
+            {
+
+            }
         }
 
         /// <summary>

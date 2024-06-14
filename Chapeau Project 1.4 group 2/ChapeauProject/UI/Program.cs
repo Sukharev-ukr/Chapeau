@@ -25,7 +25,6 @@ namespace UI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new BillDetails(2));
-
             Application.Run(new LoginForm());
         }
 
@@ -34,7 +33,6 @@ namespace UI
 
             newForm.StartPosition = FormStartPosition.Manual;
             newForm.Location = oldForm.Location;
-
 
 
             oldForm.Hide();

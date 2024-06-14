@@ -63,6 +63,8 @@ namespace UI.PaymentSystem
                 OrderService orderService = new OrderService();
                 orderService.UpdateTipById(currentOrder.Tip, currentOrder.orderId);
                 orderService.UpdateTotalById( currentOrder.OrderTotal, currentOrder.orderId);
+                orderService.UpdateOrderStatus(currentOrder.orderId,Status.finished);
+
 
                 PaymentService paymentService = new PaymentService();
                 paymentService.UploadBill(billParts.ListOFParts);

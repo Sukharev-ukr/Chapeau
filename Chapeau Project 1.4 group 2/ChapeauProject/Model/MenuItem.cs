@@ -10,7 +10,7 @@ namespace Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public string Card { get; set; }
 
         public decimal Price { get; set; }

@@ -5,11 +5,11 @@ namespace Service
 {
     public class TableService
     {
-        private TableDAL _tableDAL;
+        private TableDao _tableDAL;
 
         public TableService()
         {
-            _tableDAL = new TableDAL();
+            _tableDAL = new TableDao();
         }
 
         public List<Table> GetAllTables()

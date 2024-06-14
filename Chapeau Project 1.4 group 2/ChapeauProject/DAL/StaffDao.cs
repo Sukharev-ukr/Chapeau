@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace DAL
 {
-    public class StaffDAL : BaseDAL
+    public class StaffDao : BaseDao
     {
         
         public Staff GetStaffByUsernameAndpassword(string username, string hashedPassword)

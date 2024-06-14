@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class MenuDAL : BaseDAL
+    public class MenuDao : BaseDao
     {
         public List<MenuItem> GetMenuItems()
         {
@@ -35,15 +35,14 @@ namespace DAL
             MenuItem menuItem = new MenuItem()
             {
                 Id = (int)row["ItemID"],
-                Category = (string)row["category"],
                 Name = (string)row["Name"],
+                Category = Enum.Parse<Category>((string)row["Category"], true),
+                Card = (string)row["Card"],
+                Price = (decimal)row["Price"],
                 Stock = row["Stock"] as int?,
                 VAT = row["VAT"] as int?,
-                Card = (string)row["Card"],
-                Price = (decimal)row["Price"]
             };
             return menuItem;
         }
-
     }
 }

@@ -141,16 +141,17 @@ namespace UI.Login
             // Calculate the midpoint to split tables between the two columns
             int midPoint = tables.Count / 2;
 
-            // Initial Y positions for both columns
+            // Split tables and place them
+            SplitTablesInHalf(tables, midPoint, column1X, column2X, startY, tableHeight, verticalSpacing);
+        }
+
+        /// <summary>
+        /// Splits the tables in half and places them in two columns.
+        /// </summary>
+        private void SplitTablesInHalf(List<Table> tables, int midPoint, int column1X, int column2X, int startY, int tableHeight, int verticalSpacing)
+        {
             int currentY1 = startY;
             int currentY2 = startY;
-
-
-
-
-            //MAKE IT A DIFFERENT METHOD CALLED SMTH LIKE SPLIT TABLES IN HALF
-
-
 
             // Loop through each table and place it in the correct column and position
             for (int i = 0; i < tables.Count; i++)
@@ -160,14 +161,14 @@ namespace UI.Login
 
                 if (i < midPoint)
                 {
-                    // Here we are placing tables in the first column
+                    // Place tables in the first column
                     tableButton.Location = new Point(column1X, currentY1);
                     // Update the Y position for the next table
                     currentY1 += tableHeight + verticalSpacing;
                 }
                 else
                 {
-                    // Here we are placing tables in the second column
+                    // Place tables in the second column
                     tableButton.Location = new Point(column2X, currentY2);
                     // Update the Y position for the next table
                     currentY2 += tableHeight + verticalSpacing;

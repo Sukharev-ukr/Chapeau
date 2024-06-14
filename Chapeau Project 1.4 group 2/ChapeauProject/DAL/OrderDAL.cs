@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Data;
 using Model;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace DAL
 {
     public class OrderDAL : BaseDAL
     {
-        public List<Order> GetAllOrders()
+        public List<Order> GetOrders()
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber  " +
-                           "FROM [Order]";
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber FROM [Order]";
 
-            SqlParameter[] sqlParameters = new SqlParameter[0];
-            return ReadOrders(ExecuteSelectQuery(query, sqlParameters));
+            SqlParameter[] parameters = new SqlParameter[0];
+
+            return ReadOrders(ExecuteSelectQuery(query, parameters));
         }
 
         private List<Order> ReadOrders(DataTable dataTable)
@@ -35,7 +36,7 @@ namespace DAL
         {
             return new Order()
             {
-                OrderId = (int)dr["orderId"],
+                OrderId = (int)dr["OrderID"],
                 OrderTime = dr["OrderTime"] as DateTime?,
                 Employee = new Employee()
                 {
@@ -44,25 +45,22 @@ namespace DAL
                 Table = new Table()
                 {
                     TableId = (int)dr["TableID"],
-                    TableNumber = (int)dr["number"]
+                    TableNumber = (int)dr["TableNumber"]
                 },
                 Feedback = (string)dr["Feedback"],
                 Items = GetOrderItems((int)dr["OrderID"])
             };
         }
 
-
-
         public List<OrderItem> GetOrderItems(int orderId)
         {
             string query = "SELECT OI.OrderID, OI.ItemID, OI.Count, OI.Status, OI.StatusTime, OI.comment " +
-                           "FROM [OrderItem] AS OI  " +
-                           "JOIN Item AS I ON OI.ItemID = I.ItemID " +
-                           "WHERE OI.OrderID = @orderId; ";
+                           "FROM [OrderItem] AS OI " +
+                           "WHERE OI.OrderID = @orderId";
 
             SqlParameter[] parameters =
             {
-                new SqlParameter("@orderId", orderId)
+            new SqlParameter("@orderId", orderId)
             };
 
             List<OrderItem> orderItems = CreateOrderItems(query, parameters);
@@ -77,7 +75,6 @@ namespace DAL
 
             foreach (DataRow dr in dataTable.Rows)
             {
-                
                 OrderItem orderItem = orderItemDAL.ReadDataRow(dr);
 
                 orderItems.Add(orderItem);
@@ -85,7 +82,6 @@ namespace DAL
 
             return orderItems;
         }
-
 
 
         public void UpdateTipById(decimal Tip, int orderId)
@@ -107,21 +103,35 @@ namespace DAL
             ExecuteEditQuery(query, parameters);
         }
         public List<Order> GetOrders(bool drinks, Status status)
+{
+    string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
+
+    string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
+                   "FROM Order AS O " +
+                   "JOIN Table AS T ON O.TableID = T.TableID " +
+                   "WHERE O.OrderStatus = @status AND @category";
+
+    SqlParameter[] parameters =
+    {
+        new SqlParameter("@status", status),
+        new SqlParameter("@category", category)
+    };
+
+    return ReadOrders(ExecuteSelectQuery(query, parameters));
+}
+        
+        
+        //update status of Order
+        public void UpdateOrderStatus(Order order, Status status)
         {
-            string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
-
-            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
-                           "FROM Order AS O " +
-                           "JOIN Table AS T ON O.TableID = T.TableID " +
-                           "WHERE O.OrderStatus = @status AND @category";
-
-            SqlParameter[] parameters =
+            string query = "UPDATE [Order] SET OrderStatus = @status WHERE OrderID = @order.OrderID";
+           
+            SqlParameter[] sqlParameters =
             {
-                new SqlParameter("@status", status),
-                new SqlParameter("@category", category)
+              new SqlParameter("@order.OrderID", order),
+              new SqlParameter("@status", status)
             };
-
-            return ReadOrders(ExecuteSelectQuery(query, parameters));
+            ExecuteEditQuery(query, sqlParameters);
         }
     }
 }

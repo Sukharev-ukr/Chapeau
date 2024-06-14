@@ -35,15 +35,17 @@ namespace DAL
             MenuItem menuItem = new MenuItem()
             {
                 Id = (int)row["ItemID"],
-                Category = (string)row["category"],
                 Name = (string)row["Name"],
+                Category = Enum.Parse<Category>((string)row["Category"], true),
+                Card = (string)row["Card"],
+                Price = (decimal)row["Price"],
                 Stock = row["Stock"] as int?,
                 VAT = row["VAT"] as decimal?,
                 Card = (string)row["Card"],
                 Price = (decimal)row["Price"]
+
             };
             return menuItem;
         }
-
     }
 }

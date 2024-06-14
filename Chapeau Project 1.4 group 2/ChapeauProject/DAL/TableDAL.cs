@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-    public class TableDao: BaseDao
+    public class TableDAL: BaseDAL
     {
 
         public List<Table> GetAllTables()

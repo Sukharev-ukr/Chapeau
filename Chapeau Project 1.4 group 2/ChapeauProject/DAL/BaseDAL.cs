@@ -6,12 +6,12 @@ using System.Data;
 
 namespace DAL
 {
-    public abstract class BaseDao
+    public abstract class BaseDAL
     {
         protected SqlDataAdapter adapter;
         protected SqlConnection conn;
 
-        public BaseDao()
+        public BaseDAL()
         {
            
 

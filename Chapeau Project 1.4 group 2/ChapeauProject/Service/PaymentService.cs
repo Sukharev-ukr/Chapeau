@@ -15,7 +15,7 @@ namespace Service
 
         public Dictionary<OrderItem, MenuItem> GetOrderDetails(int order)
         {
-            OrderItemDao orderItemDal = new OrderItemDao();
+            OrderItemDAL orderItemDal = new OrderItemDAL();
 
             return orderItemDal.GetOrderDetails(order);
         }
@@ -39,7 +39,7 @@ namespace Service
 
             private CurrentOrder(int currentorder) 
             {
-                OrderItemDao orderItemDal = new OrderItemDao();
+                OrderItemDAL orderItemDal = new OrderItemDAL();
                 orderId = currentorder;
                 orderDetail = orderItemDal.GetOrderDetails(orderId);
             }

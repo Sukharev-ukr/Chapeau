@@ -10,11 +10,11 @@ namespace Service
 {
     public class OrderItemService
     {
-        private OrderItemDao orderItemDao;
+        private OrderItemDAL orderItemDao;
 
         public OrderItemService()
         {
-            orderItemDao = new OrderItemDao();
+            orderItemDao = new OrderItemDAL();
         }
 
         public List<OrderItem> GetOrderItemsByCategory(int orderId, string category)

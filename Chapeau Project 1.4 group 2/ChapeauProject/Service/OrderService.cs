@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class OrderService
 {
-    private OrderDao orderDao;
+    private OrderDAL orderDao;
 
     public OrderService()
     {
-        orderDao = new OrderDao();
+        orderDao = new OrderDAL();
     }
 
     public List<Order> GetAllOrders()

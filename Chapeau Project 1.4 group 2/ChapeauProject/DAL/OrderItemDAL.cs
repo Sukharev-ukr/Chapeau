@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 namespace DAL
 {
     // BillID,[TotalAmount],[VAT],[PaymentMethod],[OrderID]
-    public class OrderItemDao : BaseDao
+    public class OrderItemDAL : BaseDAL
     {
         public Dictionary<OrderItem, MenuItem> GetOrderDetails(int orderId)
         {
@@ -26,7 +26,7 @@ namespace DAL
         public Dictionary<OrderItem, MenuItem> ReadOrderMenuItems(DataTable dataTable)
         {
             Dictionary<OrderItem, MenuItem> orderDetails = new Dictionary<OrderItem, MenuItem>();
-            MenuDao menuDao = new MenuDao();
+            MenuDAL menuDao = new MenuDAL();
 
             foreach (DataRow row in dataTable.Rows)
             {

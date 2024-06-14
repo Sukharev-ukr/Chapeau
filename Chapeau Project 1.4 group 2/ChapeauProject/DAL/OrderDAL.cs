@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace DAL
 {
-    public class OrderDao : BaseDao
+    public class OrderDAL : BaseDAL
     {
         public List<Order> GetOrders()
         {
@@ -71,7 +71,7 @@ namespace DAL
         {
             List<OrderItem> orderItems = new List<OrderItem>();
             DataTable dataTable = ExecuteSelectQuery(query, parameters);
-            OrderItemDao orderItemDAL = new OrderItemDao();
+            OrderItemDAL orderItemDAL = new OrderItemDAL();
 
             foreach (DataRow dr in dataTable.Rows)
             {

@@ -10,11 +10,11 @@ namespace Service
 {
     public class StaffService
     {
-        private readonly StaffDao _staffDAL;
+        private readonly StaffDAL _staffDAL;
 
         public StaffService()
         {
-            _staffDAL = new StaffDao();
+            _staffDAL = new StaffDAL();
         }
 
         

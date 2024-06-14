@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Service;
+using static Service.PaymentService;
 
 
 namespace UI.PaymentSystem
@@ -17,14 +18,14 @@ namespace UI.PaymentSystem
     {
         decimal orderTotal;
         decimal tip;
-        PaymentService.CurrentOrder currentOrder;
+        CurrentOrder currentOrder;
 
         public AddTip()
         {
             InitializeComponent();
 
 
-            currentOrder = PaymentService.CurrentOrder.Getinstance();
+            currentOrder = CurrentOrder.Getinstance();
             orderTotal = currentOrder.OrderTotal;
 
             labelTotal.Text = orderTotal.ToString();

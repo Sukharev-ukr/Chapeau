@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Service.PaymentService;
 
 namespace UI.PaymentSystem
 {
@@ -26,7 +27,7 @@ namespace UI.PaymentSystem
 
         private void UpdatePartCost()
         {
-            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.Getinstance();
+            CurrentOrder currentOrder = CurrentOrder.Getinstance();
             partCost = currentOrder.OrderTotal / decimal.Parse(labelEqualSplitAmount.Text);
 
             labelEqualSplitPart.Text = partCost.ToString("F");
@@ -64,7 +65,6 @@ namespace UI.PaymentSystem
             {
                 parentForm.NewBillPart(partCost);
             }
-
             this.Dispose();
         }
     }

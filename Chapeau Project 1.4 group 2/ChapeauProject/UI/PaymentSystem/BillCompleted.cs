@@ -12,16 +12,15 @@ using Service;
 using UI.PaymentSystem;
 using static Service.PaymentService;
 
-namespace UI
+namespace UI.PaymentSystem
 {
-    public partial class BillDetails : Form
+    public partial class BillCompleted : Form
     {
-
         CurrentOrder currentOrder;
-        public BillDetails(int order)
+        public BillCompleted()
         {
+            currentOrder = CurrentOrder.Getinstance();
             InitializeComponent();
-            currentOrder = CurrentOrder.Getinstance(order);
             LabelOrderNR.Text = currentOrder.orderDetail.Keys.First().OrderId.ToString();
             LoadOrderItems();
         }
@@ -52,46 +51,16 @@ namespace UI
                 li.Tag = item.Key.OrderId;
 
                 listViewBillList.Items.Add(li);
+
             }
-            labelTotal.Text = (total + VATTotal).ToString("F");
+            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
             labelSubtotal.Text = total.ToString("F");
             labelVAT.Text = VATTotal.ToString("F");
-
-
-            currentOrder.OrderTotal = total + VATTotal;
+            labelTip.Text = currentOrder.Tip.ToString("F");
         }
         private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
         {
             return currentOrder.orderDetail;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            BillSplitter newForm = new BillSplitter();
-
-            Program.WindowSwitcher(this, newForm);
-
-        }
-
-        private void buttonAddTip_Click(object sender, EventArgs e)
-        {
-            Program.WindowSwitcher(this, new AddTip());
-        }
-
-        private void buttonComment_Click(object sender, EventArgs e)
-        {
-            AddComment addComment = new AddComment();
-            addComment.ShowDialog();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            BillParts billParts = BillParts.Getinstance();
-            billParts.AddBillPart(0,currentOrder.OrderTotal);
-
-            PaymentForm paymentform = new PaymentForm();
-
-            Program.WindowSwitcher(this, paymentform);
         }
     }
 }

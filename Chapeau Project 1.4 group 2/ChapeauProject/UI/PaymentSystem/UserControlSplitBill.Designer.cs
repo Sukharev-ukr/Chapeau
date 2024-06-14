@@ -50,9 +50,9 @@
             // 
             textBoxSplit.Location = new Point(91, 7);
             textBoxSplit.Name = "textBoxSplit";
-            textBoxSplit.ReadOnly = true;
             textBoxSplit.Size = new Size(100, 23);
             textBoxSplit.TabIndex = 1;
+            textBoxSplit.TextChanged += textBoxSplit_TextChanged;
             // 
             // labelPart
             // 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Service.PaymentService;
 
 namespace UI.PaymentSystem
 {
@@ -20,7 +21,7 @@ namespace UI.PaymentSystem
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            PaymentService.CurrentOrder currentOrder = PaymentService.CurrentOrder.Getinstance();
+            CurrentOrder currentOrder = CurrentOrder.Getinstance();
 
             currentOrder.Comment = richTextComment.Text;
             this.Dispose();

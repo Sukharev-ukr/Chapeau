@@ -20,13 +20,58 @@ namespace Service
             return orderItemDal.GetOrderDetails(order);
         }
 
-        public class NewBill
+        public void UploadBill(List<Bill> billParts)
         {
-
-
-            public NewBill(List<decimal> billParts) 
+            BillDAO billDAO = new BillDAO();
+            foreach (Bill bill in billParts)
             {
+                billDAO.UploadBill(bill);
             }
+            billDAO.SetTableStateByOrderID(billParts[0].OrderId,TableStatus.free);
+        }
+
+
+        public class BillParts
+        {
+            public List<Bill> ListOFParts;
+            int OrderId;
+            public Bill currentPart;
+
+            private static BillParts instance;
+
+            private BillParts()
+            {
+                OrderId = CurrentOrder.Getinstance().orderId;
+                ListOFParts = new List<Bill>();
+            }
+            public void AddBillPart(int partId, decimal partCost)
+            {
+                Bill part = new Bill();
+                part.OrderId = OrderId;
+                part.BillId = partId;
+                part.TotalAmount = partCost;
+
+                ListOFParts.Add(part);
+
+                if (currentPart == null) { currentPart = part; }
+            }
+            public void IncrementParts()
+            {
+               if (currentPart.BillId != ListOFParts.Last().BillId)
+                {
+                    currentPart = ListOFParts[currentPart.BillId+1];
+                } 
+            }
+
+            public static BillParts Getinstance()
+            {
+                if (instance == null)
+                {
+                    instance = new BillParts();
+                }
+                return instance;
+            }
+
         }
 
         public class CurrentOrder
@@ -52,21 +97,16 @@ namespace Service
                 OrderTotal += Tip;
             }
             
-            public static CurrentOrder NewInstance(int newOrder)
+            public static CurrentOrder Getinstance(int newOrder)
             {
                 if (instance == null)
                 {
                     instance = new CurrentOrder(newOrder);
                 }
-
                 return instance;
             }
             public static CurrentOrder Getinstance()
             {
-                if (instance == null)
-                {
-                    throw new Exception("PaymentSystem: No instance of currentOrder object");
-                }
                 return instance;
             }
 

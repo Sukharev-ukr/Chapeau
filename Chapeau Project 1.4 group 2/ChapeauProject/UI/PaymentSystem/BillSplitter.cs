@@ -13,23 +13,23 @@ using System.Windows.Forms;
 using Model;
 using Service;
 using System.Diagnostics.Eventing.Reader;
-
+using static Service.PaymentService;
 
 namespace UI.PaymentSystem
 {
     public partial class BillSplitter : Form
     {
         private decimal remainingAmount;
-        PaymentService.CurrentOrder currentOrder;
+        CurrentOrder currentOrder;
 
         public BillSplitter()
         {
             InitializeComponent();
-            currentOrder = PaymentService.CurrentOrder.Getinstance();
-            labelTotal.Text = currentOrder.OrderTotal.ToString();
+            currentOrder = CurrentOrder.Getinstance();
+            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
 
             remainingAmount = currentOrder.OrderTotal;
-            labelRemainingTotal.Text = remainingAmount.ToString();
+            labelRemainingTotal.Text = remainingAmount.ToString("F");
 
         }
 
@@ -40,7 +40,7 @@ namespace UI.PaymentSystem
             Program.WindowSwitcher(this, newForm);
         }
 
-        private void UpdateRemainingAmount()
+        public void UpdateRemainingAmount()
         {
             remainingAmount = currentOrder.OrderTotal;
 
@@ -54,7 +54,7 @@ namespace UI.PaymentSystem
         //adding user controll items
         public void NewBillPart(decimal partAmount)
         {
-            int partNR = flowLayoutPanelSplit.Controls.Count + 1;
+            int partNR = flowLayoutPanelSplit.Controls.Count;
             UserControlSplitBill billPart = new UserControlSplitBill(partAmount, partNR, this);
 
             billPart.Tag = partNR;
@@ -66,7 +66,7 @@ namespace UI.PaymentSystem
         {
             foreach (UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
             {
-                if ((int)userControl.Tag == part)
+                if (userControl.PartNR == part)
                 {
                     userControl.SplitCost = partAmount;
                     continue;
@@ -96,12 +96,21 @@ namespace UI.PaymentSystem
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
 
-            if (remainingAmount < 0 || remainingAmount > 0)
+            if (remainingAmount == 0)
+            {
+                BillParts billParts = BillParts.Getinstance();
+                foreach(UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
+                {
+                    billParts.AddBillPart(userControl.PartNR, userControl.SplitCost);
+                }
+                PaymentForm paymentForm = new PaymentForm();
+                Program.WindowSwitcher(this,paymentForm);
+
+            }
+            else
             {
                 labelNotification.Text = "make sure the entire order is split into parts";
                 labelNotification.Visible = true;
-            }else {
-                //do
             }
         }
     }

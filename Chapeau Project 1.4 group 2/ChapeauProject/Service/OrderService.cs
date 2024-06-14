@@ -69,5 +69,16 @@ namespace Service
         {
             return allMenuItems.Where(item => item.Card == card).ToList();
         }
+
+        public void UpdateTipById(decimal input ,int id)
+        {
+            OrderDAL orderDAL = new OrderDAL();
+            orderDAL.UpdateTipById(input ,id);
+        }
+        public void UpdateTotalById(decimal input, int id)
+        {
+            OrderDAL orderDAL = new OrderDAL();
+            orderDAL.UpdateTotalById(input, id);
+        }
     }
 }

@@ -100,7 +100,7 @@
             buttonDevide1.Name = "buttonDevide1";
             buttonDevide1.Size = new Size(79, 29);
             buttonDevide1.TabIndex = 11;
-            buttonDevide1.Tag = "0,5";
+            buttonDevide1.Tag = "50";
             buttonDevide1.Text = "1/2";
             buttonDevide1.UseVisualStyleBackColor = false;
             buttonDevide1.Click += QuickSelection_Click;
@@ -115,7 +115,7 @@
             buttonDevide2.Name = "buttonDevide2";
             buttonDevide2.Size = new Size(79, 29);
             buttonDevide2.TabIndex = 12;
-            buttonDevide2.Tag = "0,33";
+            buttonDevide2.Tag = "33";
             buttonDevide2.Text = "1/3";
             buttonDevide2.UseVisualStyleBackColor = false;
             buttonDevide2.Click += QuickSelection_Click;
@@ -130,7 +130,7 @@
             buttonDevide3.Name = "buttonDevide3";
             buttonDevide3.Size = new Size(79, 29);
             buttonDevide3.TabIndex = 13;
-            buttonDevide3.Tag = "0,66";
+            buttonDevide3.Tag = "66";
             buttonDevide3.Text = "2/3";
             buttonDevide3.UseVisualStyleBackColor = false;
             buttonDevide3.Click += QuickSelection_Click;
@@ -145,7 +145,7 @@
             buttonDevide4.Name = "buttonDevide4";
             buttonDevide4.Size = new Size(79, 29);
             buttonDevide4.TabIndex = 14;
-            buttonDevide4.Tag = "0,75";
+            buttonDevide4.Tag = "75";
             buttonDevide4.Text = "3/4";
             buttonDevide4.UseVisualStyleBackColor = false;
             buttonDevide4.Click += QuickSelection_Click;
@@ -160,7 +160,7 @@
             buttonDevide5.Name = "buttonDevide5";
             buttonDevide5.Size = new Size(79, 29);
             buttonDevide5.TabIndex = 15;
-            buttonDevide5.Tag = "0,25";
+            buttonDevide5.Tag = "25";
             buttonDevide5.Text = "1/4";
             buttonDevide5.UseVisualStyleBackColor = false;
             buttonDevide5.Click += QuickSelection_Click;

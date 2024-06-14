@@ -25,12 +25,12 @@ namespace UI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new BillDetails(2));
-            Application.Run(new TableView_Form());
+            Application.Run(new BillDetails(2));
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)
         {
-            // this just hides the old forms, need something beter
+
             newForm.StartPosition = FormStartPosition.Manual;
             newForm.Location = oldForm.Location;
 

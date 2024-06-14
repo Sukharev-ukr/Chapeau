@@ -88,6 +88,24 @@ namespace DAL
 
 
 
+        public void UpdateTipById(decimal Tip, int orderId)
+        {
+            string query = $"UPDATE [Order] SET [Order].TipAmount = @newvalue WHERE [Order].OrderID = @orderid";
+            SqlParameter[] parameters = new SqlParameter[2] {
+                new SqlParameter("@orderid", orderId),
+                new SqlParameter("@newvalue",Tip)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+        public void UpdateTotalById(decimal Total, int orderId)
+        {
+            string query = $"UPDATE [Order] SET [Order].TotalAmount = @newvalue WHERE [Order].OrderID = @orderid";
+            SqlParameter[] parameters = new SqlParameter[2] {
+                new SqlParameter("@orderid", orderId),
+                new SqlParameter("@newvalue",Total)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
         public List<Order> GetOrders(bool drinks, Status status)
         {
             string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";

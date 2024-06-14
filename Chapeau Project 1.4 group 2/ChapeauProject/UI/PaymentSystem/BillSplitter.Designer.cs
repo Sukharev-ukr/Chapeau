@@ -180,7 +180,7 @@
             labelNotification.Anchor = AnchorStyles.None;
             labelNotification.AutoSize = true;
             labelNotification.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            labelNotification.Location = new Point(80, 425);
+            labelNotification.Location = new Point(12, 429);
             labelNotification.Name = "labelNotification";
             labelNotification.Size = new Size(52, 21);
             labelNotification.TabIndex = 14;

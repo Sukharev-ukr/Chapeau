@@ -52,6 +52,14 @@ namespace DAL
             };
         }
 
+        public Order GetOrderFromTableNr(int tableNR)
+        {
+            string query = "  SELECT * FROM [Order] WHERE TableID = @tableid AND OrderStatus = 'running'";
+
+            SqlParameter[] parameters = new SqlParameter[1] { new SqlParameter("@tableid", tableNR) };
+            return ReadOrders(ExecuteSelectQuery(query, parameters))[0];
+        }
+
         public List<OrderItem> GetOrderItems(int orderId)
         {
             string query = "SELECT OI.OrderID, OI.ItemID, OI.Count, OI.Status, OI.StatusTime, OI.comment " +
@@ -122,14 +130,14 @@ namespace DAL
         
         
         //update status of Order
-        public void UpdateOrderStatus(Order order, Status status)
+        public void UpdateOrderStatus(int order, Status status)
         {
-            string query = "UPDATE [Order] SET OrderStatus = @status WHERE OrderID = @order.OrderID";
+            string query = "UPDATE [Order] SET OrderStatus = @status WHERE OrderID = @order";
            
             SqlParameter[] sqlParameters =
             {
-              new SqlParameter("@order.OrderID", order),
-              new SqlParameter("@status", status)
+              new SqlParameter("@order", order),
+              new SqlParameter("@status", status.ToString())
             };
             ExecuteEditQuery(query, sqlParameters);
         }

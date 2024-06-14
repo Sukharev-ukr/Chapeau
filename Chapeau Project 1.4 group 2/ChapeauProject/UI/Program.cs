@@ -26,7 +26,7 @@ namespace UI
             ApplicationConfiguration.Initialize();
             //Application.Run(new BillDetails(2));
 
-            Application.Run(new BillDetails(2));
+            Application.Run(new TableView_Form("test"));
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)
@@ -34,7 +34,6 @@ namespace UI
 
             newForm.StartPosition = FormStartPosition.Manual;
             newForm.Location = oldForm.Location;
-
 
 
             oldForm.Hide();

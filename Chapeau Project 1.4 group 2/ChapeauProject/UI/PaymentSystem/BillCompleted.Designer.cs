@@ -167,17 +167,16 @@
             // buttonConfirm
             // 
             buttonConfirm.BackColor = Color.Black;
-            buttonConfirm.Enabled = false;
             buttonConfirm.FlatStyle = FlatStyle.Flat;
             buttonConfirm.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonConfirm.ForeColor = Color.White;
-            buttonConfirm.Location = new Point(155, 474);
+            buttonConfirm.Location = new Point(148, 482);
             buttonConfirm.Name = "buttonConfirm";
             buttonConfirm.Size = new Size(94, 29);
             buttonConfirm.TabIndex = 33;
             buttonConfirm.Text = "Confirm";
             buttonConfirm.UseVisualStyleBackColor = false;
-            buttonConfirm.Visible = false;
+            buttonConfirm.Click += buttonConfirm_Click;
             // 
             // label2
             // 

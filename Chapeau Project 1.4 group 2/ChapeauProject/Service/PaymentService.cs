@@ -13,10 +13,17 @@ namespace Service
     public class PaymentService
     {
 
+        OrderDAL OrderDAL;
+        OrderItemDAL orderItemDal;
+
+        public PaymentService()
+        {
+            OrderDAL = new OrderDAL();
+            orderItemDal = new OrderItemDAL();
+        }
+
         public Dictionary<OrderItem, MenuItem> GetOrderDetails(int order)
         {
-            OrderItemDAL orderItemDal = new OrderItemDAL();
-
             return orderItemDal.GetOrderDetails(order);
         }
 
@@ -29,6 +36,7 @@ namespace Service
             }
             billDAO.SetTableStateByOrderID(billParts[0].OrderId,TableStatus.free);
         }
+
 
 
         public class BillParts

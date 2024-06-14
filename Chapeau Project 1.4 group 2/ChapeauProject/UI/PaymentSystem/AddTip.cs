@@ -60,7 +60,7 @@ namespace UI.PaymentSystem
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
             currentOrder.AddTip(tip);
-            Program.WindowSwitcher(this, new BillSplitter());
+            Program.WindowSwitcher(this, new BillDetails(currentOrder.orderId));
         }
     }
 }

@@ -45,22 +45,22 @@ namespace UI
         private void getUIForStaff(Staff staff)
         {
 
-            // causes build errors, resolve this and create new pull request
+             //causes build errors, resolve this and create new pull request
 
-            throw new NotImplementedException();
-/*            switch (staff.Role)
+            
+          switch (staff.Role)
             {
                 case Role.Waiter:
                     OpenUI(new TableView_Form(staff.Username));
                     break;
-                case Role.Chef:
-                    OpenUI(new KitchenAndBar());
-                    break;
-                case Role.Bartender:
-                    OpenUI(new KitchenAndBar());
-                    break;
+                //case Role.Chef:
+                //    OpenUI(new KitchenAndBar());
+                //    break;
+                //case Role.Bartender:
+                //    OpenUI(new KitchenAndBar());
+                //    break;
                 
-            }*/
+            }
         }
 
 

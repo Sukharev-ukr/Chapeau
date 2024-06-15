@@ -48,16 +48,16 @@ public class OrderService
     public void UpdateOrderStatus(int ID, Status status)
     {
         orderDao.UpdateOrderStatus(ID, status);
-    }  
 
-        public Order GetRunningOrder(int tableId)
-        {
-            return orderDao.GetRunningOrderByTableId(tableId);
-        }
+    }
 
-        public void MarkOrderAsServed(int orderId)
-        {
-            orderDao.UpdateOrderStatus(orderId, Status.finished);
+    public Order GetRunningOrder(int tableId)
+    {
+        return orderDao.GetRunningOrderByTableId(tableId);
+    }
 
-        }
+    public void MarkOrderAsServed(int orderId)
+    {
+        orderDao.UpdateOrderStatus(orderId, Status.finished);
+    }
     }

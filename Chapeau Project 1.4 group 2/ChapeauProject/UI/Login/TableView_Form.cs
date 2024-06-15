@@ -107,11 +107,6 @@ namespace UI.Login
             }
         }
 
-
-
-        /// <summary>
-        /// Initializes the polling timer.
-        /// </summary>
         private void InitializePollingTimer()
         {
             try
@@ -127,9 +122,6 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Handles the polling timer tick event to refresh table statuses.
-        /// </summary>
         private void PollingTimer_Tick(object sender, EventArgs e)
         {
             try
@@ -142,12 +134,6 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Refreshes the table statuses by querying the database and updating the UI.
-        /// </summary>
-        /// <summary>
-        /// Refreshes the table statuses by querying the database and updating the UI.
-        /// </summary>
         private void RefreshTableStatuses()
         {
             try
@@ -243,7 +229,6 @@ namespace UI.Login
             }
         }
 
-
         private void UpdateOrderStatusLabel(Label label, int tableId)
         {
             try
@@ -257,7 +242,7 @@ namespace UI.Login
 
                     if (runningOrder.Items.Any(item => item.MenuItem.Category == Category.Drinks))
                     {
-                        label.Text = $"🍾🍽️ Running ({waitingTimeText})";
+                        label.Text = $"🍾 Running ({waitingTimeText})";
                     }
                     else
                     {
@@ -298,11 +283,6 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Creates a button for a table and sets its properties.
-        /// </summary>
-        /// <param name="table">The table object.</param>
-        /// <returns>A button representing the table.</returns>
         private Button CreateTableButton(Table table)
         {
             try
@@ -322,24 +302,7 @@ namespace UI.Login
 
                 button.Click += TableButton_Click;
 
-                switch (table.Status)
-                {
-                    case TableStatus.free:
-                        button.BackColor = Color.FromArgb(255, 108, 255, 84);
-                        break;
-                    case TableStatus.reserved:
-                        button.BackColor = Color.FromArgb(255, 254, 231, 24);
-                        break;
-                    case TableStatus.occupied:
-                        button.BackColor = Color.FromArgb(255, 86, 86);
-                        break;
-                    case TableStatus.Ordered:
-                        button.BackColor = Color.FromArgb(255, 255, 86, 86);
-                        break;
-                    default:
-                        button.BackColor = Color.Gray;
-                        break;
-                }
+                SetButtonColor(button, table.Status);
 
                 return button;
             }
@@ -350,11 +313,28 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Handles the table button click event to show the popup.
-        /// </summary>
-        /// <param name="sender">The button that was clicked.</param>
-        /// <param name="e">The event data.</param>
+        private void SetButtonColor(Button button, TableStatus status)
+        {
+            switch (status)
+            {
+                case TableStatus.free:
+                    button.BackColor = Color.FromArgb(255, 108, 255, 84);
+                    break;
+                case TableStatus.reserved:
+                    button.BackColor = Color.FromArgb(255, 254, 231, 24);
+                    break;
+                case TableStatus.occupied:
+                    button.BackColor = Color.FromArgb(255, 86, 86);
+                    break;
+                case TableStatus.Ordered:
+                    button.BackColor = Color.FromArgb(255, 255, 86, 86);
+                    break;
+                default:
+                    button.BackColor = Color.Gray;
+                    break;
+            }
+        }
+
         private void TableButton_Click(object sender, EventArgs e)
         {
             try
@@ -377,95 +357,14 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Shows the popup panel for table actions.
-        /// </summary>
-        /// <param name="table">The table object.</param>
         private void ShowPopup(Table table)
         {
             try
             {
-                // Set the label text to display the table ID and status
-                Label lblStatus = popupPanel.Controls["lblStatus"] as Label;
-                lblStatus.Text = $"Table - {table.TableId} ({table.Status})";
-
-                // Center the popup panel in the form
-                popupPanel.Location = new Point(
-                    this.ClientSize.Width / 2 - popupPanel.Width / 2,   // Horizontal center
-                    this.ClientSize.Height / 2 - popupPanel.Height / 2  // Vertical center
-                );
-
-                // Make the popup panel visible and bring it to the front
-                popupPanel.Visible = true;
-                popupPanel.BringToFront();
-
-                // Hide all buttons initially
-                foreach (Control control in popupPanel.Controls)
-                {
-                    if (control is Button)
-                    {
-                        control.Visible = false;
-                    }
-                }
-
-                // Get the list of buttons to show based on the table status
-                List<Button> buttonsToShow = statusButtons[table.Status];
-
-                // Calculate the starting X position to center two columns of buttons horizontally within the popup panel
-                int startX = (popupPanel.Width - buttonsToShow[0].Width * 2 - 60) / 2;
-                // Calculate the starting Y position with a 60-pixel gap below the bottom of the lblStatus label
-                int startY = lblStatus.Bottom + 60;
-
-                // Iterate through the buttons to show
-                for (int i = 0; i < buttonsToShow.Count; i++)
-                {
-                    // Calculate and set the button location
-                    buttonsToShow[i].Location = new Point(
-                        startX + (i % 2) * (buttonsToShow[i].Width + 60),  // X position: alternate between two columns
-                        startY + (i / 2) * (buttonsToShow[i].Height + 60)  // Y position: stack buttons vertically
-                    );
-
-                    // Make the button visible
-                    buttonsToShow[i].Visible = true;
-
-                    // Retrieve the running order for the table
-                    var orderService = new OrderService();
-                    var runningOrder = orderService.GetRunningOrder(table.TableId);
-
-                    // Adjust the appearance and enabled state of the "Mark as Served" button
-                    if (buttonsToShow[i].Text == "Mark as Served")
-                    {
-                        if (runningOrder != null && runningOrder.OrderStatus == Status.running)
-                        {
-                            buttonsToShow[i].Enabled = true;
-                            buttonsToShow[i].BackColor = Color.Black;
-                            buttonsToShow[i].ForeColor = Color.White;
-                        }
-                        else
-                        {
-                            buttonsToShow[i].Enabled = false;
-                            buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
-                            buttonsToShow[i].ForeColor = Color.Black; // Text color
-                        }
-                    }
-
-                    // Adjust the appearance and enabled state of the "Free table" button
-                    if (buttonsToShow[i].Text == "Free table")
-                    {
-                        if (runningOrder == null || runningOrder.OrderStatus == Status.finished)
-                        {
-                            buttonsToShow[i].Enabled = true;
-                            buttonsToShow[i].BackColor = Color.Black;
-                            buttonsToShow[i].ForeColor = Color.White;
-                        }
-                        else
-                        {
-                            buttonsToShow[i].Enabled = false;
-                            buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
-                            buttonsToShow[i].ForeColor = Color.Black; // Text color
-                        }
-                    }
-                }
+                SetPopupStatusLabel(table);
+                CenterPopupPanel();
+                HidePopupButtons();
+                ShowRelevantButtons(table);
             }
             catch (Exception ex)
             {
@@ -473,21 +372,99 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Handles the popup panel paint event to set its background.
-        /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event data.</param>
-        private void PopupPanel_Paint(object sender, PaintEventArgs e)
+        private void SetPopupStatusLabel(Table table)
         {
-            using (SolidBrush brush = new SolidBrush(Color.FromArgb(115, Color.White)))
+            Label lblStatus = popupPanel.Controls["lblStatus"] as Label;
+            lblStatus.Text = $"Table - {table.TableId} ({table.Status})";
+        }
+
+        private void CenterPopupPanel()
+        {
+            popupPanel.Location = new Point(
+                this.ClientSize.Width / 2 - popupPanel.Width / 2,   // Horizontal center
+                this.ClientSize.Height / 2 - popupPanel.Height / 2  // Vertical center
+            );
+            popupPanel.Visible = true;
+            popupPanel.BringToFront();
+        }
+
+        private void HidePopupButtons()
+        {
+            foreach (Control control in popupPanel.Controls)
             {
-                e.Graphics.FillRectangle(brush, popupPanel.ClientRectangle);
+                if (control is Button)
+                {
+                    control.Visible = false;
+                }
             }
         }
-        /// <summary>
-        /// Initializes the popup panel and its controls.
-        /// </summary>
+
+        private void ShowRelevantButtons(Table table)
+        {
+            List<Button> buttonsToShow = statusButtons[table.Status];
+            int startX = (popupPanel.Width - buttonsToShow[0].Width * 2 - 60) / 2;
+            int startY = popupPanel.Controls["lblStatus"].Bottom + 60;
+
+            for (int i = 0; i < buttonsToShow.Count; i++)
+            {
+                buttonsToShow[i].Location = new Point(
+                    startX + (i % 2) * (buttonsToShow[i].Width + 60),
+                    startY + (i / 2) * (buttonsToShow[i].Height + 60)
+                );
+
+                buttonsToShow[i].Visible = true;
+                ConfigurePopupButton(buttonsToShow[i], table);
+            }
+        }
+
+        private void ConfigurePopupButton(Button button, Table table)
+        {
+            var orderService = new OrderService();
+            var runningOrder = orderService.GetRunningOrder(table.TableId);
+
+            if (button.Text == "Mark as Served")
+            {
+                ConfigureMarkAsServedButton(button, runningOrder);
+            }
+
+            if (button.Text == "Free table")
+            {
+                ConfigureFreeTableButton(button, runningOrder);
+            }
+        }
+
+        private void ConfigureMarkAsServedButton(Button button, Order runningOrder)
+        {
+            if (runningOrder != null && runningOrder.OrderStatus == Status.running)
+            {
+                button.Enabled = true;
+                button.BackColor = Color.Black;
+                button.ForeColor = Color.White;
+            }
+            else
+            {
+                button.Enabled = false;
+                button.BackColor = Color.FromArgb(200, 255, 255, 255);
+                button.ForeColor = Color.Black;
+            }
+        }
+
+        private void ConfigureFreeTableButton(Button button, Order runningOrder)
+        {
+            if (runningOrder == null || runningOrder.OrderStatus == Status.finished)
+            {
+                button.Enabled = true;
+                button.BackColor = Color.Black;
+                button.ForeColor = Color.White;
+            }
+            else
+            {
+                button.Enabled = false;
+                button.BackColor = Color.FromArgb(200, 255, 255, 255);
+                button.ForeColor = Color.Black;
+            }
+        }
+
         private void InitializePopupPanel()
         {
             try
@@ -512,35 +489,26 @@ namespace UI.Login
                     Height = 40
                 };
 
-                Button btnSwitch = CreatePopupButton("Switch to another table");
-                Button btnFree = CreatePopupButton("Free table");
-                btnFree.Click += BtnFree_Click;
-                Button btnTakeOrder = CreatePopupButton("Take Order");
-                Button btnPayBill = CreatePopupButton("Pay the Bill");
-                btnPayBill.Click += BtnPayBill_Click;
-                Button btnReserve = CreatePopupButton("Reserve");
-                btnReserve.Click += BtnReserve_Click;
-                Button btnSeatCustomer = CreatePopupButton("Seat customer");
-                btnSeatCustomer.Click += BtnSeatCustomer_Click;
-                Button btnViewReservationDetails = CreatePopupButton("View reservation details");
-                Button btnCancelReservation = CreatePopupButton("Cancel reservation");
-                btnCancelReservation.Click += BtnCancelReservation_Click;
-                Button btnMarkAsServed = CreatePopupButton("Mark as Served");
-                btnMarkAsServed.Click += BtnMarkAsServed_Click;
+                
+                Button btnFree = CreatePopupButton("Free table", BtnFree_Click);
+                Button btnTakeOrder = CreatePopupButton("Take Order", BtnTakeOrder_Click);
+                Button btnReserve = CreatePopupButton("Reserve", BtnReserve_Click);
+                Button btnSeatCustomer = CreatePopupButton("Seat customer", BtnSeatCustomer_Click);
+                Button btnViewReservationDetails = CreatePopupButton("View reservation details", BtnViewReservationDetails_Click);
+                Button btnCancelReservation = CreatePopupButton("Cancel reservation", BtnCancelReservation_Click);
+                Button btnMarkAsServed = CreatePopupButton("Mark as Served", BtnMarkAsServed_Click);
 
                 statusButtons = new Dictionary<TableStatus, List<Button>>
                 {
                     { TableStatus.free, new List<Button> { btnSeatCustomer, btnReserve } },
-                    { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnPayBill, btnSwitch } },
+                    { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnMarkAsServed } },
                     { TableStatus.reserved, new List<Button> { btnFree, btnSeatCustomer, btnViewReservationDetails, btnCancelReservation } }
                 };
 
-                popupPanel.Paint += PopupPanel_Paint;
+                //popupPanel.Paint += PopupPanel_Paint;
                 popupPanel.Controls.Add(lblStatus);
-                popupPanel.Controls.Add(btnSwitch);
                 popupPanel.Controls.Add(btnFree);
                 popupPanel.Controls.Add(btnTakeOrder);
-                popupPanel.Controls.Add(btnPayBill);
                 popupPanel.Controls.Add(btnReserve);
                 popupPanel.Controls.Add(btnSeatCustomer);
                 popupPanel.Controls.Add(btnViewReservationDetails);
@@ -555,16 +523,11 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Creates a button for the popup panel.
-        /// </summary>
-        /// <param name="text">The text to display on the button.</param>
-        /// <returns>A button with the specified text.</returns>
-        private Button CreatePopupButton(string text)
+        private Button CreatePopupButton(string text, EventHandler onClick = null)
         {
             try
             {
-                return new Button
+                var button = new Button
                 {
                     Text = text,
                     Width = 250,
@@ -575,6 +538,13 @@ namespace UI.Login
                     FlatStyle = FlatStyle.Flat,
                     FlatAppearance = { BorderSize = 0 }
                 };
+
+                if (onClick != null)
+                {
+                    button.Click += onClick;
+                }
+
+                return button;
             }
             catch (Exception ex)
             {
@@ -625,32 +595,6 @@ namespace UI.Login
             }
         }
 
-
-
-        //<summary>
-        //Handles the "Pay the Bill" button click event
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event data.</param>
-        private void BtnPayBill_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // moves on to the PaymentSystem.BillDetails form
-                OrderService order = new OrderService();
-                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
-                Program.WindowSwitcher(this, billDetails);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while handling the payment: " + ex.Message, "Error");
-            }
-        }
-
-        /// <summary>
-        /// Handles the "Reserve Table" button click event.
-        /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event data.</param>
         private void BtnReserve_Click(object sender, EventArgs e)
         {
             try
@@ -663,11 +607,6 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Handles the "Seat Customer" button click event.
-        /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event data.</param>
         private void BtnSeatCustomer_Click(object sender, EventArgs e)
         {
             try
@@ -680,11 +619,6 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Handles the "Cancel Reservation" button click event.
-        /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event data.</param>
         private void BtnCancelReservation_Click(object sender, EventArgs e)
         {
             try
@@ -697,10 +631,6 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Updates the table status in the database and changes the button color.
-        /// </summary>
-        /// <param name="status">The new status of the table.</param>
         private void UpdateTableStatusAndColor(TableStatus status)
         {
             try
@@ -715,30 +645,11 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Updates the color of the table button based on its status.
-        /// </summary>
-        /// <param name="button">The table button to update.</param>
-        /// <param name="status">The new status of the table.</param>
         private void UpdateTableButtonColor(Button button, TableStatus status)
         {
             try
             {
-                switch (status)
-                {
-                    case TableStatus.free:
-                        button.BackColor = Color.FromArgb(255, 108, 255, 84);
-                        break;
-                    case TableStatus.occupied:
-                        button.BackColor = Color.FromArgb(255, 255, 86, 86);
-                        break;
-                    case TableStatus.reserved:
-                        button.BackColor = Color.FromArgb(255, 254, 231, 44);
-                        break;
-                    default:
-                        button.BackColor = Color.Gray;
-                        break;
-                }
+                SetButtonColor(button, status);
             }
             catch (Exception ex)
             {
@@ -758,9 +669,6 @@ namespace UI.Login
             }
         }
 
-        // <summary>
-        /// Closes the popup panel.
-        /// </summary>
         private void ClosePopup()
         {
             try
@@ -773,6 +681,16 @@ namespace UI.Login
             }
         }
 
+        
 
+        private void BtnTakeOrder_Click(object sender, EventArgs e)
+        {
+            // Implementation for taking order
+        }
+
+        private void BtnViewReservationDetails_Click(object sender, EventArgs e)
+        {
+            // Implementation for viewing reservation details
+        }
     }
 }

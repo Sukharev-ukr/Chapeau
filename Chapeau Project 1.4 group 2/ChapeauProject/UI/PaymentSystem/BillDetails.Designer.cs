@@ -36,7 +36,6 @@
             label1 = new Label();
             labelTotal = new Label();
             LabelOrderNR = new Label();
-            labelTableNR = new Label();
             button1 = new Button();
             button2 = new Button();
             label2 = new Label();
@@ -46,6 +45,9 @@
             label4 = new Label();
             labelVAT = new Label();
             labelSubtotal = new Label();
+            buttonCancel = new Button();
+            labelTip = new Label();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -104,7 +106,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(111, 482);
+            label1.Location = new Point(265, 484);
             label1.Name = "label1";
             label1.Size = new Size(58, 28);
             label1.TabIndex = 3;
@@ -114,7 +116,7 @@
             // 
             labelTotal.AutoSize = true;
             labelTotal.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            labelTotal.Location = new Point(175, 482);
+            labelTotal.Location = new Point(329, 484);
             labelTotal.Name = "labelTotal";
             labelTotal.Size = new Size(54, 28);
             labelTotal.TabIndex = 4;
@@ -129,16 +131,6 @@
             LabelOrderNR.Size = new Size(32, 37);
             LabelOrderNR.TabIndex = 5;
             LabelOrderNR.Text = "0";
-            // 
-            // labelTableNR
-            // 
-            labelTableNR.AutoSize = true;
-            labelTableNR.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
-            labelTableNR.Location = new Point(2, 45);
-            labelTableNR.Name = "labelTableNR";
-            labelTableNR.Size = new Size(79, 37);
-            labelTableNR.TabIndex = 6;
-            labelTableNR.Text = "Table";
             // 
             // button1
             // 
@@ -214,7 +206,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(128, 463);
+            label3.Location = new Point(282, 470);
             label3.Name = "label3";
             label3.Size = new Size(35, 19);
             label3.TabIndex = 12;
@@ -224,7 +216,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(100, 444);
+            label4.Location = new Point(254, 451);
             label4.Name = "label4";
             label4.Size = new Size(63, 19);
             label4.TabIndex = 13;
@@ -234,7 +226,7 @@
             // 
             labelVAT.AutoSize = true;
             labelVAT.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            labelVAT.Location = new Point(183, 463);
+            labelVAT.Location = new Point(337, 470);
             labelVAT.Name = "labelVAT";
             labelVAT.Size = new Size(38, 19);
             labelVAT.TabIndex = 14;
@@ -244,11 +236,48 @@
             // 
             labelSubtotal.AutoSize = true;
             labelSubtotal.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            labelSubtotal.Location = new Point(183, 444);
+            labelSubtotal.Location = new Point(337, 451);
             labelSubtotal.Name = "labelSubtotal";
             labelSubtotal.Size = new Size(38, 19);
             labelSubtotal.TabIndex = 15;
             labelSubtotal.Text = "Total";
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.BackColor = Color.Black;
+            buttonCancel.FlatAppearance.BorderSize = 0;
+            buttonCancel.FlatStyle = FlatStyle.Flat;
+            buttonCancel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonCancel.ForeColor = Color.White;
+            buttonCancel.Location = new Point(111, 465);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(94, 29);
+            buttonCancel.TabIndex = 24;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.UseVisualStyleBackColor = false;
+            buttonCancel.Click += buttonCancel_Click;
+            // 
+            // labelTip
+            // 
+            labelTip.AutoSize = true;
+            labelTip.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelTip.Location = new Point(337, 432);
+            labelTip.Name = "labelTip";
+            labelTip.Size = new Size(38, 19);
+            labelTip.TabIndex = 42;
+            labelTip.Text = "Total";
+            labelTip.Visible = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label8.Location = new Point(282, 432);
+            label8.Name = "label8";
+            label8.Size = new Size(30, 19);
+            label8.TabIndex = 41;
+            label8.Text = "Tip:";
+            label8.Visible = false;
             // 
             // BillDetails
             // 
@@ -256,6 +285,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(401, 558);
+            Controls.Add(labelTip);
+            Controls.Add(label8);
+            Controls.Add(buttonCancel);
             Controls.Add(labelSubtotal);
             Controls.Add(labelVAT);
             Controls.Add(label4);
@@ -266,7 +298,6 @@
             Controls.Add(label2);
             Controls.Add(button2);
             Controls.Add(button1);
-            Controls.Add(labelTableNR);
             Controls.Add(labelTotal);
             Controls.Add(label1);
             Controls.Add(listViewBillList);
@@ -292,7 +323,6 @@
         private Label label1;
         private Label labelTotal;
         private Label LabelOrderNR;
-        private Label labelTableNR;
         private Button button1;
         private Button button2;
         private Label label2;
@@ -303,5 +333,8 @@
         private Label label4;
         private Label labelVAT;
         private Label labelSubtotal;
+        private Button buttonCancel;
+        private Label labelTip;
+        private Label label8;
     }
 }

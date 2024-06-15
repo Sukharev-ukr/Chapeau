@@ -4,6 +4,7 @@ using Model;
 using DAL;
 using System.Text;
 using System.Security.Cryptography;
+using static System.Collections.Specialized.BitVector32;
 
 
 namespace Service
@@ -17,11 +18,12 @@ namespace Service
             _staffDAL = new StaffDAL();
         }
 
-
+        public string LoggedUser {  get; private set; }
 
         public Staff GetStaffByUsernameAndpassword(string username, string password)
         {
             var hashedPassword = HashPassword(password);
+            LoggedUser = username;
             return _staffDAL.GetStaffByUsernameAndpassword(username, hashedPassword);
         }
 
@@ -33,7 +35,6 @@ namespace Service
             if (staff != null)
             {
                 string hashedPassword = HashPassword(password);
-                
             }
             return null;
         }

@@ -101,8 +101,8 @@ namespace Service
             }
             public void AddTip(decimal tip)
             {
-                Tip = tip;
-                OrderTotal += Tip;
+                Tip += tip;
+                OrderTotal += tip;
             }
             
             public static CurrentOrder Getinstance(int newOrder)

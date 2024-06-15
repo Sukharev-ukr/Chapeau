@@ -525,7 +525,7 @@ namespace UI.Login
                 BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
                 Program.WindowSwitcher(this, billDetails);
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
 
             }

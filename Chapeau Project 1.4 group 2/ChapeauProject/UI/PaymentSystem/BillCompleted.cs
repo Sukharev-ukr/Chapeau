@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
 using Service;
+using UI.Login;
 using UI.PaymentSystem;
 using static Service.PaymentService;
 
@@ -61,6 +62,12 @@ namespace UI.PaymentSystem
         private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
         {
             return currentOrder.orderDetail;
+        }
+
+        private void buttonConfirm_Click(object sender, EventArgs e)
+        {
+            TableView_Form tableView = new TableView_Form("test");
+            Program.WindowSwitcher(this,tableView);
         }
     }
 }

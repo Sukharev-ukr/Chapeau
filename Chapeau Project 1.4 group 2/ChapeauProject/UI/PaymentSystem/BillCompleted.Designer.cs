@@ -46,8 +46,6 @@
             label2 = new Label();
             LabelOrderNR = new Label();
             label5 = new Label();
-            label6 = new Label();
-            labelTableNumber = new Label();
             labelTip = new Label();
             label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -208,26 +206,6 @@
             label5.TabIndex = 36;
             label5.Text = "Order";
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(10, 45);
-            label6.Name = "label6";
-            label6.Size = new Size(79, 37);
-            label6.TabIndex = 37;
-            label6.Text = "Table";
-            // 
-            // labelTableNumber
-            // 
-            labelTableNumber.AutoSize = true;
-            labelTableNumber.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
-            labelTableNumber.Location = new Point(87, 45);
-            labelTableNumber.Name = "labelTableNumber";
-            labelTableNumber.Size = new Size(32, 37);
-            labelTableNumber.TabIndex = 38;
-            labelTableNumber.Text = "0";
-            // 
             // labelTip
             // 
             labelTip.AutoSize = true;
@@ -256,8 +234,6 @@
             ClientSize = new Size(401, 558);
             Controls.Add(labelTip);
             Controls.Add(label8);
-            Controls.Add(labelTableNumber);
-            Controls.Add(label6);
             Controls.Add(LabelOrderNR);
             Controls.Add(label5);
             Controls.Add(label2);
@@ -299,8 +275,6 @@
         private Label label2;
         private Label LabelOrderNR;
         private Label label5;
-        private Label label6;
-        private Label labelTableNumber;
         private Label labelTip;
         private Label label8;
     }

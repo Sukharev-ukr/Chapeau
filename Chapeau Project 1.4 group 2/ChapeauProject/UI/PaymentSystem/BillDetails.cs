@@ -54,12 +54,24 @@ namespace UI
 
                 listViewBillList.Items.Add(li);
             }
-            labelTotal.Text = (total + VATTotal).ToString("F");
+
+            if (currentOrder.OrderTotal == 0)
+            {
+                currentOrder.OrderTotal = total + VATTotal;
+            }
+            
+            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
             labelSubtotal.Text = total.ToString("F");
             labelVAT.Text = VATTotal.ToString("F");
 
+            if (currentOrder.Tip != 0)
+            {
+                labelTip.Visible = true;
+                label8.Visible = true;
+                labelTip.Text = currentOrder.Tip.ToString("F");
+            }
 
-            currentOrder.OrderTotal = total + VATTotal;
+
         }
         private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
         {

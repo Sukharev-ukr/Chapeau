@@ -3,14 +3,9 @@ using Model;
 using Service;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace UI.Login
 {
@@ -327,6 +322,11 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Sets the button color based on the table status.
+        /// </summary>
+        /// <param name="button">The button to update.</param>
+        /// <param name="status">The table status.</param>
         private void SetButtonColor(Button button, TableStatus status)
         {
             try
@@ -461,8 +461,12 @@ namespace UI.Login
             {
                 ConfigureFreeTableButton(button, runningOrder);
             }
-        }
 
+            //if (button.Text == "Pay the Bill")
+            //{
+            //    ConfigurePayBillButton(button, runningOrder);
+            //}
+        }
 
         private void ConfigureMarkAsServedButton(Button button, Order runningOrder)
         {
@@ -471,40 +475,6 @@ namespace UI.Login
                 button.Enabled = true;
                 button.BackColor = Color.Black;
                 button.ForeColor = Color.White;
-                    // Adjust the appearance and enabled state of the "Free table" button
-                    if (buttonsToShow[i].Text == "Free table")
-                    {
-                        if (runningOrder == null || runningOrder.OrderStatus == Status.finished)
-                        {
-                            buttonsToShow[i].Enabled = true;
-                            buttonsToShow[i].BackColor = Color.Black;
-                            buttonsToShow[i].ForeColor = Color.White;
-                        }
-                        else
-                        {
-                            buttonsToShow[i].Enabled = false;
-                            buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
-                            buttonsToShow[i].ForeColor = Color.Black; // Text color
-                        }
-                    }
-
-                    if (buttonsToShow[i].Text == "Pay the Bill")
-                    {
-                        if (runningOrder == null || runningOrder.OrderStatus == Status.running)
-                        {
-                            buttonsToShow[i].Enabled = false;
-                            buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
-                            buttonsToShow[i].ForeColor = Color.Black; // Text color
-                        }
-                        else
-                        {
-                            buttonsToShow[i].Enabled = true;
-                            buttonsToShow[i].BackColor = Color.Black;
-                            buttonsToShow[i].ForeColor = Color.White;
-                        }
-
-                    }
-                }
             }
             else
             {
@@ -530,6 +500,22 @@ namespace UI.Login
             }
         }
 
+        private void ConfigurePayBillButton(Button button, Order runningOrder)
+        {
+            if (runningOrder != null && runningOrder.OrderStatus == Status.running)
+            {
+                button.Enabled = true;
+                button.BackColor = Color.Black;
+                button.ForeColor = Color.White;
+            }
+            else
+            {
+                button.Enabled = false;
+                button.BackColor = Color.FromArgb(200, 255, 255, 255);
+                button.ForeColor = Color.Black;
+            }
+        }
+
         /// <summary>
         /// Handles the popup panel paint event to set its background.
         /// </summary>
@@ -537,16 +523,9 @@ namespace UI.Login
         /// <param name="e">The event data.</param>
         private void PopupPanel_Paint(object sender, PaintEventArgs e)
         {
-            try
+            using (SolidBrush brush = new SolidBrush(Color.FromArgb(115, Color.White)))
             {
-                using (SolidBrush brush = new SolidBrush(Color.FromArgb(115, Color.White)))
-                {
-                    e.Graphics.FillRectangle(brush, popupPanel.ClientRectangle);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while painting the popup panel: " + ex.Message, "Error");
+                e.Graphics.FillRectangle(brush, popupPanel.ClientRectangle);
             }
         }
 
@@ -690,11 +669,6 @@ namespace UI.Login
             }
         }
 
-        /// <summary>
-        /// Handles the "Pay the Bill" button click event.
-        /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event data.</param>
         private void BtnPayBill_Click(object sender, EventArgs e)
         {
             try
@@ -788,7 +762,21 @@ namespace UI.Login
         {
             try
             {
-                SetButtonColor(button, status);
+                switch (status)
+                {
+                    case TableStatus.free:
+                        button.BackColor = Color.FromArgb(255, 108, 255, 84);
+                        break;
+                    case TableStatus.occupied:
+                        button.BackColor = Color.FromArgb(255, 255, 86, 86);
+                        break;
+                    case TableStatus.reserved:
+                        button.BackColor = Color.FromArgb(255, 254, 231, 44);
+                        break;
+                    default:
+                        button.BackColor = Color.Gray;
+                        break;
+                }
             }
             catch (Exception ex)
             {

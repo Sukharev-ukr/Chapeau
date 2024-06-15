@@ -48,7 +48,7 @@ public class OrderService
     public void UpdateOrderStatus(int ID, Status status)
     {
         orderDao.UpdateOrderStatus(ID, status);
-
+    }
 
     public Order GetRunningOrder(int tableId)
     {

@@ -61,6 +61,8 @@ namespace UI
                 {
                     finishedTime = DateTime.Now;  // Set finished time once when order is ready
                 }
+
+                comboBoxStatus.Hide();
                 waitingTime = finishedTime.Value - orderItem.OrderTime.Value;
                 lblOrderTime.Text = $"Finished at: {finishedTime.Value.ToString("HH:mm")}";
                 lblOrderItemTime.Text = $"Waited: {waitingTime.ToString(@"mm\:ss")}";
@@ -90,26 +92,49 @@ namespace UI
             listViewItem.SubItems.Add($"   -{orderItem.Comment}");
             listViewItem.Tag = orderItem;
             listViewOrderItems.Items.Add(listViewItem);
+
+            SetUserControlColor(orderItem);
+        }
+
+        private void SetUserControlColor(OrderItem orderItem)
+        {
+            switch (orderItem.OrderStatus)
+            {
+                case Status.placed:
+                    groupBoxOrder.BackColor = Color.WhiteSmoke;
+                    break;
+                case Status.BeingPrepared:
+                    groupBoxOrder.BackColor = Color.LightYellow;
+                    break;
+                case Status.ready:
+                    groupBoxOrder.BackColor = Color.LightGreen;
+                    break;
+            }
         }
 
         private void comboBoxStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             string newStatus = comboBoxStatus.SelectedItem.ToString();
+
             foreach (ListViewItem item in listViewOrderItems.Items)
             {
                 OrderItem orderItem = item.Tag as OrderItem;
+
                 if (orderItem != null)
                 {
                     orderItem.OrderStatus = (Status)Enum.Parse(typeof(Status), newStatus);
                     orderItemService.UpdateOrderItemStatus(orderItem, newStatus);
 
-                    if (orderItem.OrderStatus == Status.ready)
+                    SetUserControlColor(orderItem);
+
+                    if(orderItem.OrderStatus == Status.ready)
                     {
                         finishedTime = DateTime.Now;  // Set finished time when status changes to ready
                         NotifyOrderOverview();
                     }
                 }
             }
+
             OrderUpdateTimer_Tick(sender, e); // Update the UI to reflect the changes 
         }
 

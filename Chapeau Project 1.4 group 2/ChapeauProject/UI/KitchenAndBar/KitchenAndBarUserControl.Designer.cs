@@ -33,10 +33,11 @@
             lblOrderTime = new Label();
             listViewOrderItems = new ListView();
             columnHeader2 = new ColumnHeader();
-            groupBox1 = new GroupBox();
+            groupBoxOrder = new GroupBox();
             lblOrderItemTime = new Label();
             comboBoxStatus = new ComboBox();
-            groupBox1.SuspendLayout();
+            lblHiddenFinishedTime = new Label();
+            groupBoxOrder.SuspendLayout();
             SuspendLayout();
             // 
             // lblCategory
@@ -81,21 +82,21 @@
             columnHeader2.Text = "";
             columnHeader2.Width = 400;
             // 
-            // groupBox1
+            // groupBoxOrder
             // 
-            groupBox1.BackColor = SystemColors.Info;
-            groupBox1.Controls.Add(lblOrderItemTime);
-            groupBox1.Controls.Add(lblTableNumber);
-            groupBox1.Controls.Add(listViewOrderItems);
-            groupBox1.Controls.Add(lblCategory);
-            groupBox1.Controls.Add(lblOrderTime);
-            groupBox1.Controls.Add(comboBoxStatus);
-            groupBox1.ForeColor = SystemColors.ControlText;
-            groupBox1.Location = new Point(23, 31);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(356, 356);
-            groupBox1.TabIndex = 15;
-            groupBox1.TabStop = false;
+            groupBoxOrder.BackColor = Color.WhiteSmoke;
+            groupBoxOrder.Controls.Add(lblOrderItemTime);
+            groupBoxOrder.Controls.Add(lblTableNumber);
+            groupBoxOrder.Controls.Add(listViewOrderItems);
+            groupBoxOrder.Controls.Add(lblCategory);
+            groupBoxOrder.Controls.Add(lblOrderTime);
+            groupBoxOrder.Controls.Add(comboBoxStatus);
+            groupBoxOrder.ForeColor = SystemColors.ControlText;
+            groupBoxOrder.Location = new Point(23, 31);
+            groupBoxOrder.Name = "groupBoxOrder";
+            groupBoxOrder.Size = new Size(356, 356);
+            groupBoxOrder.TabIndex = 15;
+            groupBoxOrder.TabStop = false;
             // 
             // lblOrderItemTime
             // 
@@ -116,16 +117,29 @@
             comboBoxStatus.TabIndex = 14;
             comboBoxStatus.SelectedIndexChanged += comboBoxStatus_SelectedIndexChanged;
             // 
+            // lblHiddenFinishedTime
+            // 
+            this.lblHiddenFinishedTime.AutoSize = true;
+            this.lblHiddenFinishedTime.Location = new System.Drawing.Point(13, 13);
+            this.lblHiddenFinishedTime.Name = "lblHiddenFinishedTime";
+            this.lblHiddenFinishedTime.Size = new System.Drawing.Size(0, 13);
+            this.lblHiddenFinishedTime.TabIndex = 0;
+            this.lblHiddenFinishedTime.Visible = false;
+            this.Controls.Add(this.lblHiddenFinishedTime);
+            this.ResumeLayout(false);
+            // 
             // KitchenAndBarUserControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(groupBox1);
+            Controls.Add(lblHiddenFinishedTime);
+            Controls.Add(groupBoxOrder);
             Name = "KitchenAndBarUserControl";
             Size = new Size(392, 390);
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            groupBoxOrder.ResumeLayout(false);
+            groupBoxOrder.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -133,9 +147,10 @@
         private Label lblTableNumber;
         private Label lblOrderTime;
         private ListView listViewOrderItems;
-        private GroupBox groupBox1;
+        private GroupBox groupBoxOrder;
         private ComboBox comboBoxStatus;
         private Label lblOrderItemTime;
         private ColumnHeader columnHeader2;
+        private Label lblHiddenFinishedTime;
     }
 }

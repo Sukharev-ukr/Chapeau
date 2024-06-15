@@ -49,13 +49,13 @@ namespace UI
                 case Role.Waiter:
                     OpenUI(new TableView_Form(staff.Username));
                     break;
-                //case Role.Chef:
-                //    OpenUI(new KitchenAndBar());
-                //    break;
-                //case Role.Bartender:
-                //    OpenUI(new KitchenAndBar());
-                //    break;
-                
+                case Role.Chef:
+                    OpenUI(new OrderOverview(staff));
+                    break;
+                case Role.Bartender:
+                    OpenUI(new OrderOverview(staff));
+                    break;
+
             }
         }
 

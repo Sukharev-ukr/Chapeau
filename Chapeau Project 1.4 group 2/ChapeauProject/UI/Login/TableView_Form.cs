@@ -471,39 +471,6 @@ namespace UI.Login
                 button.Enabled = true;
                 button.BackColor = Color.Black;
                 button.ForeColor = Color.White;
-                    // Adjust the appearance and enabled state of the "Free table" button
-                    if (buttonsToShow[i].Text == "Free table")
-                    {
-                        if (runningOrder == null || runningOrder.OrderStatus == Status.finished)
-                        {
-                            buttonsToShow[i].Enabled = true;
-                            buttonsToShow[i].BackColor = Color.Black;
-                            buttonsToShow[i].ForeColor = Color.White;
-                        }
-                        else
-                        {
-                            buttonsToShow[i].Enabled = false;
-                            buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
-                            buttonsToShow[i].ForeColor = Color.Black; // Text color
-                        }
-                    }
-                }
-                if (buttonsToShow[i].Text == "Pay the Bill")
-                {
-                    if (runningOrder == null || runningOrder.OrderStatus == Status.running)
-                    {
-                        buttonsToShow[i].Enabled = false;
-                        buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
-                        buttonsToShow[i].ForeColor = Color.Black; // Text color
-                    }
-                    else
-                    {
-                        buttonsToShow[i].Enabled = true;
-                        buttonsToShow[i].BackColor = Color.Black;
-                        buttonsToShow[i].ForeColor = Color.White;
-                    }
-
-                }
             }
             else
             {

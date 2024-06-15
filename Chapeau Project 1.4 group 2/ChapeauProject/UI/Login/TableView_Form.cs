@@ -321,13 +321,21 @@ namespace UI.Login
         /// <param name="table">The table object.</param>
         private void ShowPopup(Table table)
         {
+            // Set the label text to display the table ID and status
             Label lblStatus = popupPanel.Controls["lblStatus"] as Label;
             lblStatus.Text = $"Table - {table.TableId} ({table.Status})";
 
-            popupPanel.Location = new Point(this.ClientSize.Width / 2 - popupPanel.Width / 2, this.ClientSize.Height / 2 - popupPanel.Height / 2);
+            // Center the popup panel in the form
+                popupPanel.Location = new Point(
+                this.ClientSize.Width / 2 - popupPanel.Width / 2,   // Horizontal center
+                this.ClientSize.Height / 2 - popupPanel.Height / 2  // Vertical center
+            );
+
+            // Make the popup panel visible and bring it to the front
             popupPanel.Visible = true;
             popupPanel.BringToFront();
 
+            // Hide all buttons initially
             foreach (Control control in popupPanel.Controls)
             {
                 if (control is Button)
@@ -336,17 +344,31 @@ namespace UI.Login
                 }
             }
 
+            // Get the list of buttons to show based on the table status
             List<Button> buttonsToShow = statusButtons[table.Status];
+
+            // Calculate the starting X position to center two columns of buttons horizontally within the popup panel
             int startX = (popupPanel.Width - buttonsToShow[0].Width * 2 - 60) / 2;
+            // Calculate the starting Y position with a 60-pixel gap below the bottom of the lblStatus label
             int startY = lblStatus.Bottom + 60;
+
+            // Iterate through the buttons to show
             for (int i = 0; i < buttonsToShow.Count; i++)
             {
-                buttonsToShow[i].Location = new Point(startX + (i % 2) * (buttonsToShow[i].Width + 60), startY + (i / 2) * (buttonsToShow[i].Height + 60));
+                // Calculate and set the button location
+                buttonsToShow[i].Location = new Point(
+                    startX + (i % 2) * (buttonsToShow[i].Width + 60),  // X position: alternate between two columns
+                    startY + (i / 2) * (buttonsToShow[i].Height + 60)  // Y position: stack buttons vertically
+                );
+
+                // Make the button visible
                 buttonsToShow[i].Visible = true;
 
+                // Retrieve the running order for the table
                 var orderService = new OrderService();
                 var runningOrder = orderService.GetRunningOrder(table.TableId);
 
+                // Adjust the appearance and enabled state of the "Mark as Served" button
                 if (buttonsToShow[i].Text == "Mark as Served")
                 {
                     if (runningOrder != null && runningOrder.OrderStatus == Status.running)
@@ -363,6 +385,7 @@ namespace UI.Login
                     }
                 }
 
+                // Adjust the appearance and enabled state of the "Free table" button
                 if (buttonsToShow[i].Text == "Free table")
                 {
                     if (runningOrder == null || runningOrder.OrderStatus == Status.finished)

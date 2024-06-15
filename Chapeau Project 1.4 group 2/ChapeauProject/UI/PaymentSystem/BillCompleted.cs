@@ -66,6 +66,7 @@ namespace UI.PaymentSystem
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
+            CurrentOrder.DestoryInstance();
             StaffService staffService = new StaffService();
 
             TableView_Form tableView = new TableView_Form(staffService.LoggedUser);

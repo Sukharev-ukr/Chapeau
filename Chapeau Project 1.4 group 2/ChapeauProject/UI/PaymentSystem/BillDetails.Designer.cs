@@ -46,6 +46,7 @@
             label4 = new Label();
             labelVAT = new Label();
             labelSubtotal = new Label();
+            buttonCancel = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -104,7 +105,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(111, 482);
+            label1.Location = new Point(279, 484);
             label1.Name = "label1";
             label1.Size = new Size(58, 28);
             label1.TabIndex = 3;
@@ -114,7 +115,7 @@
             // 
             labelTotal.AutoSize = true;
             labelTotal.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            labelTotal.Location = new Point(175, 482);
+            labelTotal.Location = new Point(343, 484);
             labelTotal.Name = "labelTotal";
             labelTotal.Size = new Size(54, 28);
             labelTotal.TabIndex = 4;
@@ -214,7 +215,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(128, 463);
+            label3.Location = new Point(296, 465);
             label3.Name = "label3";
             label3.Size = new Size(35, 19);
             label3.TabIndex = 12;
@@ -224,7 +225,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(100, 444);
+            label4.Location = new Point(268, 446);
             label4.Name = "label4";
             label4.Size = new Size(63, 19);
             label4.TabIndex = 13;
@@ -234,7 +235,7 @@
             // 
             labelVAT.AutoSize = true;
             labelVAT.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            labelVAT.Location = new Point(183, 463);
+            labelVAT.Location = new Point(351, 465);
             labelVAT.Name = "labelVAT";
             labelVAT.Size = new Size(38, 19);
             labelVAT.TabIndex = 14;
@@ -244,11 +245,26 @@
             // 
             labelSubtotal.AutoSize = true;
             labelSubtotal.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            labelSubtotal.Location = new Point(183, 444);
+            labelSubtotal.Location = new Point(351, 446);
             labelSubtotal.Name = "labelSubtotal";
             labelSubtotal.Size = new Size(38, 19);
             labelSubtotal.TabIndex = 15;
             labelSubtotal.Text = "Total";
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.BackColor = Color.Black;
+            buttonCancel.FlatAppearance.BorderSize = 0;
+            buttonCancel.FlatStyle = FlatStyle.Flat;
+            buttonCancel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonCancel.ForeColor = Color.White;
+            buttonCancel.Location = new Point(111, 465);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(94, 29);
+            buttonCancel.TabIndex = 24;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.UseVisualStyleBackColor = false;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // BillDetails
             // 
@@ -256,6 +272,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(401, 558);
+            Controls.Add(buttonCancel);
             Controls.Add(labelSubtotal);
             Controls.Add(labelVAT);
             Controls.Add(label4);
@@ -303,5 +320,6 @@
         private Label label4;
         private Label labelVAT;
         private Label labelSubtotal;
+        private Button buttonCancel;
     }
 }

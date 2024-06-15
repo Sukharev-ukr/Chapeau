@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
 using Service;
+using UI.Login;
 using UI.PaymentSystem;
 using static Service.PaymentService;
 
@@ -87,11 +88,20 @@ namespace UI
         private void button2_Click(object sender, EventArgs e)
         {
             BillParts billParts = BillParts.Getinstance();
-            billParts.AddBillPart(0,currentOrder.OrderTotal);
+            billParts.AddBillPart(0, currentOrder.OrderTotal);
 
             PaymentForm paymentform = new PaymentForm();
 
             Program.WindowSwitcher(this, paymentform);
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            StaffService staff = new StaffService();
+
+            TableView_Form tableView_Form = new TableView_Form(staff.LoggedUser);
+
+            Program.WindowSwitcher(this, tableView_Form);
         }
     }
 }

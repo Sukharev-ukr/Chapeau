@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Service.PaymentService;
@@ -58,31 +59,27 @@ namespace UI.PaymentSystem
             decimal orderTotal = currentOrder.OrderTotal;
             decimal newCost = 0;
 
-            try
-            {
-                if (input.Contains('/'))
-                {
-                    string[] split = input.Split('/');
-                    decimal.TryParse(split[0], out decimal devideAmount);
-                    decimal.TryParse((split[1]), out decimal devider);
-                    newCost = orderTotal * (devideAmount);
-                }
-                else if (input.Contains('%'))
-                {
-                    decimal precentage = decimal.Parse(input.Substring(1)) / 100;
-                    newCost = orderTotal * precentage;
-                }
-                else
-                {
-                    newCost = decimal.Parse(input);
-                }
+            //string wildcards
+            Regex deviderPattern = new Regex("g*.*/.+");
+            Regex percentagePattern = new Regex("^%.+");
 
-                SetPartCost(newCost);
-            }
-            catch
+            if (percentagePattern.IsMatch(input))
             {
-
+                decimal precentage = decimal.Parse(input.Substring(1)) / 100;
+                newCost = orderTotal * precentage;
             }
+            else if (deviderPattern.IsMatch(input))
+            {
+                string[] split = input.Split('/');
+                decimal.TryParse(split[0], out decimal devideAmount);
+                decimal.TryParse((split[1]), out decimal devider);
+              newCost = orderTotal * (devideAmount / devider);
+            }
+            else
+            {
+                decimal.TryParse(input, out newCost);
+            }
+            SetPartCost(newCost);
 
         }
 

@@ -54,10 +54,10 @@ namespace UI
                     OpenUI(new TableView_Form(staff.Username));
                     break;
                 case Role.Chef:
-                    OpenUI(new KitchenAndBar());
+                    OpenUI(new OrderOverview(staff));
                     break;
                 case Role.Bartender:
-                    OpenUI(new KitchenAndBar());
+                    OpenUI(new OrderOverview(staff));
                     break;
                 
             }*/

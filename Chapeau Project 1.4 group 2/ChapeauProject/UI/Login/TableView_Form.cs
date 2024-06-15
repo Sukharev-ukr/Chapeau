@@ -18,10 +18,10 @@ namespace UI.Login
     {
         private System.Windows.Forms.Timer pollingTimer;
         private StaffDAL staff;
-        private TableDAL tableDAL; 
-        private Panel popupPanel; 
-        private Dictionary<TableStatus, List<Button>> statusButtons; 
-        private TableService tableService; 
+        private TableDAL tableDAL;
+        private Panel popupPanel;
+        private Dictionary<TableStatus, List<Button>> statusButtons;
+        private TableService tableService;
         private Button selectedTableButton;
         private Button closeButton;
         private int selectedTableId;
@@ -62,16 +62,49 @@ namespace UI.Login
                 AutoSize = true,
                 BackColor = Color.FromArgb(117, 30, 55),
                 ForeColor = Color.White,
-                Font = new Font("Roboto", 20, FontStyle.Regular), // Increased font size
-                Location = new Point(this.ClientSize.Width - 20 - 25 - TextRenderer.MeasureText(employeeName, new Font("Roboto", 16)).Width, 20)
+                Font = new Font("Roboto", 20, FontStyle.Regular),
+                Location = new Point(this.ClientSize.Width - 20 - 100 - TextRenderer.MeasureText(employeeName, new Font("Roboto", 16)).Width, 20)
             };
-            
 
-            
+            Button logoutButton = new Button
+            {
+                Text = "Logout",
+                Width = 70,
+                Height = 30,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                Font = new Font("Roboto", 12, FontStyle.Regular),
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 },
+                Location = new Point(this.ClientSize.Width - 90, 20)
+            };
+            logoutButton.Click += LogoutButton_Click;
+
             this.Controls.Add(mainCloseButton);
             mainCloseButton.BringToFront();
             this.Controls.Add(employeeNameLabel);
             employeeNameLabel.BringToFront();
+            this.Controls.Add(logoutButton);
+            logoutButton.BringToFront();
+        }
+
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var message = MessageBox.Show("Are you sure you would like to logout?", "Confirmation", MessageBoxButtons.YesNo);
+                if (message == DialogResult.Yes)
+                {
+                    this.Hide();
+                    LoginForm loginForm = new LoginForm(); // Create a new login form
+                    loginForm.ShowDialog(); // Display the login form
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred during logout: " + ex.Message, "Error");
+            }
         }
 
 
@@ -355,7 +388,7 @@ namespace UI.Login
         /// <param name="e">The event data.</param>
         private void PopupPanel_Paint(object sender, PaintEventArgs e)
         {
-            using (SolidBrush brush = new SolidBrush(Color.FromArgb(115, Color.White))) 
+            using (SolidBrush brush = new SolidBrush(Color.FromArgb(115, Color.White)))
             {
                 e.Graphics.FillRectangle(brush, popupPanel.ClientRectangle);
             }
@@ -465,7 +498,7 @@ namespace UI.Login
                     //button.BackColor = Color.FromArgb(150, 255, 255, 255); change colours, too btight
                 }
 
-                
+
             }
             ClosePopup();
 
@@ -482,10 +515,10 @@ namespace UI.Login
         //Handles the "Pay the Bill" button click event
         /// <param name="sender">The object that raised the event.</param>
         /// <param name="e">The event data.</param>
-        private void BtnPayBill_Click(object sender, EventArgs e) 
+        private void BtnPayBill_Click(object sender, EventArgs e)
         {
-            
-            try 
+
+            try
             {
                 // moves on to the PaymentSystem.BillDetails form
                 OrderService order = new OrderService();
@@ -552,7 +585,7 @@ namespace UI.Login
                     button.BackColor = Color.FromArgb(255, 108, 255, 84);
                     break;
                 case TableStatus.occupied:
-                    button.BackColor = Color.FromArgb(255, 255, 86, 86); 
+                    button.BackColor = Color.FromArgb(255, 255, 86, 86);
                     break;
                 case TableStatus.reserved:
                     button.BackColor = Color.FromArgb(255, 254, 231, 44);
@@ -575,7 +608,7 @@ namespace UI.Login
         {
             this.popupPanel.Visible = false;
         }
-        
+
 
     }
 }

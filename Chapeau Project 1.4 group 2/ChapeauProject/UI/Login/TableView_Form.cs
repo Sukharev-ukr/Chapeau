@@ -107,6 +107,9 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Initializes the polling timer.
+        /// </summary>
         private void InitializePollingTimer()
         {
             try
@@ -122,6 +125,9 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Handles the polling timer tick event to refresh table statuses.
+        /// </summary>
         private void PollingTimer_Tick(object sender, EventArgs e)
         {
             try
@@ -134,6 +140,9 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Refreshes the table statuses by querying the database and updating the UI.
+        /// </summary>
         private void RefreshTableStatuses()
         {
             try
@@ -283,6 +292,11 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Creates a button for a table and sets its properties.
+        /// </summary>
+        /// <param name="table">The table object.</param>
+        /// <returns>A button representing the table.</returns>
         private Button CreateTableButton(Table table)
         {
             try
@@ -315,26 +329,38 @@ namespace UI.Login
 
         private void SetButtonColor(Button button, TableStatus status)
         {
-            switch (status)
+            try
             {
-                case TableStatus.free:
-                    button.BackColor = Color.FromArgb(255, 108, 255, 84);
-                    break;
-                case TableStatus.reserved:
-                    button.BackColor = Color.FromArgb(255, 254, 231, 24);
-                    break;
-                case TableStatus.occupied:
-                    button.BackColor = Color.FromArgb(255, 86, 86);
-                    break;
-                case TableStatus.Ordered:
-                    button.BackColor = Color.FromArgb(255, 255, 86, 86);
-                    break;
-                default:
-                    button.BackColor = Color.Gray;
-                    break;
+                switch (status)
+                {
+                    case TableStatus.free:
+                        button.BackColor = Color.FromArgb(255, 108, 255, 84);
+                        break;
+                    case TableStatus.reserved:
+                        button.BackColor = Color.FromArgb(255, 254, 231, 24);
+                        break;
+                    case TableStatus.occupied:
+                        button.BackColor = Color.FromArgb(255, 86, 86);
+                        break;
+                    case TableStatus.Ordered:
+                        button.BackColor = Color.FromArgb(255, 255, 86, 86);
+                        break;
+                    default:
+                        button.BackColor = Color.Gray;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while setting the button color: " + ex.Message, "Error");
             }
         }
 
+        /// <summary>
+        /// Handles the table button click event to show the popup.
+        /// </summary>
+        /// <param name="sender">The button that was clicked.</param>
+        /// <param name="e">The event data.</param>
         private void TableButton_Click(object sender, EventArgs e)
         {
             try
@@ -357,6 +383,10 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Shows the popup panel for table actions.
+        /// </summary>
+        /// <param name="table">The table object.</param>
         private void ShowPopup(Table table)
         {
             try
@@ -500,6 +530,29 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Handles the popup panel paint event to set its background.
+        /// </summary>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event data.</param>
+        private void PopupPanel_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                using (SolidBrush brush = new SolidBrush(Color.FromArgb(115, Color.White)))
+                {
+                    e.Graphics.FillRectangle(brush, popupPanel.ClientRectangle);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while painting the popup panel: " + ex.Message, "Error");
+            }
+        }
+
+        /// <summary>
+        /// Initializes the popup panel and its controls.
+        /// </summary>
         private void InitializePopupPanel()
         {
             try
@@ -524,26 +577,35 @@ namespace UI.Login
                     Height = 40
                 };
 
-                
-                Button btnFree = CreatePopupButton("Free table", BtnFree_Click);
-                Button btnTakeOrder = CreatePopupButton("Take Order", BtnTakeOrder_Click);
-                Button btnReserve = CreatePopupButton("Reserve", BtnReserve_Click);
-                Button btnSeatCustomer = CreatePopupButton("Seat customer", BtnSeatCustomer_Click);
-                Button btnViewReservationDetails = CreatePopupButton("View reservation details", BtnViewReservationDetails_Click);
-                Button btnCancelReservation = CreatePopupButton("Cancel reservation", BtnCancelReservation_Click);
-                Button btnMarkAsServed = CreatePopupButton("Mark as Served", BtnMarkAsServed_Click);
+                Button btnSwitch = CreatePopupButton("Switch to another table");
+                Button btnFree = CreatePopupButton("Free table");
+                btnFree.Click += BtnFree_Click;
+                Button btnTakeOrder = CreatePopupButton("Take Order");
+                Button btnPayBill = CreatePopupButton("Pay the Bill");
+                btnPayBill.Click += BtnPayBill_Click;
+                Button btnReserve = CreatePopupButton("Reserve");
+                btnReserve.Click += BtnReserve_Click;
+                Button btnSeatCustomer = CreatePopupButton("Seat customer");
+                btnSeatCustomer.Click += BtnSeatCustomer_Click;
+                Button btnViewReservationDetails = CreatePopupButton("View reservation details");
+                Button btnCancelReservation = CreatePopupButton("Cancel reservation");
+                btnCancelReservation.Click += BtnCancelReservation_Click;
+                Button btnMarkAsServed = CreatePopupButton("Mark as Served");
+                btnMarkAsServed.Click += BtnMarkAsServed_Click;
 
                 statusButtons = new Dictionary<TableStatus, List<Button>>
                 {
                     { TableStatus.free, new List<Button> { btnSeatCustomer, btnReserve } },
-                    { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnMarkAsServed } },
+                    { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnPayBill, btnMarkAsServed } },
                     { TableStatus.reserved, new List<Button> { btnFree, btnSeatCustomer, btnViewReservationDetails, btnCancelReservation } }
                 };
 
-                //popupPanel.Paint += PopupPanel_Paint;
+                popupPanel.Paint += PopupPanel_Paint;
                 popupPanel.Controls.Add(lblStatus);
+                popupPanel.Controls.Add(btnSwitch);
                 popupPanel.Controls.Add(btnFree);
                 popupPanel.Controls.Add(btnTakeOrder);
+                popupPanel.Controls.Add(btnPayBill);
                 popupPanel.Controls.Add(btnReserve);
                 popupPanel.Controls.Add(btnSeatCustomer);
                 popupPanel.Controls.Add(btnViewReservationDetails);
@@ -558,11 +620,16 @@ namespace UI.Login
             }
         }
 
-        private Button CreatePopupButton(string text, EventHandler onClick = null)
+        /// <summary>
+        /// Creates a button for the popup panel.
+        /// </summary>
+        /// <param name="text">The text to display on the button.</param>
+        /// <returns>A button with the specified text.</returns>
+        private Button CreatePopupButton(string text)
         {
             try
             {
-                var button = new Button
+                return new Button
                 {
                     Text = text,
                     Width = 250,
@@ -573,13 +640,6 @@ namespace UI.Login
                     FlatStyle = FlatStyle.Flat,
                     FlatAppearance = { BorderSize = 0 }
                 };
-
-                if (onClick != null)
-                {
-                    button.Click += onClick;
-                }
-
-                return button;
             }
             catch (Exception ex)
             {
@@ -630,6 +690,31 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Handles the "Pay the Bill" button click event.
+        /// </summary>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event data.</param>
+        private void BtnPayBill_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // moves on to the PaymentSystem.BillDetails form
+                OrderService order = new OrderService();
+                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
+                Program.WindowSwitcher(this, billDetails);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while handling the payment: " + ex.Message, "Error");
+            }
+        }
+
+        /// <summary>
+        /// Handles the "Reserve Table" button click event.
+        /// </summary>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event data.</param>
         private void BtnReserve_Click(object sender, EventArgs e)
         {
             try
@@ -642,6 +727,11 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Handles the "Seat Customer" button click event.
+        /// </summary>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event data.</param>
         private void BtnSeatCustomer_Click(object sender, EventArgs e)
         {
             try
@@ -654,6 +744,11 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Handles the "Cancel Reservation" button click event.
+        /// </summary>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event data.</param>
         private void BtnCancelReservation_Click(object sender, EventArgs e)
         {
             try
@@ -666,6 +761,10 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Updates the table status in the database and changes the button color.
+        /// </summary>
+        /// <param name="status">The new status of the table.</param>
         private void UpdateTableStatusAndColor(TableStatus status)
         {
             try
@@ -680,6 +779,11 @@ namespace UI.Login
             }
         }
 
+        /// <summary>
+        /// Updates the color of the table button based on its status.
+        /// </summary>
+        /// <param name="button">The table button to update.</param>
+        /// <param name="status">The new status of the table.</param>
         private void UpdateTableButtonColor(Button button, TableStatus status)
         {
             try
@@ -704,6 +808,9 @@ namespace UI.Login
             }
         }
 
+        // <summary>
+        /// Closes the popup panel.
+        /// </summary>
         private void ClosePopup()
         {
             try
@@ -714,18 +821,6 @@ namespace UI.Login
             {
                 MessageBox.Show("An error occurred while hiding the popup panel: " + ex.Message, "Error");
             }
-        }
-
-        
-
-        private void BtnTakeOrder_Click(object sender, EventArgs e)
-        {
-            // Implementation for taking order
-        }
-
-        private void BtnViewReservationDetails_Click(object sender, EventArgs e)
-        {
-            // Implementation for viewing reservation details
         }
     }
 }

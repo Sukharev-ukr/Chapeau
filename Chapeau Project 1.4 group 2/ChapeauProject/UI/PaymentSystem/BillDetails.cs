@@ -109,6 +109,7 @@ namespace UI
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
+            CurrentOrder.DestoryInstance();
             StaffService staff = new StaffService();
 
             TableView_Form tableView_Form = new TableView_Form(staff.LoggedUser);

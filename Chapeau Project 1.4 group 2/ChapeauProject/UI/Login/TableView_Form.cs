@@ -462,10 +462,10 @@ namespace UI.Login
                 ConfigureFreeTableButton(button, runningOrder);
             }
 
-            if (button.Text == "Pay the Bill")
-            {
-                ConfigurePayBillButton(button, runningOrder);
-            }
+            //if (button.Text == "Pay the Bill")
+            //{
+            //    ConfigurePayBillButton(button, runningOrder);
+            //}
         }
 
         private void ConfigureMarkAsServedButton(Button button, Order runningOrder)

@@ -12,10 +12,9 @@ namespace DAL
     {
         public void UploadBill(Bill bill)
         {
-            string query = "INSERT INTO bill VALUES (@billid, @totalamount, @VAT, @paymentmethod, @orderid)";
+            string query = "INSERT INTO bill VALUES ( @totalamount, @VAT, @paymentmethod, @orderid)";
 
-            SqlParameter[] sqlParameters = new SqlParameter[5] { 
-                new SqlParameter("@billid",bill.BillId),
+            SqlParameter[] sqlParameters = new SqlParameter[4] { 
                 new SqlParameter("@orderid",bill.OrderId),
                 new SqlParameter("@totalamount", bill.TotalAmount),
                 new SqlParameter("@VAT",bill.VAT),

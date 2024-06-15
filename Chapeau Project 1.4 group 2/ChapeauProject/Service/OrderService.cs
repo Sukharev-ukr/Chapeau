@@ -49,6 +49,7 @@ public class OrderService
     {
         orderDao.UpdateOrderStatus(ID, status);
 
+    }
 
     public Order GetRunningOrder(int tableId)
     {
@@ -58,6 +59,9 @@ public class OrderService
     public void MarkOrderAsServed(int orderId)
     {
         orderDao.UpdateOrderStatus(orderId, Status.finished);
-
+    }
+    public List<OrderItem> GetOrderItemsByOrderId(int orderId)
+    {
+        return orderDao.GetOrderItems(orderId);
     }
 }

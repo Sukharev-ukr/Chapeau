@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
 using Service;
+using UI.Login;
 using UI.PaymentSystem;
 using static Service.PaymentService;
 
@@ -53,12 +54,24 @@ namespace UI
 
                 listViewBillList.Items.Add(li);
             }
-            labelTotal.Text = (total + VATTotal).ToString("F");
+
+            if (currentOrder.OrderTotal == 0)
+            {
+                currentOrder.OrderTotal = total + VATTotal;
+            }
+            
+            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
             labelSubtotal.Text = total.ToString("F");
             labelVAT.Text = VATTotal.ToString("F");
 
+            if (currentOrder.Tip != 0)
+            {
+                labelTip.Visible = true;
+                label8.Visible = true;
+                labelTip.Text = currentOrder.Tip.ToString("F");
+            }
 
-            currentOrder.OrderTotal = total + VATTotal;
+
         }
         private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
         {
@@ -87,11 +100,21 @@ namespace UI
         private void button2_Click(object sender, EventArgs e)
         {
             BillParts billParts = BillParts.Getinstance();
-            billParts.AddBillPart(0,currentOrder.OrderTotal);
+            billParts.AddBillPart(0, currentOrder.OrderTotal);
 
             PaymentForm paymentform = new PaymentForm();
 
             Program.WindowSwitcher(this, paymentform);
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            CurrentOrder.DestoryInstance();
+            StaffService staff = new StaffService();
+
+            TableView_Form tableView_Form = new TableView_Form(staff.LoggedUser);
+
+            Program.WindowSwitcher(this, tableView_Form);
         }
     }
 }

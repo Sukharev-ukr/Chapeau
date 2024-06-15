@@ -36,7 +36,7 @@
             pbOrderViewFooter = new PictureBox();
             pbOrderViewTotalPriceFooter = new PictureBox();
             lblOrderViewTotalTxt = new Label();
-            lblOrderViewTotal = new Label();
+            lblOrderViewTotalPrice = new Label();
             btnOrderViewSummary = new Button();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).BeginInit();
@@ -127,16 +127,16 @@
             lblOrderViewTotalTxt.TabIndex = 8;
             lblOrderViewTotalTxt.Text = "Total:";
             // 
-            // lblOrderViewTotal
+            // lblOrderViewTotalPrice
             // 
-            lblOrderViewTotal.AutoSize = true;
-            lblOrderViewTotal.BackColor = Color.White;
-            lblOrderViewTotal.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lblOrderViewTotal.Location = new Point(93, 829);
-            lblOrderViewTotal.Name = "lblOrderViewTotal";
-            lblOrderViewTotal.Size = new Size(94, 25);
-            lblOrderViewTotal.TabIndex = 9;
-            lblOrderViewTotal.Text = "totalPrice";
+            lblOrderViewTotalPrice.AutoSize = true;
+            lblOrderViewTotalPrice.BackColor = Color.White;
+            lblOrderViewTotalPrice.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblOrderViewTotalPrice.Location = new Point(59, 828);
+            lblOrderViewTotalPrice.Name = "lblOrderViewTotalPrice";
+            lblOrderViewTotalPrice.Size = new Size(57, 25);
+            lblOrderViewTotalPrice.TabIndex = 9;
+            lblOrderViewTotalPrice.Text = "€0.00";
             // 
             // btnOrderViewSummary
             // 
@@ -158,7 +158,7 @@
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(728, 944);
             Controls.Add(btnOrderViewSummary);
-            Controls.Add(lblOrderViewTotal);
+            Controls.Add(lblOrderViewTotalPrice);
             Controls.Add(lblOrderViewTotalTxt);
             Controls.Add(pbOrderViewTotalPriceFooter);
             Controls.Add(pbOrderViewFooter);
@@ -186,7 +186,7 @@
         private PictureBox pbOrderViewFooter;
         private PictureBox pbOrderViewTotalPriceFooter;
         private Label lblOrderViewTotalTxt;
-        private Label lblOrderViewTotal;
+        private Label lblOrderViewTotalPrice;
         private Button btnOrderViewSummary;
     }
 }

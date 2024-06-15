@@ -29,7 +29,7 @@ namespace UI
         {
             newForm.StartPosition = FormStartPosition.Manual;
             newForm.Location = oldForm.Location;
-
+          
             oldForm.Hide();
             newForm.Closed += (s, args) => oldForm.Close();
 

@@ -81,7 +81,7 @@ namespace UI.Login
         private void InitializePollingTimer()
         {
             pollingTimer = new System.Windows.Forms.Timer();
-            pollingTimer.Interval = 1000; // Poll every second
+            pollingTimer.Interval = 5000; // Poll every second
             pollingTimer.Tick += PollingTimer_Tick;
             pollingTimer.Start();
         }
@@ -94,6 +94,9 @@ namespace UI.Login
             RefreshTableStatuses();
         }
 
+        /// <summary>
+        /// Refreshes the table statuses by querying the database and updating the UI.
+        /// </summary>
         /// <summary>
         /// Refreshes the table statuses by querying the database and updating the UI.
         /// </summary>
@@ -110,71 +113,108 @@ namespace UI.Login
                         // Update the table status
                         buttonTable.Status = table.Status;
                         UpdateTableButtonColor(button, table.Status);
+
+                        // Update the order status label
+                        UpdateOrderStatusLabelForTable(button);
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Loads the tables and displays them in the form.
-        /// </summary>
         private void LoadTables()
         {
             List<Table> tables = tableDAL.GetAllTables();
 
-            // Spacing values
             const int tableWidth = 100;
             const int tableHeight = 100;
-            const int verticalSpacing = 80; // Space between tables vertically
-            const int horizontalSpacing = 240; // Space between columns
-
-            // Calculate the total height needed for the tables in one column
+            const int verticalSpacing = 80;
+            const int horizontalSpacing = 240;
             int totalTableHeight = (tables.Count / 2) * (tableHeight + verticalSpacing) - verticalSpacing;
-
-            // Calculate the starting Y position to center the tables vertically in the form
-            int startY = (this.ClientSize.Height - totalTableHeight) / 2; // Centering vertically
-
-            // X positions for the two columns
-            int column1X = 170; // Position for the first row of tables
-            int column2X = column1X + tableWidth + horizontalSpacing; // X position for the second column
-
-            // Calculate the midpoint to split tables between the two columns
+            int startY = (this.ClientSize.Height - totalTableHeight) / 2;
+            int column1X = 170;
+            int column2X = column1X + tableWidth + horizontalSpacing;
             int midPoint = tables.Count / 2;
 
-            // Initial Y positions for both columns
+            SplitTablesInHalf(tables, midPoint, column1X, column2X, startY, tableHeight, verticalSpacing);
+        }
+
+        private void SplitTablesInHalf(List<Table> tables, int midPoint, int column1X, int column2X, int startY, int tableHeight, int verticalSpacing)
+        {
             int currentY1 = startY;
             int currentY2 = startY;
 
-
-
-
-            //MAKE IT A DIFFERENT METHOD CALLED SMTH LIKE SPLIT TABLES IN HALF
-
-
-
-            // Loop through each table and place it in the correct column and position
             for (int i = 0; i < tables.Count; i++)
             {
-                // Create a button for each table
                 Button tableButton = CreateTableButton(tables[i]);
+                Label orderStatusLabel = new Label
+                {
+                    AutoSize = true,
+                    Font = new Font("Roboto", 14, FontStyle.Regular),
+                    ForeColor = Color.Black,
+                    Tag = tables[i]
+                };
 
                 if (i < midPoint)
                 {
-                    // Here we are placing tables in the first column
                     tableButton.Location = new Point(column1X, currentY1);
-                    // Update the Y position for the next table
+                    orderStatusLabel.Location = new Point(column1X, currentY1 + tableHeight + 5);
                     currentY1 += tableHeight + verticalSpacing;
                 }
                 else
                 {
-                    // Here we are placing tables in the second column
                     tableButton.Location = new Point(column2X, currentY2);
-                    // Update the Y position for the next table
+                    orderStatusLabel.Location = new Point(column2X, currentY2 + tableHeight + 5);
                     currentY2 += tableHeight + verticalSpacing;
                 }
 
-                // Add the table button to the form
                 this.Controls.Add(tableButton);
+                this.Controls.Add(orderStatusLabel);
+
+                UpdateOrderStatusLabel(orderStatusLabel, tables[i].TableId);
+            }
+        }
+
+        private void UpdateOrderStatusLabel(Label label, int tableId)
+        {
+            var orderService = new OrderService();
+            var runningOrder = orderService.GetRunningOrder(tableId);
+            if (runningOrder != null)
+            {
+                var waitingTime = DateTime.Now - runningOrder.OrderTime.Value;
+                string waitingTimeText = $"{waitingTime.Hours:D2}:{waitingTime.Minutes:D2}:{waitingTime.Seconds:D2}";
+
+                if (runningOrder.Items.Any(item => item.MenuItem.Category == Category.Drinks))
+                {
+                    label.Text = $"🍾 Running ({waitingTimeText})";
+                }
+                else
+                {
+                    label.Text = $"🍽️ Running ({waitingTimeText})";
+                }
+            }
+            //else if (runningOrder.OrderStatus == Status.ready)
+            //{
+            //    label.Text = "Ready to serve";
+            //}
+            else
+            {
+                label.Text = "";
+            }
+        }
+
+        private void UpdateOrderStatusLabelForTable(Button tableButton)
+        {
+            var table = tableButton.Tag as Table;
+            if (table != null)
+            {
+                foreach (Control control in this.Controls)
+                {
+                    if (control is Label label && label.Tag is Table labelTable && labelTable.TableId == table.TableId)
+                    {
+                        UpdateOrderStatusLabel(label, table.TableId);
+                        break;
+                    }
+                }
             }
         }
 
@@ -251,12 +291,10 @@ namespace UI.Login
             Label lblStatus = popupPanel.Controls["lblStatus"] as Label;
             lblStatus.Text = $"Table - {table.TableId} ({table.Status})";
 
-            // Adjust popupPanel location based on where you want to show it
             popupPanel.Location = new Point(this.ClientSize.Width / 2 - popupPanel.Width / 2, this.ClientSize.Height / 2 - popupPanel.Height / 2);
             popupPanel.Visible = true;
             popupPanel.BringToFront();
 
-            // Clear existing buttons
             foreach (Control control in popupPanel.Controls)
             {
                 if (control is Button)
@@ -265,7 +303,6 @@ namespace UI.Login
                 }
             }
 
-            // Show buttons based on table status
             List<Button> buttonsToShow = statusButtons[table.Status];
             int startX = (popupPanel.Width - buttonsToShow[0].Width * 2 - 60) / 2;
             int startY = lblStatus.Bottom + 60;
@@ -273,6 +310,41 @@ namespace UI.Login
             {
                 buttonsToShow[i].Location = new Point(startX + (i % 2) * (buttonsToShow[i].Width + 60), startY + (i / 2) * (buttonsToShow[i].Height + 60));
                 buttonsToShow[i].Visible = true;
+
+                var orderService = new OrderService();
+                var runningOrder = orderService.GetRunningOrder(table.TableId);
+
+                if (buttonsToShow[i].Text == "Mark as Served")
+                {
+                    if (runningOrder != null && runningOrder.OrderStatus == Status.running)
+                    {
+                        buttonsToShow[i].Enabled = true;
+                        buttonsToShow[i].BackColor = Color.Black;
+                        buttonsToShow[i].ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        buttonsToShow[i].Enabled = false;
+                        buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
+                        buttonsToShow[i].ForeColor = Color.Black; // Text color
+                    }
+                }
+
+                if (buttonsToShow[i].Text == "Free table")
+                {
+                    if (runningOrder == null || runningOrder.OrderStatus == Status.finished)
+                    {
+                        buttonsToShow[i].Enabled = true;
+                        buttonsToShow[i].BackColor = Color.Black;
+                        buttonsToShow[i].ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        buttonsToShow[i].Enabled = false;
+                        buttonsToShow[i].BackColor = Color.FromArgb(200, 255, 255, 255); // Slightly white background
+                        buttonsToShow[i].ForeColor = Color.Black; // Text color
+                    }
+                }
             }
         }
 
@@ -299,7 +371,6 @@ namespace UI.Login
                 Height = 325,
                 BorderStyle = BorderStyle.FixedSingle,
                 Visible = false,
-                //BackColor = Color.White
                 BackColor = Color.Transparent
             };
 
@@ -314,12 +385,12 @@ namespace UI.Login
                 Height = 40
             };
 
-            // Define buttons for the popup panel
             Button btnSwitch = CreatePopupButton("Switch to another table");
             Button btnFree = CreatePopupButton("Free table");
             btnFree.Click += BtnFree_Click;
             Button btnTakeOrder = CreatePopupButton("Take Order");
-            Button btnViewOrder = CreatePopupButton("View order");
+            Button btnPayBill = CreatePopupButton("Pay the Bill");
+            btnPayBill.Click += BtnPayBill_Click;
             Button btnReserve = CreatePopupButton("Reserve");
             btnReserve.Click += BtnReserve_Click;
             Button btnSeatCustomer = CreatePopupButton("Seat customer");
@@ -327,34 +398,30 @@ namespace UI.Login
             Button btnViewReservationDetails = CreatePopupButton("View reservation details");
             Button btnCancelReservation = CreatePopupButton("Cancel reservation");
             btnCancelReservation.Click += BtnCancelReservation_Click;
-            // Initialize status buttons dictionary
+            Button btnMarkAsServed = CreatePopupButton("Mark as Served");
+            btnMarkAsServed.Click += BtnMarkAsServed_Click;
+
             statusButtons = new Dictionary<TableStatus, List<Button>>
+
             {
                 { TableStatus.free, new List<Button> { btnSeatCustomer, btnReserve } },
-                { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnViewOrder, btnSwitch } },
+                { TableStatus.occupied, new List<Button> { btnFree, btnTakeOrder, btnPayBill, btnSwitch } },
                 { TableStatus.reserved, new List<Button> { btnFree, btnSeatCustomer, btnViewReservationDetails, btnCancelReservation } }
             };
-            popupPanel.Paint += PopupPanel_Paint;
 
-            // Add controls to the popup panel
+            popupPanel.Paint += PopupPanel_Paint;
             popupPanel.Controls.Add(lblStatus);
             popupPanel.Controls.Add(btnSwitch);
             popupPanel.Controls.Add(btnFree);
             popupPanel.Controls.Add(btnTakeOrder);
-            popupPanel.Controls.Add(btnViewOrder);
+            popupPanel.Controls.Add(btnPayBill);
             popupPanel.Controls.Add(btnReserve);
             popupPanel.Controls.Add(btnSeatCustomer);
             popupPanel.Controls.Add(btnViewReservationDetails);
             popupPanel.Controls.Add(btnCancelReservation);
-
-
-
-            
+            popupPanel.Controls.Add(btnMarkAsServed);
 
             this.Controls.Add(popupPanel);
-            
-
-
         }
 
         /// <summary>
@@ -377,14 +444,58 @@ namespace UI.Login
             };
         }
 
-        /// <summary>
-        /// Handles the "Free Table" button click event.
-        /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event data.</param>
+        private void BtnMarkAsServed_Click(object sender, EventArgs e)
+        {
+            var orderService = new OrderService();
+            var runningOrder = orderService.GetRunningOrder(selectedTableId);
+
+            if (runningOrder != null)
+            {
+                orderService.MarkOrderAsServed(runningOrder.OrderId);
+                RefreshTableStatuses();
+                UpdateOrderStatusLabelForTable(selectedTableButton);
+            }
+            else
+            {
+
+                var button = sender as Button;
+                if (button != null)
+                {
+                    button.Enabled = false;
+                    //button.BackColor = Color.FromArgb(150, 255, 255, 255); change colours, too btight
+                }
+
+                
+            }
+            ClosePopup();
+
+
+        }
+
         private void BtnFree_Click(object sender, EventArgs e)
         {
             UpdateTableStatusAndColor(TableStatus.free);
+        }
+
+
+        //<summary>
+        //Handles the "Pay the Bill" button click event
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event data.</param>
+        private void BtnPayBill_Click(object sender, EventArgs e) 
+        {
+            
+            try 
+            {
+                // moves on to the PaymentSystem.BillDetails form
+                OrderService order = new OrderService();
+                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
+                Program.WindowSwitcher(this, billDetails);
+            }
+            catch (Exception ex) 
+            {
+
+            }
         }
 
         /// <summary>

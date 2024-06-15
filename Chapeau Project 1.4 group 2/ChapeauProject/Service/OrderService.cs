@@ -25,15 +25,18 @@ public class OrderService
         return allMenuItems.Where(item => item.Card == card).ToList();
     }
 
+    public Order GetRunningOrderFromTable(int tableNr)
+    {
+        return orderDao.GetOrderFromTableNr(tableNr);
+    }
+
     public void UpdateTipById(decimal input, int id)
     {
-        OrderDAL orderDAL = new OrderDAL();
-        orderDAL.UpdateTipById(input, id);
+        orderDao.UpdateTipById(input, id);
     }
     public void UpdateTotalById(decimal input, int id)
     {
-        OrderDAL orderDAL = new OrderDAL();
-        orderDAL.UpdateTotalById(input, id);
+        orderDao.UpdateTotalById(input, id);
     }
 
     public List<Order> GetAllOrders()
@@ -42,13 +45,19 @@ public class OrderService
         return orders;
     }
 
-    public Order GetRunningOrder(int tableId)
+    public void UpdateOrderStatus(int ID, Status status)
     {
-        return orderDao.GetRunningOrderByTableId(tableId);
+        orderDao.UpdateOrderStatus(ID, status);
     }
 
-    public void MarkOrderAsServed(int orderId)
-    {
-        orderDao.UpdateOrderStatus(orderId, Status.finished);
+        public Order GetRunningOrder(int tableId)
+        {
+            return orderDao.GetRunningOrderByTableId(tableId);
+        }
+
+        public void MarkOrderAsServed(int orderId)
+        {
+            orderDao.UpdateOrderStatus(orderId, Status.finished);
+
+        }
     }
-}

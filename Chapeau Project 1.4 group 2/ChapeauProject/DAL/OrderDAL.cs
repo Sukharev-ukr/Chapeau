@@ -52,6 +52,14 @@ namespace DAL
             };
         }
 
+        public Order GetOrderFromTableNr(int tableNR)
+        {
+            string query = "  SELECT * FROM [Order] WHERE TableID = @tableid AND OrderStatus = 'running'";
+
+            SqlParameter[] parameters = new SqlParameter[1] { new SqlParameter("@tableid", tableNR) };
+            return ReadOrders(ExecuteSelectQuery(query, parameters))[0];
+        }
+
         public List<OrderItem> GetOrderItems(int orderId)
         {
             string query = "SELECT OI.OrderID, OI.ItemID, OI.Count, OI.Status, OI.StatusTime, OI.comment " +
@@ -103,22 +111,22 @@ namespace DAL
             ExecuteEditQuery(query, parameters);
         }
         public List<Order> GetOrders(bool drinks, Status status)
-{
-    string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
+        {
+            string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
 
-    string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
-                   "FROM Order AS O " +
-                   "JOIN Table AS T ON O.TableID = T.TableID " +
-                   "WHERE O.OrderStatus = @status AND @category";
+            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
+                           "FROM Order AS O " +
+                           "JOIN Table AS T ON O.TableID = T.TableID " +
+                           "WHERE O.OrderStatus = @status AND @category";
 
-    SqlParameter[] parameters =
-    {
+            SqlParameter[] parameters =
+            {
         new SqlParameter("@status", status),
         new SqlParameter("@category", category)
     };
 
-    return ReadOrders(ExecuteSelectQuery(query, parameters));
-}
+            return ReadOrders(ExecuteSelectQuery(query, parameters));
+        }
 
 
         //update status of Order
@@ -131,6 +139,7 @@ namespace DAL
         new SqlParameter("@orderId", orderId),
         new SqlParameter("@status", status.ToString())
     };
+
             ExecuteEditQuery(query, sqlParameters);
         }
 

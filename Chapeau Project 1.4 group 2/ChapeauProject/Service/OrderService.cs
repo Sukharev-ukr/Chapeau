@@ -60,4 +60,8 @@ public class OrderService
     {
         orderDao.UpdateOrderStatus(orderId, Status.finished);
     }
+    public List<OrderItem> GetOrderItemsByOrderId(int orderId)
+    {
+        return orderDao.GetOrderItems(orderId);
     }
+}

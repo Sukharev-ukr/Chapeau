@@ -65,6 +65,19 @@ namespace UI.OrderView
             LoadMenuItems("Lunch");
         }
 
+        public void UpdateTotalPrice()
+        {
+            decimal totalPrice = 0m;
+            foreach (var ucOrderView in ucOrderViews.Values)
+            {
+                int quantity = ucOrderView.Quantity; 
+                decimal price = ucOrderView.Item.Price;
+                totalPrice += quantity * price;
+            }
+            lblOrderViewTotalPrice.Text = $"€{totalPrice:F2}";
+        }
+
+
         private void btnOrderViewSummary_Click(object sender, EventArgs e)
         {
             OrderSummaryForm newForm = new OrderSummaryForm();

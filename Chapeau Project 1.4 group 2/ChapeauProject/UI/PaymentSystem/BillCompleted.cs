@@ -69,7 +69,7 @@ namespace UI.PaymentSystem
             StaffService staffService = new StaffService();
 
             TableView_Form tableView = new TableView_Form(staffService.LoggedUser);
-            Program.WindowSwitcher(this,tableView);
+            Program.WindowSwitcher(this, tableView);
         }
     }
 }

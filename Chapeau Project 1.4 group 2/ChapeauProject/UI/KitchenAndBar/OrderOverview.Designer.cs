@@ -1,4 +1,6 @@
-﻿namespace UI
+﻿using System.Drawing.Printing;
+
+namespace UI
 {
     partial class OrderOverview
     {
@@ -48,7 +50,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { runningToolStripMenuItem, finishedToolStripMenuItem, toolStripMenuItem1, toolStripMenuItem2, lblTime, lblEmployee });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 33);
+            menuStrip1.Size = new Size(800, 39);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -56,7 +58,7 @@
             // 
             runningToolStripMenuItem.ForeColor = SystemColors.Control;
             runningToolStripMenuItem.Name = "runningToolStripMenuItem";
-            runningToolStripMenuItem.Size = new Size(94, 29);
+            runningToolStripMenuItem.Size = new Size(94, 35);
             runningToolStripMenuItem.Text = "Running";
             runningToolStripMenuItem.Click += runningToolStripMenuItem_Click_1;
             // 
@@ -64,19 +66,20 @@
             // 
             finishedToolStripMenuItem.ForeColor = Color.White;
             finishedToolStripMenuItem.Name = "finishedToolStripMenuItem";
-            finishedToolStripMenuItem.Size = new Size(93, 29);
+            finishedToolStripMenuItem.Size = new Size(93, 35);
             finishedToolStripMenuItem.Text = "Finished";
             finishedToolStripMenuItem.Click += finishedToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(16, 29);
+            toolStripMenuItem1.Size = new Size(16, 35);
             // 
             // toolStripMenuItem2
             // 
+            toolStripMenuItem2.Enabled = false;
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(123, 29);
+            toolStripMenuItem2.Size = new Size(123, 35);
             toolStripMenuItem2.Text = "                   ";
             // 
             // lblTime
@@ -84,16 +87,16 @@
             lblTime.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblTime.ForeColor = SystemColors.Control;
             lblTime.Name = "lblTime";
-            lblTime.Size = new Size(652, 29);
-            lblTime.Text = "                                                                                                        ";
+            lblTime.Size = new Size(16, 35);
             // 
             // lblEmployee
             // 
-            lblEmployee.Alignment = ToolStripItemAlignment.Right;
+            lblEmployee.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             lblEmployee.ForeColor = SystemColors.Control;
+            lblEmployee.Margin = new Padding(160, 5, 5, 5);
             lblEmployee.Name = "lblEmployee";
-            lblEmployee.Size = new Size(113, 29);
-            lblEmployee.Text = "                 ";
+            lblEmployee.Size = new Size(198, 25);
+            lblEmployee.Text = "                                           ";
             // 
             // flowLayoutPanelRunning
             // 

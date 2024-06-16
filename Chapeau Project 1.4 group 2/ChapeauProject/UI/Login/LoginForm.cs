@@ -43,11 +43,7 @@ namespace UI
         }
 
         private void getUIForStaff(Staff staff)
-        {
-
-             //causes build errors, resolve this and create new pull request
-
-            
+        {   
           switch (staff.Role)
             {
                 case Role.Waiter:
@@ -68,13 +64,15 @@ namespace UI
         private void OpenUI(Form newForm)
         {
 
+            Program.WindowSwitcher(this, newForm);  
+/*
             Form activeForm = ActiveForm;
             activeForm.Hide();
 
             newForm.ShowDialog();
 
             
-            activeForm.Close();
+            activeForm.Close();*/
         }
     }
 }

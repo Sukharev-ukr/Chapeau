@@ -64,4 +64,9 @@ public class OrderService
     {
         return orderDao.GetOrderItems(orderId);
     }
+
+    public int GetCurrentOrderId()
+    {
+        return orderDao.GetCurrentOrderId();
+    }
 }

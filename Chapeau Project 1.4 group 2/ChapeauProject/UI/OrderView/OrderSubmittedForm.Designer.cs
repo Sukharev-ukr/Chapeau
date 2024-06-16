@@ -46,10 +46,9 @@
             btnOrderMainScreen.BackColor = Color.Black;
             btnOrderMainScreen.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnOrderMainScreen.ForeColor = Color.White;
-            btnOrderMainScreen.Location = new Point(405, 488);
-            btnOrderMainScreen.Margin = new Padding(2, 2, 2, 2);
+            btnOrderMainScreen.Location = new Point(579, 813);
             btnOrderMainScreen.Name = "btnOrderMainScreen";
-            btnOrderMainScreen.Size = new Size(97, 30);
+            btnOrderMainScreen.Size = new Size(139, 50);
             btnOrderMainScreen.TabIndex = 28;
             btnOrderMainScreen.Text = "Main Screen";
             btnOrderMainScreen.UseVisualStyleBackColor = false;
@@ -58,18 +57,20 @@
             // pbOrderViewTotalPriceFooter
             // 
             pbOrderViewTotalPriceFooter.BackColor = Color.White;
-            pbOrderViewTotalPriceFooter.Location = new Point(0, 480);
+            pbOrderViewTotalPriceFooter.Location = new Point(0, 800);
+            pbOrderViewTotalPriceFooter.Margin = new Padding(4, 5, 4, 5);
             pbOrderViewTotalPriceFooter.Name = "pbOrderViewTotalPriceFooter";
-            pbOrderViewTotalPriceFooter.Size = new Size(510, 43);
+            pbOrderViewTotalPriceFooter.Size = new Size(729, 72);
             pbOrderViewTotalPriceFooter.TabIndex = 25;
             pbOrderViewTotalPriceFooter.TabStop = false;
             // 
             // pbOrderSummaryFooter
             // 
             pbOrderSummaryFooter.BackColor = Color.FromArgb(117, 30, 55);
-            pbOrderSummaryFooter.Location = new Point(0, 523);
+            pbOrderSummaryFooter.Location = new Point(0, 872);
+            pbOrderSummaryFooter.Margin = new Padding(4, 5, 4, 5);
             pbOrderSummaryFooter.Name = "pbOrderSummaryFooter";
-            pbOrderSummaryFooter.Size = new Size(510, 43);
+            pbOrderSummaryFooter.Size = new Size(729, 72);
             pbOrderSummaryFooter.TabIndex = 24;
             pbOrderSummaryFooter.TabStop = false;
             // 
@@ -77,18 +78,18 @@
             // 
             pbOrderSummaryHeader.BackColor = Color.FromArgb(117, 30, 55);
             pbOrderSummaryHeader.Location = new Point(0, 0);
+            pbOrderSummaryHeader.Margin = new Padding(4, 5, 4, 5);
             pbOrderSummaryHeader.Name = "pbOrderSummaryHeader";
-            pbOrderSummaryHeader.Size = new Size(510, 43);
+            pbOrderSummaryHeader.Size = new Size(729, 72);
             pbOrderSummaryHeader.TabIndex = 23;
             pbOrderSummaryHeader.TabStop = false;
             // 
             // pbOrderSubmitted
             // 
             pbOrderSubmitted.Image = (Image)resources.GetObject("pbOrderSubmitted.Image");
-            pbOrderSubmitted.Location = new Point(153, 77);
-            pbOrderSubmitted.Margin = new Padding(2, 2, 2, 2);
+            pbOrderSubmitted.Location = new Point(251, 238);
             pbOrderSubmitted.Name = "pbOrderSubmitted";
-            pbOrderSubmitted.Size = new Size(202, 192);
+            pbOrderSubmitted.Size = new Size(205, 211);
             pbOrderSubmitted.TabIndex = 29;
             pbOrderSubmitted.TabStop = false;
             // 
@@ -96,27 +97,25 @@
             // 
             lblOrderSubmitted.AutoSize = true;
             lblOrderSubmitted.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            lblOrderSubmitted.Location = new Point(50, 271);
-            lblOrderSubmitted.Margin = new Padding(2, 0, 2, 0);
+            lblOrderSubmitted.Location = new Point(71, 452);
             lblOrderSubmitted.Name = "lblOrderSubmitted";
-            lblOrderSubmitted.Size = new Size(408, 30);
+            lblOrderSubmitted.Size = new Size(587, 45);
             lblOrderSubmitted.TabIndex = 30;
             lblOrderSubmitted.Text = "The order was successfully submitted!";
             lblOrderSubmitted.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // OrderSubmittedForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
-            ClientSize = new Size(510, 566);
+            ClientSize = new Size(729, 943);
             Controls.Add(lblOrderSubmitted);
             Controls.Add(pbOrderSubmitted);
             Controls.Add(btnOrderMainScreen);
             Controls.Add(pbOrderViewTotalPriceFooter);
             Controls.Add(pbOrderSummaryFooter);
             Controls.Add(pbOrderSummaryHeader);
-            Margin = new Padding(2, 2, 2, 2);
             Name = "OrderSubmittedForm";
             Text = "Order Submitted";
             ((System.ComponentModel.ISupportInitialize)pbOrderViewTotalPriceFooter).EndInit();

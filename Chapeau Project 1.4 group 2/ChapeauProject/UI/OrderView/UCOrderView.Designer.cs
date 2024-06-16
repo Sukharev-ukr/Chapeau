@@ -32,6 +32,7 @@
             btnMinus = new Button();
             lblItemAmount = new Label();
             lblItemName = new Label();
+            btnEditItemDetails = new Button();
             SuspendLayout();
             // 
             // btnPlus
@@ -76,11 +77,22 @@
             lblItemName.TabIndex = 3;
             lblItemName.Text = "itemName";
             // 
+            // btnEditItemDetails
+            // 
+            btnEditItemDetails.Location = new Point(647, 14);
+            btnEditItemDetails.Name = "btnEditItemDetails";
+            btnEditItemDetails.Size = new Size(63, 34);
+            btnEditItemDetails.TabIndex = 4;
+            btnEditItemDetails.Text = "Edit";
+            btnEditItemDetails.UseVisualStyleBackColor = true;
+            btnEditItemDetails.Click += btnEditItemDetails_Click;
+            // 
             // UCOrderView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(btnEditItemDetails);
             Controls.Add(lblItemName);
             Controls.Add(lblItemAmount);
             Controls.Add(btnMinus);
@@ -97,5 +109,6 @@
         private Button btnMinus;
         private Label lblItemAmount;
         private Label lblItemName;
+        private Button btnEditItemDetails;
     }
 }

@@ -25,10 +25,6 @@ namespace DAL
             return ReadStaff(dataTable);
         }
 
-
-
-       
-
         private Staff ReadStaff(DataTable data)
         {
             DataRow dataRow = data.Rows[0];
@@ -42,8 +38,24 @@ namespace DAL
             return staff;
         }
 
-        
+        public Staff GetStaffByUsername(string username)
+        {
+            string query = "SELECT StaffID, Username, Role, PasswordHash FROM Staff WHERE Username = @username";
+            SqlParameter[] sqlParameters = new SqlParameter[]
+            {
+        new SqlParameter("@username", SqlDbType.NVarChar) { Value = username }
+            };
+            DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
 
+            if (dataTable.Rows.Count > 0)
+            {
+                return ReadStaff(dataTable);
+            }
+            else
+            {
+                return null; 
+            }
+        }
 
     }
 }

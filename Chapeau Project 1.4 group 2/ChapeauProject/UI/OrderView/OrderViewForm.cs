@@ -11,12 +11,16 @@ namespace UI.OrderView
     {
         OrderService orderService;
         Dictionary<string, UCOrderView> ucOrderViews = new Dictionary<string, UCOrderView>();
+        private StaffService staffService;
+
 
         public OrderViewForm(int tableNr)
         {
             InitializeComponent();
             orderService = new OrderService();
-            DisplayOrderInfo(tableNr);
+            StaffService staffService = new StaffService();
+            int currentEmployeeId = staffService.GetLoggedEmployeeId();
+            DisplayOrderInfo(tableNr, currentEmployeeId);
         }
 
         private void btnLunch_Click(object sender, EventArgs e)
@@ -78,9 +82,9 @@ namespace UI.OrderView
             lblOrderViewTotalPrice.Text = $"€{totalPrice:F2}";
         }
 
-        private void DisplayOrderInfo(int tableNr)
+        private void DisplayOrderInfo(int tableNr, int employeeId)
         {
-            Order runningOrder = orderService.GetRunningOrderFromTable(tableNr);
+            Order runningOrder = orderService.GetRunningOrderFromTable(tableNr, employeeId);
             lblTableNr.Text = $"Table: {tableNr}";
             lblOrderId.Text = $"({runningOrder.OrderId})";
         }

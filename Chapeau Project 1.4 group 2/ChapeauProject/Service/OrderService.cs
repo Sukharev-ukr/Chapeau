@@ -25,9 +25,9 @@ public class OrderService
         return allMenuItems.Where(item => item.Card == card).ToList();
     }
 
-    public Order GetRunningOrderFromTable(int tableNr)
+    public Order GetRunningOrderFromTable(int tableNr, int employeeId)
     {
-        return orderDao.GetOrderFromTableNr(tableNr);
+        return orderDao.GetOrderFromTableNr(tableNr, employeeId);
     }
 
     public void UpdateTipById(decimal input, int id)

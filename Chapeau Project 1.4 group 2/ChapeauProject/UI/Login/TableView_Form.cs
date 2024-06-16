@@ -18,6 +18,7 @@ namespace UI.Login
         private Panel popupPanel;
         private Dictionary<TableStatus, List<Button>> statusButtons;
         private TableService tableService;
+        private StaffService staffService;
         private Button selectedTableButton;
         private Button closeButton;
         private int selectedTableId;
@@ -677,8 +678,9 @@ namespace UI.Login
             {
                 // moves on to the PaymentSystem.BillDetails form
                 OrderService order = new OrderService();
-                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
-                Program.WindowSwitcher(this, billDetails);
+                StaffService staffService = new StaffService();
+                int currentEmployeeId = staffService.GetLoggedEmployeeId();
+                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId, currentEmployeeId).OrderId); Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)
             {

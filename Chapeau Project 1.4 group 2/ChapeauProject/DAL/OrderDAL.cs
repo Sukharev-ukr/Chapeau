@@ -172,5 +172,15 @@ namespace DAL
                 return 0;
             }
         }
+
+        public void DeleteOrder(int orderId)
+        {
+            string query = "DELETE FROM [Order] WHERE OrderID = @orderId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@orderId", orderId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
     }
 }

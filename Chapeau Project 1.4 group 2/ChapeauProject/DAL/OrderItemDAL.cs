@@ -164,5 +164,17 @@ namespace DAL
                 return 0;
             }
         }
+
+        public void UpdateOrderItemComment(int orderId, int itemId, string comment)
+        {
+            string query = "UPDATE OrderItem SET Comment = @comment WHERE OrderID = @orderId AND ItemID = @itemId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@comment", comment),
+        new SqlParameter("@orderId", orderId),
+        new SqlParameter("@itemId", itemId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
     }
 }

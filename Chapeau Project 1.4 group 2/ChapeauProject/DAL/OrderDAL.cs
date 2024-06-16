@@ -158,5 +158,19 @@ namespace DAL
             var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
             return orders.FirstOrDefault();
         }
+
+        public int GetCurrentOrderId()
+        {
+            string query = "SELECT MAX(OrderID) FROM [Order]";
+            DataTable result = ExecuteSelectQuery(query, new SqlParameter[0]);
+            if (result.Rows.Count > 0)
+            {
+                return Convert.ToInt32(result.Rows[0][0]);
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

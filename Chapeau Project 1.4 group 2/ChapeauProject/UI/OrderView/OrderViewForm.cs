@@ -78,9 +78,9 @@ namespace UI.OrderView
         }
 
 
-        private void btnOrderViewSummary_Click(object sender, EventArgs e)
+        private void btnOrderViewSubmit_Click(object sender, EventArgs e)
         {
-            OrderSummaryForm newForm = new OrderSummaryForm();
+            OrderSubmittedForm newForm = new OrderSubmittedForm();
 
             Program.WindowSwitcher(this, newForm);
         }

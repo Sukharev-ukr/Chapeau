@@ -12,10 +12,11 @@ namespace UI.OrderView
         OrderService orderService;
         Dictionary<string, UCOrderView> ucOrderViews = new Dictionary<string, UCOrderView>();
 
-        public OrderViewForm()
+        public OrderViewForm(int tableNr)
         {
             InitializeComponent();
             orderService = new OrderService();
+            DisplayOrderInfo(tableNr);
         }
 
         private void btnLunch_Click(object sender, EventArgs e)
@@ -77,6 +78,12 @@ namespace UI.OrderView
             lblOrderViewTotalPrice.Text = $"€{totalPrice:F2}";
         }
 
+        private void DisplayOrderInfo(int tableNr)
+        {
+            Order runningOrder = orderService.GetRunningOrderFromTable(tableNr);
+            lblTableNr.Text = $"Table: {tableNr}";
+            lblOrderId.Text = $"({runningOrder.OrderId})";
+        }
 
         private void btnOrderViewSubmit_Click(object sender, EventArgs e)
         {

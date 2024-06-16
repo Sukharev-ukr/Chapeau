@@ -60,7 +60,7 @@ namespace DAL
 
             if (orders.Count == 0)
             {
-                return CreateNewOrderForTable(tableNR, employeeId); 
+                return CreateNewOrderForTable(tableNR, employeeId);
             }
             else
             {
@@ -90,7 +90,7 @@ namespace DAL
                 OrderTime = orderTime,
                 Employee = new Employee() { EmployeeId = employeeId },
                 Table = new Table() { TableId = tableNR },
-                Items = new List<OrderItem>(), 
+                Items = new List<OrderItem>(),
                 OrderStatus = Status.running
             };
 

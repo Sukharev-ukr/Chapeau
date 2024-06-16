@@ -678,9 +678,9 @@ namespace UI.Login
             {
                 // moves on to the PaymentSystem.BillDetails form
                 OrderService order = new OrderService();
-                StaffService staffService = new StaffService();
-                int currentEmployeeId = staffService.GetLoggedEmployeeId();
-                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId, currentEmployeeId).OrderId); Program.WindowSwitcher(this, billDetails);
+                //StaffService staffService = new StaffService();
+                //int currentEmployeeId = staffService.GetLoggedEmployeeId();
+                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId, 1).OrderId); Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)
             {

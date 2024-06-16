@@ -40,10 +40,15 @@ namespace DAL
 
         public Staff GetStaffByUsername(string username)
         {
-            string query = "SELECT StaffID, Username, Role, PasswordHash FROM Staff WHERE Username = @username";
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentException("Username cannot be null or empty.", nameof(username));
+            }
+
+            string query = "SELECT StaffID, Username, Role, PasswordHash FROM Staff WHERE Username = @Username";
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
-        new SqlParameter("@username", SqlDbType.NVarChar) { Value = username }
+        new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username }
             };
             DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
 
@@ -53,9 +58,8 @@ namespace DAL
             }
             else
             {
-                return null; 
+                return null;
             }
         }
-
     }
 }

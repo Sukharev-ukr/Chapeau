@@ -79,6 +79,10 @@ namespace Service
                 }
                 return instance;
             }
+            public static void DestoryInstance()
+            {
+                instance = null;
+            }
 
         }
 

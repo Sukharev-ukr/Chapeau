@@ -68,7 +68,9 @@ namespace UI.PaymentSystem
 
                 PaymentService paymentService = new PaymentService();
                 paymentService.UploadBill(billParts.ListOFParts);
-                
+
+
+                BillParts.DestoryInstance();
 
                 BillCompleted billCompleted = new BillCompleted();
                 Program.WindowSwitcher(this, billCompleted);

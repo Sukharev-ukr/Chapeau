@@ -462,10 +462,10 @@ namespace UI.Login
                 ConfigureFreeTableButton(button, runningOrder);
             }
 
-            //if (button.Text == "Pay the Bill")
-            //{
-            //    ConfigurePayBillButton(button, runningOrder);
-            //}
+            if (button.Text == "Pay the Bill")
+            {
+                ConfigurePayBillButton(button, runningOrder);
+            }
         }
 
         private void ConfigureMarkAsServedButton(Button button, Order runningOrder)
@@ -502,17 +502,19 @@ namespace UI.Login
 
         private void ConfigurePayBillButton(Button button, Order runningOrder)
         {
-            if (runningOrder != null && runningOrder.OrderStatus == Status.running)
+            if (runningOrder != null && runningOrder.OrderStatus == Status.placed)
             {
                 button.Enabled = true;
                 button.BackColor = Color.Black;
                 button.ForeColor = Color.White;
+
             }
             else
             {
                 button.Enabled = false;
                 button.BackColor = Color.FromArgb(200, 255, 255, 255);
                 button.ForeColor = Color.Black;
+
             }
         }
 

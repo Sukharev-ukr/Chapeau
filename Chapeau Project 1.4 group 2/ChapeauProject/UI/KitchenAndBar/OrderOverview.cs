@@ -17,7 +17,6 @@ namespace UI
 {
     public partial class OrderOverview : Form
     {
-        private OrderService orderService;
         private OrderItemService orderItemService;
         private Staff employee;
         private bool isChef;
@@ -27,7 +26,6 @@ namespace UI
         public OrderOverview(Staff employee)
         {
             this.employee = employee;
-            orderService = new OrderService();
             orderItemService = new OrderItemService();
             
             InitializeComponent();
@@ -107,6 +105,7 @@ namespace UI
 
         private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()             //The first dictionary maps each Order to another dictionary.  The inner dictionary maps each Category(within that Order) to a list of OrderItems.
         {
+            OrderService orderService = new OrderService();
             List<Order> orders = orderService.GetAllOrders();
             var ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();
 

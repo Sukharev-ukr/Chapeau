@@ -3,6 +3,7 @@ using Model;
 using Service;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -128,6 +129,7 @@ namespace UI.Login
             try
             {
                 RefreshTableStatuses();
+                //UpdateOrderStatusLabel();
             }
             catch (Exception ex)
             {
@@ -239,14 +241,29 @@ namespace UI.Login
             {
                 var orderService = new OrderService();
                 var runningOrder = orderService.GetRunningOrder(tableId);
+
                 if (runningOrder != null)
                 {
+                    var orderStatus = runningOrder.OrderStatus;
                     var waitingTime = DateTime.Now - runningOrder.OrderTime.Value;
                     string waitingTimeText = $"{waitingTime.Hours:D2}:{waitingTime.Minutes:D2}:{waitingTime.Seconds:D2}";
 
-                    if (runningOrder.Items.Any(item => item.MenuItem.Category == Category.Drinks))
+                    Debug.WriteLine($"Order ID: {runningOrder.OrderId}, Status: {orderStatus}");
+
+                    if (orderStatus == Status.ready)
                     {
-                        label.Text = $"🍾 Running ({waitingTimeText})";
+                        label.Text = "Ready to serve";
+                    }
+                    else if (orderStatus == Status.running)
+                    {
+                        if (runningOrder.Items.Any(item => item.MenuItem.Category == Category.Drinks))
+                        {
+                            label.Text = $"🍾 Running ({waitingTimeText})";
+                        }
+                        else
+                        {
+                            label.Text = $"🍽️ Running ({waitingTimeText})";
+                        }
                     }
                     else
                     {
@@ -264,6 +281,7 @@ namespace UI.Login
             }
         }
 
+
         private void UpdateOrderStatusLabelForTable(Button tableButton)
         {
             try
@@ -273,7 +291,7 @@ namespace UI.Login
                 {
                     foreach (Control control in this.Controls)
                     {
-                        if (control is Label label && label.Tag is Table labelTable && labelTable.TableId == table.TableId)
+                        if (control is Label label && label.Tag is Table labelTable && labelTable.TableId == table.TableId) //check if its label, if the labels tag property is a table object and if the table id of that table matches the table id of the table object from the button
                         {
                             UpdateOrderStatusLabel(label, table.TableId);
                             break;

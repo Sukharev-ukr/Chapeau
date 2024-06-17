@@ -11,5 +11,7 @@ namespace Model
         public int TableId { get; set; }
         public TableStatus Status { get; set; }
         public int TableNumber { get; set; }
+
+
     }
 }

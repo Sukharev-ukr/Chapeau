@@ -17,7 +17,7 @@ namespace DAL
             string query = "SELECT StaffID, Username, Role, PasswordHash FROM Staff WHERE Username = @username AND PasswordHash = @PasswordHash";
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
-                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username }, //Case incencitivyvy, might change evrything to lower also queary
+                new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username },
                 new SqlParameter("@PasswordHash", SqlDbType.NVarChar) { Value = hashedPassword }
             };
             DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);

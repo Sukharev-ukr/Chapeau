@@ -136,14 +136,14 @@ namespace DAL
 
             SqlParameter[] sqlParameters =
             {
-        new SqlParameter("@orderId", orderId),
-        new SqlParameter("@status", status.ToString())
-    };
-
+                new SqlParameter("@orderId", orderId),
+                new SqlParameter("@status", status.ToString())
+            };
+            
             ExecuteEditQuery(query, sqlParameters);
         }
 
-        public Order GetRunningOrderByTableId(int tableId)
+        public Order GetRunningOrderByTableId(int tableId) 
         {
             string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber " +
                            "FROM [Order] " +

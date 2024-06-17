@@ -103,5 +103,78 @@ namespace DAL
             };
             ExecuteEditQuery(query, sqlParameters);
         }
+
+        public void AddOrUpdateOrderItem(int orderId, int itemId, int quantity, string status, DateTime statusTime)
+        {
+            string checkQuery = "SELECT COUNT(*) FROM OrderItem WHERE OrderID = @orderId AND ItemID = @itemId";
+            SqlParameter[] checkParameters = new SqlParameter[]
+            {
+        new SqlParameter("@orderId", orderId),
+        new SqlParameter("@itemId", itemId)
+            };
+            DataTable result = ExecuteSelectQuery(checkQuery, checkParameters);
+
+            if (result.Rows.Count > 0 && (int)result.Rows[0][0] == 0)
+            {
+                string insertQuery = "INSERT INTO OrderItem (OrderID, ItemID, Count, Status, StatusTime) VALUES (@orderId, @itemId, @quantity, @status, @statusTime)";
+                SqlParameter[] insertParameters = new SqlParameter[]
+                {
+            new SqlParameter("@orderId", orderId),
+            new SqlParameter("@itemId", itemId),
+            new SqlParameter("@quantity", quantity),
+            new SqlParameter("@status", status),
+            new SqlParameter("@statusTime", statusTime)
+                };
+                ExecuteEditQuery(insertQuery, insertParameters);
+            }
+            else
+            {
+                UpdateQuantity(orderId, itemId, quantity);
+            }
+        }
+
+
+        public void DeleteOrderItem(int orderId, int itemId)
+        {
+            string query = "DELETE FROM OrderItem WHERE OrderID = @orderId AND ItemID = @itemId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@orderId", orderId),
+                new SqlParameter("@itemId", itemId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+
+        public int GetQuantityByItemId(int orderId, int itemId)
+        {
+            string query = "SELECT Count FROM OrderItem WHERE OrderID = @orderId AND ItemID = @itemId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@orderId", orderId),
+        new SqlParameter("@itemId", itemId)
+            };
+
+            DataTable result = ExecuteSelectQuery(query, parameters);
+            if (result.Rows.Count > 0)
+            {
+                return Convert.ToInt32(result.Rows[0]["Count"]);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public void UpdateOrderItemComment(int orderId, int itemId, string comment)
+        {
+            string query = "UPDATE OrderItem SET Comment = @comment WHERE OrderID = @orderId AND ItemID = @itemId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@comment", comment),
+        new SqlParameter("@orderId", orderId),
+        new SqlParameter("@itemId", itemId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
     }
 }

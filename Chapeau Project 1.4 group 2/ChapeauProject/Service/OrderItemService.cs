@@ -11,10 +11,12 @@ namespace Service
     public class OrderItemService
     {
         private OrderItemDAL orderItemDao;
+        private OrderService orderService;
 
         public OrderItemService()
         {
             orderItemDao = new OrderItemDAL();
+            orderService = new OrderService();
         }
 
         public List<OrderItem> GetOrderItemsByCategory(int orderId, string category)
@@ -25,6 +27,7 @@ namespace Service
 
         public void UpdateOrderItemStatus(OrderItem orderItem, string status)
         {
+            int orderId = orderService.GetCurrentOrderId();
             orderItemDao.UpdateOrderItemStatus(orderItem, status);
         }
     }

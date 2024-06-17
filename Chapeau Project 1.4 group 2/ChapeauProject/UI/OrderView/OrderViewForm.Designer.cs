@@ -36,8 +36,8 @@
             pbOrderViewFooter = new PictureBox();
             pbOrderViewTotalPriceFooter = new PictureBox();
             lblOrderViewTotalTxt = new Label();
-            lblOrderViewTotal = new Label();
-            btnOrderViewSummary = new Button();
+            lblOrderViewTotalPrice = new Label();
+            btnOrderViewSubmit = new Button();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewTotalPriceFooter).BeginInit();
@@ -127,29 +127,29 @@
             lblOrderViewTotalTxt.TabIndex = 8;
             lblOrderViewTotalTxt.Text = "Total:";
             // 
-            // lblOrderViewTotal
+            // lblOrderViewTotalPrice
             // 
-            lblOrderViewTotal.AutoSize = true;
-            lblOrderViewTotal.BackColor = Color.White;
-            lblOrderViewTotal.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lblOrderViewTotal.Location = new Point(93, 829);
-            lblOrderViewTotal.Name = "lblOrderViewTotal";
-            lblOrderViewTotal.Size = new Size(94, 25);
-            lblOrderViewTotal.TabIndex = 9;
-            lblOrderViewTotal.Text = "totalPrice";
+            lblOrderViewTotalPrice.AutoSize = true;
+            lblOrderViewTotalPrice.BackColor = Color.White;
+            lblOrderViewTotalPrice.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblOrderViewTotalPrice.Location = new Point(59, 828);
+            lblOrderViewTotalPrice.Name = "lblOrderViewTotalPrice";
+            lblOrderViewTotalPrice.Size = new Size(57, 25);
+            lblOrderViewTotalPrice.TabIndex = 9;
+            lblOrderViewTotalPrice.Text = "€0.00";
             // 
-            // btnOrderViewSummary
+            // btnOrderViewSubmit
             // 
-            btnOrderViewSummary.BackColor = Color.Black;
-            btnOrderViewSummary.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnOrderViewSummary.ForeColor = Color.White;
-            btnOrderViewSummary.Location = new Point(578, 815);
-            btnOrderViewSummary.Name = "btnOrderViewSummary";
-            btnOrderViewSummary.Size = new Size(138, 50);
-            btnOrderViewSummary.TabIndex = 10;
-            btnOrderViewSummary.Text = "Summary";
-            btnOrderViewSummary.UseVisualStyleBackColor = false;
-            btnOrderViewSummary.Click += btnOrderViewSummary_Click;
+            btnOrderViewSubmit.BackColor = Color.Black;
+            btnOrderViewSubmit.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnOrderViewSubmit.ForeColor = Color.White;
+            btnOrderViewSubmit.Location = new Point(578, 815);
+            btnOrderViewSubmit.Name = "btnOrderViewSubmit";
+            btnOrderViewSubmit.Size = new Size(138, 50);
+            btnOrderViewSubmit.TabIndex = 10;
+            btnOrderViewSubmit.Text = "Submit";
+            btnOrderViewSubmit.UseVisualStyleBackColor = false;
+            btnOrderViewSubmit.Click += btnOrderViewSubmit_Click;
             // 
             // OrderViewForm
             // 
@@ -157,8 +157,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(728, 944);
-            Controls.Add(btnOrderViewSummary);
-            Controls.Add(lblOrderViewTotal);
+            Controls.Add(btnOrderViewSubmit);
+            Controls.Add(lblOrderViewTotalPrice);
             Controls.Add(lblOrderViewTotalTxt);
             Controls.Add(pbOrderViewTotalPriceFooter);
             Controls.Add(pbOrderViewFooter);
@@ -186,7 +186,7 @@
         private PictureBox pbOrderViewFooter;
         private PictureBox pbOrderViewTotalPriceFooter;
         private Label lblOrderViewTotalTxt;
-        private Label lblOrderViewTotal;
-        private Button btnOrderViewSummary;
+        private Label lblOrderViewTotalPrice;
+        private Button btnOrderViewSubmit;
     }
 }

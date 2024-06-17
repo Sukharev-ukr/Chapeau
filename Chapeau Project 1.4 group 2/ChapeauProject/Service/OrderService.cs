@@ -58,6 +58,14 @@ public class OrderService
     public void MarkOrderAsServed(int orderId)
     {
         orderDao.UpdateOrderStatus(orderId, Status.finished);
+    }
+    public List<OrderItem> GetOrderItemsByOrderId(int orderId)
+    {
+        return orderDao.GetOrderItems(orderId);
+    }
 
+    public int GetCurrentOrderId()
+    {
+        return orderDao.GetCurrentOrderId();
     }
 }

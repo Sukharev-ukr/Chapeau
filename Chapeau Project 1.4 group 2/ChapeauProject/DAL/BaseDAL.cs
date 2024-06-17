@@ -87,7 +87,29 @@ namespace DAL
             }
         }
 
-       
+
+        public int ExecuteEditQueryWithResult(string query, SqlParameter[] sqlParameters)
+        {
+            SqlCommand command = new SqlCommand();
+
+            try
+            {
+                command.Connection = OpenConnection();
+                command.CommandText = query;
+                command.Parameters.AddRange(sqlParameters);
+                int affectedRows = command.ExecuteNonQuery();
+                return affectedRows;
+            }
+            catch (SqlException e)
+            {
+                // Print.ErrorLog(e);
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
 
         /* For Select Queries */
         protected DataTable ExecuteSelectQuery(string query, params SqlParameter[] sqlParameters)

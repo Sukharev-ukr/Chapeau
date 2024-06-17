@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Timer = System.Windows.Forms.Timer;
 
 namespace UI
@@ -16,23 +18,59 @@ namespace UI
     {
         private OrderService orderService;
         private OrderItemService orderItemService;
-        private Employee employee;
+        private Staff employee;
         private bool isChef;
         private Timer clockTimer;
+        private Button myButton;
 
-        public OrderOverview(Employee employee)
+        public OrderOverview(Staff employee)
         {
             this.employee = employee;
             orderService = new OrderService();
             orderItemService = new OrderItemService();
-
+            
             InitializeComponent();
             InitializeFlowLayoutPanel();
             InitializeClockTimer();
-            lblEmployee.Text = employee.Name;
+            lblEmployee.Text = employee.Username;
             isChef = employee.Role == Role.Chef;
+            ShowOrdersPanel(flowLayoutPanelRunning);
+
+            Button logoutButton = new Button
+            {
+                Text = "Log out",
+                Width = 90,
+                Height = 30,
+                BackColor = Color.Black,
+                ForeColor = Color.White,
+                Font = new Font("Roboto", 7, FontStyle.Regular),
+                FlatStyle = FlatStyle.Flat,
+                FlatAppearance = { BorderSize = 0 },
+                Location = new Point(this.ClientSize.Width - 77, 5)
+            };
+            logoutButton.Click += LogoutButton_Click;
+
+            this.Controls.Add(logoutButton);
+            logoutButton.BringToFront();
         }
 
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var message = MessageBox.Show("Are you sure you would like to logout?", "Confirmation", MessageBoxButtons.YesNo);
+                if (message == DialogResult.Yes)
+                {
+                    this.Hide();
+                    LoginForm loginForm = new LoginForm(); // Create a new login form
+                    loginForm.ShowDialog(); // Display the login form
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred during logout: " + ex.Message, "Error");
+            }
+        }
         private void InitializeClockTimer()
         {
             clockTimer = new Timer

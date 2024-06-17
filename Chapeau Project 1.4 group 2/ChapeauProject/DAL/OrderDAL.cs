@@ -111,22 +111,22 @@ namespace DAL
             ExecuteEditQuery(query, parameters);
         }
         public List<Order> GetOrders(bool drinks, Status status)
-{
-    string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
+        {
+            string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
 
-    string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
-                   "FROM Order AS O " +
-                   "JOIN Table AS T ON O.TableID = T.TableID " +
-                   "WHERE O.OrderStatus = @status AND @category";
+            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
+                           "FROM Order AS O " +
+                           "JOIN Table AS T ON O.TableID = T.TableID " +
+                           "WHERE O.OrderStatus = @status AND @category";
 
-    SqlParameter[] parameters =
-    {
+            SqlParameter[] parameters =
+            {
         new SqlParameter("@status", status),
         new SqlParameter("@category", category)
     };
 
-    return ReadOrders(ExecuteSelectQuery(query, parameters));
-}
+            return ReadOrders(ExecuteSelectQuery(query, parameters));
+        }
 
 
         //update status of Order
@@ -157,6 +157,20 @@ namespace DAL
 
             var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
             return orders.FirstOrDefault();
+        }
+
+        public int GetCurrentOrderId()
+        {
+            string query = "SELECT MAX(OrderID) FROM [Order]";
+            DataTable result = ExecuteSelectQuery(query, new SqlParameter[0]);
+            if (result.Rows.Count > 0)
+            {
+                return Convert.ToInt32(result.Rows[0][0]);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

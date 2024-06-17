@@ -79,6 +79,10 @@ namespace Service
                 }
                 return instance;
             }
+            public static void DestoryInstance()
+            {
+                instance = null;
+            }
 
         }
 
@@ -101,8 +105,8 @@ namespace Service
             }
             public void AddTip(decimal tip)
             {
-                Tip = tip;
-                OrderTotal += Tip;
+                Tip += tip;
+                OrderTotal += tip;
             }
             
             public static CurrentOrder Getinstance(int newOrder)
@@ -116,6 +120,10 @@ namespace Service
             public static CurrentOrder Getinstance()
             {
                 return instance;
+            }
+            public static void DestoryInstance()
+            {
+                instance = null;
             }
 
         }

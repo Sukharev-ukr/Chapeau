@@ -71,4 +71,8 @@ public class OrderService
     {
         return orderDao.GetCurrentOrderId();
     }
+    public void DeleteOrder(int orderId)
+    {
+        orderDao.DeleteOrder(orderId);
+    }
 }

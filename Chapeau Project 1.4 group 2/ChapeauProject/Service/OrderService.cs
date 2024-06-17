@@ -56,6 +56,11 @@ public class OrderService
         return orderDao.GetRunningOrderByTableId(tableId);
     }
 
+
+    public Order GetStatusOrder(int tableId,Status status)
+    {
+        return orderDao.GetStatusOrderByTableId(tableId,status);
+    }
     public void MarkOrderAsServed(int orderId)
     {
         orderDao.UpdateOrderStatus(orderId, Status.finished);

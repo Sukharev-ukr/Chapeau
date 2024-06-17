@@ -451,10 +451,11 @@ namespace UI.Login
         {
             var orderService = new OrderService();
             var runningOrder = orderService.GetRunningOrder(table.TableId);
+            var servedOrder = orderService.GetStatusOrder(table.TableId, Status.served);
 
             if (button.Text == "Mark as Served")
             {
-                ConfigureMarkAsServedButton(button, runningOrder);
+                ConfigureMarkAsServedButton(button, servedOrder);
             }
 
             if (button.Text == "Free table")
@@ -464,7 +465,7 @@ namespace UI.Login
 
             if (button.Text == "Pay the Bill")
             {
-                ConfigurePayBillButton(button, runningOrder);
+                ConfigurePayBillButton(button, servedOrder);
             }
         }
 
@@ -502,7 +503,7 @@ namespace UI.Login
 
         private void ConfigurePayBillButton(Button button, Order runningOrder)
         {
-            if (runningOrder != null && runningOrder.OrderStatus == Status.placed)
+            if (runningOrder != null && runningOrder.OrderStatus == Status.served)
             {
                 button.Enabled = true;
                 button.BackColor = Color.Black;

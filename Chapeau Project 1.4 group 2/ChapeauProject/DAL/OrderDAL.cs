@@ -48,6 +48,7 @@ namespace DAL
                     TableNumber = (int)dr["TableNumber"]
                 },
                 Feedback = (string)dr["Feedback"],
+                OrderStatus = (Status)Enum.Parse(typeof(Status), (string)dr["OrderStatus"]),
                 Items = GetOrderItems((int)dr["OrderID"])
             };
         }
@@ -153,6 +154,21 @@ namespace DAL
             {
                 new SqlParameter("@tableId", tableId),
                 new SqlParameter("@status", Status.running.ToString())
+            };
+
+            var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
+            return orders.FirstOrDefault();
+        }
+        public Order GetStatusOrderByTableId(int tableId,Status status)
+        {
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber " +
+                           "FROM [Order] " +
+                           "WHERE TableID = @tableId AND OrderStatus = @status";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@tableId", tableId),
+                new SqlParameter("@status", status.ToString())
             };
 
             var orders = ReadOrders(ExecuteSelectQuery(query, parameters));

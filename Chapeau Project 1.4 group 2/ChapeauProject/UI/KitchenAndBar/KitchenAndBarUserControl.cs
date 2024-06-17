@@ -89,7 +89,7 @@ namespace UI
 
             // Fill list view
             ListViewItem listViewItem = new ListViewItem($"{orderItem.Count}x {orderItem.MenuItem.Name}");
-            listViewItem.SubItems.Add($"   {orderItem.Comment}");
+            listViewItem.SubItems.Add(orderItem.Comment);
             listViewItem.Tag = orderItem;
             listViewOrderItems.Items.Add(listViewItem);
 

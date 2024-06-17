@@ -18,7 +18,7 @@ namespace UI.OrderView
         {
             InitializeComponent();
             orderService = new OrderService();
-            StaffService staffService = new StaffService();
+            // StaffService staffService = new StaffService();
             //int currentEmployeeId = staffService.GetLoggedEmployeeId();
             int currentEmployeeId = 1;
 

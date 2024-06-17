@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class OrderService
 {
     private OrderDAL orderDao;
+    private OrderItemDAL orderItemDao;
 
     MenuDAL menuDAL;
     public List<MenuItem> allMenuItems;
@@ -13,6 +14,7 @@ public class OrderService
     {
         menuDAL = new MenuDAL();
         orderDao = new OrderDAL();
+        orderItemDao = new OrderItemDAL();
         allMenuItems = menuDAL.GetMenuItems();
     }
     public List<MenuItem> GetAllMenuItems()
@@ -68,5 +70,12 @@ public class OrderService
     public int GetCurrentOrderId()
     {
         return orderDao.GetCurrentOrderId();
+    }
+
+    public void DeleteOrder(int orderId)
+    {
+        orderItemDao.DeleteOrderItemsByOrderId(orderId);
+
+        orderDao.DeleteOrder(orderId);
     }
 }

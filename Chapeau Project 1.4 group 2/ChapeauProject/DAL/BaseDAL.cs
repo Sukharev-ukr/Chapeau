@@ -172,11 +172,14 @@ namespace DAL
             try
             {
                 command.Connection = OpenConnection();
-                command.CommandText = query + "; SELECT SCOPE_IDENTITY();";
+                command.CommandText = query;
                 command.Parameters.AddRange(sqlParameters);
 
+                command.ExecuteNonQuery();
+
+                command.CommandText = "SELECT SCOPE_IDENTITY();";
                 object result = command.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value) 
                 {
                     insertedId = Convert.ToInt32(result);
                 }

@@ -33,6 +33,7 @@
             lblOrderTime = new Label();
             listViewOrderItems = new ListView();
             columnHeader2 = new ColumnHeader();
+            columnHeader1 = new ColumnHeader();
             groupBoxOrder = new GroupBox();
             lblOrderItemTime = new Label();
             comboBoxStatus = new ComboBox();
@@ -43,7 +44,7 @@
             // lblCategory
             // 
             lblCategory.AutoSize = true;
-            lblCategory.Location = new Point(18, 111);
+            lblCategory.Location = new Point(14, 111);
             lblCategory.Name = "lblCategory";
             lblCategory.Size = new Size(81, 25);
             lblCategory.TabIndex = 8;
@@ -52,7 +53,7 @@
             // lblTableNumber
             // 
             lblTableNumber.AutoSize = true;
-            lblTableNumber.Location = new Point(18, 77);
+            lblTableNumber.Location = new Point(15, 77);
             lblTableNumber.Name = "lblTableNumber";
             lblTableNumber.Size = new Size(67, 25);
             lblTableNumber.TabIndex = 11;
@@ -68,19 +69,24 @@
             // 
             // listViewOrderItems
             // 
-            listViewOrderItems.Columns.AddRange(new ColumnHeader[] { columnHeader2 });
+            listViewOrderItems.Columns.AddRange(new ColumnHeader[] { columnHeader2, columnHeader1 });
             listViewOrderItems.FullRowSelect = true;
-            listViewOrderItems.Location = new Point(18, 147);
+            listViewOrderItems.Location = new Point(13, 147);
             listViewOrderItems.Name = "listViewOrderItems";
-            listViewOrderItems.Size = new Size(324, 203);
+            listViewOrderItems.Size = new Size(517, 203);
             listViewOrderItems.TabIndex = 14;
             listViewOrderItems.UseCompatibleStateImageBehavior = false;
             listViewOrderItems.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader2
             // 
-            columnHeader2.Text = "";
-            columnHeader2.Width = 400;
+            columnHeader2.Text = "Items";
+            columnHeader2.Width = 420;
+            // 
+            // columnHeader1
+            // 
+            columnHeader1.Text = "Comment";
+            columnHeader1.Width = 260;
             // 
             // groupBoxOrder
             // 
@@ -92,16 +98,16 @@
             groupBoxOrder.Controls.Add(lblOrderTime);
             groupBoxOrder.Controls.Add(comboBoxStatus);
             groupBoxOrder.ForeColor = SystemColors.ControlText;
-            groupBoxOrder.Location = new Point(23, 31);
+            groupBoxOrder.Location = new Point(19, 31);
             groupBoxOrder.Name = "groupBoxOrder";
-            groupBoxOrder.Size = new Size(356, 356);
+            groupBoxOrder.Size = new Size(545, 356);
             groupBoxOrder.TabIndex = 15;
             groupBoxOrder.TabStop = false;
             // 
             // lblOrderItemTime
             // 
             lblOrderItemTime.AutoSize = true;
-            lblOrderItemTime.Location = new Point(208, 27);
+            lblOrderItemTime.Location = new Point(418, 35);
             lblOrderItemTime.Name = "lblOrderItemTime";
             lblOrderItemTime.Size = new Size(90, 25);
             lblOrderItemTime.TabIndex = 15;
@@ -111,7 +117,7 @@
             // 
             comboBoxStatus.FormattingEnabled = true;
             comboBoxStatus.Items.AddRange(new object[] { "placed", "BeingPrepared", "ready" });
-            comboBoxStatus.Location = new Point(198, 108);
+            comboBoxStatus.Location = new Point(384, 103);
             comboBoxStatus.Name = "comboBoxStatus";
             comboBoxStatus.Size = new Size(144, 33);
             comboBoxStatus.TabIndex = 14;
@@ -119,14 +125,12 @@
             // 
             // lblHiddenFinishedTime
             // 
-            this.lblHiddenFinishedTime.AutoSize = true;
-            this.lblHiddenFinishedTime.Location = new System.Drawing.Point(13, 13);
-            this.lblHiddenFinishedTime.Name = "lblHiddenFinishedTime";
-            this.lblHiddenFinishedTime.Size = new System.Drawing.Size(0, 13);
-            this.lblHiddenFinishedTime.TabIndex = 0;
-            this.lblHiddenFinishedTime.Visible = false;
-            this.Controls.Add(this.lblHiddenFinishedTime);
-            this.ResumeLayout(false);
+            lblHiddenFinishedTime.AutoSize = true;
+            lblHiddenFinishedTime.Location = new Point(13, 13);
+            lblHiddenFinishedTime.Name = "lblHiddenFinishedTime";
+            lblHiddenFinishedTime.Size = new Size(0, 25);
+            lblHiddenFinishedTime.TabIndex = 0;
+            lblHiddenFinishedTime.Visible = false;
             // 
             // KitchenAndBarUserControl
             // 
@@ -135,7 +139,7 @@
             Controls.Add(lblHiddenFinishedTime);
             Controls.Add(groupBoxOrder);
             Name = "KitchenAndBarUserControl";
-            Size = new Size(392, 390);
+            Size = new Size(567, 390);
             groupBoxOrder.ResumeLayout(false);
             groupBoxOrder.PerformLayout();
             ResumeLayout(false);
@@ -152,5 +156,6 @@
         private Label lblOrderItemTime;
         private ColumnHeader columnHeader2;
         private Label lblHiddenFinishedTime;
+        private ColumnHeader columnHeader1;
     }
 }

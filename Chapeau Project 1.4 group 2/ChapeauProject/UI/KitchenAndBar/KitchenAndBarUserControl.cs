@@ -36,7 +36,7 @@ namespace UI
         {
             orderUpdateTimer = new Timer();
             orderUpdateTimer.Interval = 1000; // Set the interval to 1 second (1000 milliseconds)
-            orderUpdateTimer.Tick += OrderUpdateTimer_Tick;
+            orderUpdateTimer.Tick += OrderUpdateTimer_Tick; // every time the timer's interval elapses, the OrderUpdateTimer_Tick method will be called automatically.
             orderUpdateTimer.Start();
         }
 
@@ -89,7 +89,7 @@ namespace UI
 
             // Fill list view
             ListViewItem listViewItem = new ListViewItem($"{orderItem.Count}x {orderItem.MenuItem.Name}");
-            listViewItem.SubItems.Add($"   -{orderItem.Comment}");
+            listViewItem.SubItems.Add($"   {orderItem.Comment}");
             listViewItem.Tag = orderItem;
             listViewOrderItems.Items.Add(listViewItem);
 

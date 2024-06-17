@@ -1,6 +1,7 @@
 ﻿using Model;
 using Service;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -104,7 +105,7 @@ namespace UI
             panel.Show();
         }
 
-        private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()
+        private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()             //The first dictionary maps each Order to another dictionary.  The inner dictionary maps each Category(within that Order) to a list of OrderItems.
         {
             List<Order> orders = orderService.GetAllOrders();
             var ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();

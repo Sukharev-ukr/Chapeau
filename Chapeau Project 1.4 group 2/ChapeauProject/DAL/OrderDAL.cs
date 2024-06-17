@@ -48,6 +48,7 @@ namespace DAL
                     TableNumber = (int)dr["TableNumber"]
                 },
                 Feedback = (string)dr["Feedback"],
+                OrderStatus = (Status)Enum.Parse(typeof(Status), (string)dr["OrderStatus"]),
                 Items = GetOrderItems((int)dr["OrderID"])
             };
         }

@@ -239,8 +239,10 @@ namespace UI.Login
         {
             try
             {
+                TableService tableService = new TableService();
                 var orderService = new OrderService();
                 var runningOrder = orderService.GetRunningOrder(tableId);
+
 
                 if (runningOrder != null)
                 {

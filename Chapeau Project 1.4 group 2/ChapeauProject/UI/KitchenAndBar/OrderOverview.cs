@@ -150,7 +150,7 @@ namespace UI
 
         private void CreateOrders(Dictionary<Order, Dictionary<Category, List<OrderItem>>> orders)
         {
-            foreach (var orderPair in orders)
+            foreach (var orderPair in orders) //Order-key,  Dictionary<Category, List<OrderItem>>> -value
             {
                 CreateUserControl(orderPair.Key, orderPair.Value);
             }
@@ -160,7 +160,7 @@ namespace UI
         {
             foreach (var categoryPair in itemsByCategory)
             {
-                var orderItems = categoryPair.Value;
+                var orderItems = categoryPair.Value;         //extracts the list of order items associated with the current category from the dictionary
                 if (orderItems.Count > 0)
                 {
                     var orderControl = new KitchenAndBarUserControl(order);

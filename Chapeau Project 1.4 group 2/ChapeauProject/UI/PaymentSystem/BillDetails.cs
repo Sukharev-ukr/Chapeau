@@ -18,66 +18,66 @@ namespace UI
     public partial class BillDetails : Form
     {
 
-        CurrentOrder currentOrder;
-        public BillDetails(int order)
+        Order currentOrder;
+        public BillDetails(Order order)
         {
             InitializeComponent();
-            currentOrder = CurrentOrder.Getinstance(order);
-            LabelOrderNR.Text = currentOrder.orderDetail.Keys.First().OrderId.ToString();
-            LoadOrderItems();
+            currentOrder = order;
+            LabelOrderNR.Text = currentOrder.OrderId.ToString();
+            LoadLabels(currentOrder);
         }
 
-        private void LoadOrderItems()
+        private void LoadBillListView(Order currentOrder)
         {
-            Dictionary<OrderItem, MenuItem> OrderDetails = GetOrderMenuItems();
+            foreach (OrderItem item in currentOrder.Items)
+            {
+                decimal sum = (item.Count * item.MenuItem.Price);
+
+                // remove this. VAT shouldt even be nullable
+                if (item.MenuItem.VAT != null)
+                {
+                    VAT = sum * (((decimal)item.MenuItem.VAT / 100));
+                    VATTotal += VAT;
+                }
+                total += sum;
+                ListViewItem li = new ListViewItem(item.MenuItem.Name);
+                li.SubItems.Add(item.Count.ToString());
+                li.SubItems.Add(item.MenuItem.Price.ToString());
+                li.SubItems.Add((sum).ToString());
+                li.SubItems.Add(VAT.ToString("F"));
+                li.Tag = item.OrderId;
+
+                listViewBillList.Items.Add(li);
+            }
+        }
+
+        private void LoadLabels(Order currentOrder)
+        {
             listViewBillList.Items.Clear();
-            decimal sum = 0;
             decimal VAT = 0;
             decimal total = 0;
             decimal VATTotal = 0;
 
-            foreach (KeyValuePair<OrderItem, MenuItem> item in OrderDetails)
-            {
-                sum = (item.Key.Count * item.Value.Price);
-                if (item.Value.VAT != null)
-                {
-                    VAT = sum * (((decimal)item.Value.VAT / 100));
-                    VATTotal += VAT;
-                }
-                total += sum;
-                ListViewItem li = new ListViewItem(item.Value.Name);
-                li.SubItems.Add(item.Key.Count.ToString());
-                li.SubItems.Add(item.Value.Price.ToString());
-                li.SubItems.Add((sum).ToString());
-                li.SubItems.Add(VAT.ToString("F"));
-                li.Tag = item.Key.OrderId;
 
-                listViewBillList.Items.Add(li);
-            }
 
-            if (currentOrder.OrderTotal == 0)
+            if (currentOrder.TotalAmount == 0)
             {
-                currentOrder.OrderTotal = total + VATTotal;
+                currentOrder.TotalAmount = total + VATTotal;
             }
             
-            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
+            labelTotal.Text = currentOrder.TotalAmount.ToString("F");
             labelSubtotal.Text = total.ToString("F");
             labelVAT.Text = VATTotal.ToString("F");
 
-            if (currentOrder.Tip != 0)
+            if (currentOrder.TipAmount != 0)
             {
                 labelTip.Visible = true;
                 label8.Visible = true;
-                labelTip.Text = currentOrder.Tip.ToString("F");
+                labelTip.Text = currentOrder.TipAmount.ToString("F");
             }
 
 
         }
-        private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
-        {
-            return currentOrder.orderDetail;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             BillSplitter newForm = new BillSplitter();

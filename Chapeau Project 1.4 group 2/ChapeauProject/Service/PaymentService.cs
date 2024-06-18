@@ -22,11 +22,6 @@ namespace Service
             orderItemDal = new OrderItemDAL();
         }
 
-        public Dictionary<OrderItem, MenuItem> GetOrderDetails(int order)
-        {
-            return orderItemDal.GetOrderDetails(order);
-        }
-
         public void UploadBill(List<Bill> billParts)
         {
             BillDAO billDAO = new BillDAO();
@@ -39,7 +34,7 @@ namespace Service
 
 
 
-        public class BillParts
+/*        public class BillParts
         {
             public List<Bill> ListOFParts;
             int OrderId;
@@ -126,7 +121,7 @@ namespace Service
                 instance = null;
             }
 
-        }
+        }*/
 
     }
 }

@@ -11,35 +11,40 @@ using Model;
 using Service;
 using UI.Login;
 using UI.PaymentSystem;
-using static Service.PaymentService;
 
 namespace UI
 {
     public partial class BillDetails : Form
     {
 
+        OrderItemService orderItemService;
         Order currentOrder;
+
         public BillDetails(Order order)
         {
-            InitializeComponent();
             currentOrder = order;
+            orderItemService = new OrderItemService();
+
+            InitializeComponent();
+
             LabelOrderNR.Text = currentOrder.OrderId.ToString();
+
+            GetOrderItems(currentOrder);
+
+            LoadBillListView(currentOrder);
             LoadLabels(currentOrder);
         }
 
         private void LoadBillListView(Order currentOrder)
         {
+            listViewBillList.Items.Clear();
             foreach (OrderItem item in currentOrder.Items)
             {
                 decimal sum = (item.Count * item.MenuItem.Price);
+                decimal VAT = sum * (((decimal)item.MenuItem.VAT / 100));
 
-                // remove this. VAT shouldt even be nullable
-                if (item.MenuItem.VAT != null)
-                {
-                    VAT = sum * (((decimal)item.MenuItem.VAT / 100));
-                    VATTotal += VAT;
-                }
-                total += sum;
+                currentOrder.VAT += VAT;
+                currentOrder.TotalAmount += sum;
                 ListViewItem li = new ListViewItem(item.MenuItem.Name);
                 li.SubItems.Add(item.Count.ToString());
                 li.SubItems.Add(item.MenuItem.Price.ToString());
@@ -53,63 +58,56 @@ namespace UI
 
         private void LoadLabels(Order currentOrder)
         {
-            listViewBillList.Items.Clear();
-            decimal VAT = 0;
-            decimal total = 0;
-            decimal VATTotal = 0;
-
-
-
-            if (currentOrder.TotalAmount == 0)
-            {
-                currentOrder.TotalAmount = total + VATTotal;
-            }
-            
             labelTotal.Text = currentOrder.TotalAmount.ToString("F");
-            labelSubtotal.Text = total.ToString("F");
-            labelVAT.Text = VATTotal.ToString("F");
+            labelSubtotal.Text = currentOrder.TotalAmount.ToString("F");
+            labelVAT.Text = currentOrder.VAT.ToString("F");
 
+            //if a tip has been added, show the label and tip value.
             if (currentOrder.TipAmount != 0)
             {
                 labelTip.Visible = true;
                 label8.Visible = true;
                 labelTip.Text = currentOrder.TipAmount.ToString("F");
             }
-
-
         }
+
+        private void GetOrderItems(Order currentOrder)
+        {
+           currentOrder.Items = orderItemService.GetOrderDetials(currentOrder.OrderId);
+        }
+
+        //opens the bill spliter form.
         private void button1_Click(object sender, EventArgs e)
         {
-            BillSplitter newForm = new BillSplitter();
+            BillSplitter newForm = new BillSplitter(currentOrder);
 
             Program.WindowSwitcher(this, newForm);
 
         }
-
+        //opens add tip form
         private void buttonAddTip_Click(object sender, EventArgs e)
         {
-            Program.WindowSwitcher(this, new AddTip());
+            Program.WindowSwitcher(this, new AddTip(currentOrder));
         }
-
+        //opens the add comment form
         private void buttonComment_Click(object sender, EventArgs e)
         {
-            AddComment addComment = new AddComment();
+            AddComment addComment = new AddComment(currentOrder);
             addComment.ShowDialog();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            BillParts billParts = BillParts.Getinstance();
-            billParts.AddBillPart(0, currentOrder.OrderTotal);
-
-            PaymentForm paymentform = new PaymentForm();
+            List<Bill> bill = new List<Bill> { new Bill { OrderId = currentOrder.OrderId, TotalAmount = currentOrder.TotalAmount } };
+            PaymentForm paymentform = new PaymentForm(bill);
 
             Program.WindowSwitcher(this, paymentform);
         }
 
+        //returns to the tableview. gets a the logged user name from staff service
+        // might need rework
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            CurrentOrder.DestoryInstance();
             StaffService staff = new StaffService();
 
             TableView_Form tableView_Form = new TableView_Form(staff.LoggedUser);

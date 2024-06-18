@@ -8,22 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Service.PaymentService;
+using Model;
 
 namespace UI.PaymentSystem
 {
     public partial class AddComment : Form
     {
-        public AddComment()
+        Order currentOrder;
+        public AddComment(Order order)
         {
+            currentOrder = order;
             InitializeComponent();
         }
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            CurrentOrder currentOrder = CurrentOrder.Getinstance();
-
-            currentOrder.Comment = richTextComment.Text;
+            currentOrder.Feedback = richTextComment.Text;
             this.Dispose();
         }
 

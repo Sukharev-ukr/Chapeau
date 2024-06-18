@@ -678,8 +678,8 @@ namespace UI.Login
             {
                 // moves on to the PaymentSystem.BillDetails form
                 OrderService order = new OrderService();
-                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
-                Program.WindowSwitcher(this, billDetails);
+               // BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
+               // Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)
             {

@@ -62,7 +62,7 @@ namespace UI.PaymentSystem
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
             billParts[partNumber].PaymentMethod = paymentMethod;
-            Checkout checkout = new Checkout(paymentMethod,billParts,partNumber,currentOrder);
+            Checkout checkout = new Checkout(billParts,partNumber,currentOrder);
             Program.WindowSwitcher(this, checkout);
         }
     }

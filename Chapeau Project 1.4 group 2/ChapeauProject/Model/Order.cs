@@ -9,7 +9,6 @@ namespace Model
     public class Order
     {
 
-
         public int OrderId { get; set; }
         public DateTime? OrderTime { get; set; }
         public decimal TotalAmount { get; set; }

@@ -24,11 +24,10 @@ namespace UI.PaymentSystem
 
 
         //perharps to many paramaters
-        public Checkout(PaymentMethod method,List<Bill> bills,int partNumber,Order Order)
+        public Checkout(List<Bill> bills,int partNumber,Order Order)
         {
             billParts = bills;
             Bill part = billParts[partNumber];
-            paymentMethod = method;
             currentOrder = Order;
 
 
@@ -63,13 +62,11 @@ namespace UI.PaymentSystem
 
                 // to much shit
                 OrderService orderService = new OrderService();
-                orderService.UpdateTipById(currentOrder.TipAmount, currentOrder.OrderId);
-                orderService.UpdateTotalById( currentOrder.TipAmount, currentOrder.OrderId);
-                orderService.UpdateOrderStatus(currentOrder.OrderId,Status.finished);
+                orderService.UpdateOrder(currentOrder);
 
 
                 PaymentService paymentService = new PaymentService();
-                paymentService.UploadBill(billParts);
+                paymentService.SaveBill(billParts);
 
 
                 BillCompleted billCompleted = new BillCompleted();

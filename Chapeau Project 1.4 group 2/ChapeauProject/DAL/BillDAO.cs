@@ -10,7 +10,7 @@ namespace DAL
 {
     public class BillDAO : BaseDAL
     {
-        public void UploadBill(Bill bill)
+        public void SaveBill(Bill bill)
         {
             string query = "INSERT INTO bill VALUES ( @totalamount, @VAT, @paymentmethod, @orderid)";
 

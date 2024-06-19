@@ -22,12 +22,12 @@ namespace Service
             orderItemDal = new OrderItemDAL();
         }
 
-        public void UploadBill(List<Bill> billParts)
+        public void SaveBill(List<Bill> billParts)
         {
             BillDAO billDAO = new BillDAO();
             foreach (Bill bill in billParts)
             {
-                billDAO.UploadBill(bill);
+                billDAO.SaveBill(bill);
             }
             billDAO.SetTableStateByOrderID(billParts[0].OrderId,TableStatus.free);
         }

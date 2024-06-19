@@ -156,6 +156,8 @@ namespace UI.Login
 
                             // Update the order status label
                             UpdateOrderStatusLabelForTable(button);
+
+
                         }
                     }
                 }
@@ -225,6 +227,7 @@ namespace UI.Login
                     this.Controls.Add(orderStatusLabel);
 
                     UpdateOrderStatusLabel(orderStatusLabel, tables[i].TableId);
+                    UpdateOrderStatusLabelReady(orderStatusLabel, tables[i].TableId);
                 }
             }
             catch (Exception ex)
@@ -239,6 +242,7 @@ namespace UI.Login
             {
                 var orderService = new OrderService();
                 var runningOrder = orderService.GetRunningOrder(tableId);
+                
                 if (runningOrder != null)
                 {
                     var waitingTime = DateTime.Now - runningOrder.OrderTime.Value;
@@ -263,6 +267,23 @@ namespace UI.Login
                 MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
             }
         }
+        private void UpdateOrderStatusLabelReady(Label label, int tableId)
+        {
+            try
+            {
+                var orderService = new OrderService();
+                var readyOrder = orderService.GetReadyOrder(tableId);
+
+                if (readyOrder != null)
+                {
+                    label.Text = $"Ready to be served";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
+            }
+        }
 
         private void UpdateOrderStatusLabelForTable(Button tableButton)
         {
@@ -276,6 +297,7 @@ namespace UI.Login
                         if (control is Label label && label.Tag is Table labelTable && labelTable.TableId == table.TableId)
                         {
                             UpdateOrderStatusLabel(label, table.TableId);
+                            UpdateOrderStatusLabelReady(label, table.TableId);
                             break;
                         }
                     }

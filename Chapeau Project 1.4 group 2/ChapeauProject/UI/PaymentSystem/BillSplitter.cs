@@ -1,5 +1,4 @@
-﻿using Model;
-using Service;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +25,8 @@ namespace UI.PaymentSystem
         public BillSplitter(Order order)
         {
             billParts = new List<Bill>();
+            currentOrder = order;
+
 
             InitializeComponent();
             labelTotal.Text = currentOrder.TotalAmount.ToString("F");
@@ -57,7 +58,7 @@ namespace UI.PaymentSystem
         public void NewBillPart(decimal partAmount)
         {
             int partNR = flowLayoutPanelSplit.Controls.Count;
-            UserControlSplitBill billPart = new UserControlSplitBill(partAmount, partNR, this);
+            UserControlSplitBill billPart = new UserControlSplitBill(partAmount, partNR, this, currentOrder);
 
             billPart.Tag = partNR;
             flowLayoutPanelSplit.Controls.Add(billPart);
@@ -79,7 +80,7 @@ namespace UI.PaymentSystem
 
         private void buttonCustomSplit_Click(object sender, EventArgs e)
         {
-            CustomSplit newBillPart = new NewSplit(this);
+            CustomSplit newBillPart = new NewSplit(this, currentOrder);
             newBillPart.ShowDialog();
 
         }
@@ -106,7 +107,7 @@ namespace UI.PaymentSystem
 
                     billParts.Add(bill);
                 }
-                PaymentForm paymentForm = new PaymentForm(billParts);
+                PaymentForm paymentForm = new PaymentForm(billParts,currentOrder);
                 Program.WindowSwitcher(this,paymentForm);
 
             }

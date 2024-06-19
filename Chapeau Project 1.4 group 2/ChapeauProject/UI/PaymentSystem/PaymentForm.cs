@@ -23,9 +23,10 @@ namespace UI.PaymentSystem
         Order currentOrder;
         List<Bill> billParts;
 
-        public PaymentForm(List<Bill> parts)
+        public PaymentForm(List<Bill> parts, Order order)
         {
             billParts = parts;
+            currentOrder = order;
 
             partNumber = 0;
             Bill part = billParts[partNumber];
@@ -61,7 +62,7 @@ namespace UI.PaymentSystem
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
             billParts[partNumber].PaymentMethod = paymentMethod;
-            Checkout checkout = new Checkout(paymentMethod,billParts,partNumber);
+            Checkout checkout = new Checkout(paymentMethod,billParts,partNumber,currentOrder);
             Program.WindowSwitcher(this, checkout);
         }
     }

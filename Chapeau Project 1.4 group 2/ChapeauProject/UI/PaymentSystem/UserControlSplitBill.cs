@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Model;
 
 namespace UI.PaymentSystem
 {
@@ -17,10 +18,14 @@ namespace UI.PaymentSystem
         private decimal _splitCost;
         public decimal SplitCost { get { return _splitCost; } set { _splitCost = value; setSplitCost(value); } }
         public int PartNR { get; set; }
+        Order currentOrder;
 
-        public UserControlSplitBill(decimal partCost, int partNR, BillSplitter billSplitter)
+
+        public UserControlSplitBill(decimal partCost, int partNR, BillSplitter billSplitter, Order order)
         {
             parentForm = billSplitter;
+            currentOrder = order;
+
             InitializeComponent();
 
             SplitCost = partCost;
@@ -36,7 +41,7 @@ namespace UI.PaymentSystem
         }
         public void buttonSplitByPorion_Click(object sender, EventArgs e)
         {
-            UpdateSplit split = new UpdateSplit(parentForm, PartNR);
+            UpdateSplit split = new UpdateSplit(parentForm, PartNR, currentOrder);
             split.ShowDialog();
         }
 

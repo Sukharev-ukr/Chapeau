@@ -1,4 +1,4 @@
-﻿using Service;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
+using Service;
 using System.Drawing.Design;
 
 namespace UI.PaymentSystem
@@ -22,13 +23,15 @@ namespace UI.PaymentSystem
 
         //string wildcards
         //only registers fractions I.E: 1/2, 1/22, 3/10
-        Regex fractionPattern = new Regex("[0-9]+/[0-9]+");
+        Regex fractionPattern = new Regex("[0-9]+/+[0-9]");
 
         //ony registers % symbol followed by a number 
         Regex percentagePattern = new Regex("^%[0-9]+");
 
-        public CustomSplit(BillSplitter billSplitter)
+        public CustomSplit(BillSplitter billSplitter, Order order)
         {
+            currentOrder = order;
+
             InitializeComponent();
             parentForm = billSplitter;
             LabelDevideTotal.Text = currentOrder.TotalAmount.ToString();
@@ -67,11 +70,11 @@ namespace UI.PaymentSystem
             //checks if string input matches Regex pattern
             if (percentagePattern.IsMatch(input))
             {
-                newCost = CustomPercentage(input);
+                newCost = CustomPercentage(percentagePattern.Match(input).ToString());
             }
             else if (fractionPattern.IsMatch(input))
             {
-                newCost = CustomFraction(input);
+                newCost = CustomFraction(fractionPattern.Match(input).ToString());
             }
             else
             {
@@ -102,7 +105,7 @@ namespace UI.PaymentSystem
     }
     public class NewSplit : CustomSplit
     {
-        public NewSplit(BillSplitter billSplitter) : base(billSplitter)
+        public NewSplit(BillSplitter billSplitter, Order order) : base(billSplitter, order)
         {
 
         }
@@ -115,7 +118,7 @@ namespace UI.PaymentSystem
     public class UpdateSplit : CustomSplit
     {
         int partIndex;
-        public UpdateSplit(BillSplitter billSplitter, int index) : base(billSplitter)
+        public UpdateSplit(BillSplitter billSplitter, int index, Order order) : base(billSplitter, order)
         {
             partIndex = index;
         }

@@ -19,7 +19,7 @@ namespace Model
         public int? Stock { get; set; }
 
         public decimal? VAT { 
-            get { return Price*_VAT/100; } 
+            get { return Price*(_VAT/100); } 
             set { _VAT = value; } }
     }
 }

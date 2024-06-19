@@ -41,15 +41,15 @@ namespace UI
             foreach (OrderItem item in currentOrder.Items)
             {
                 decimal sum = (item.Count * item.MenuItem.Price);
-                decimal VAT = sum * (((decimal)item.MenuItem.VAT / 100));
+               // decimal VAT = sum * (((decimal)item.MenuItem.VAT / 100));
 
-                currentOrder.VAT += VAT;
+                currentOrder.VAT += (decimal)item.MenuItem.VAT;
                 currentOrder.TotalAmount += sum;
                 ListViewItem li = new ListViewItem(item.MenuItem.Name);
                 li.SubItems.Add(item.Count.ToString());
                 li.SubItems.Add(item.MenuItem.Price.ToString());
                 li.SubItems.Add((sum).ToString());
-                li.SubItems.Add(VAT.ToString("F"));
+                li.SubItems.Add(((decimal)item.MenuItem.VAT * item.Count).ToString("F"));
                 li.Tag = item.OrderId;
 
                 listViewBillList.Items.Add(li);
@@ -99,7 +99,7 @@ namespace UI
         private void button2_Click(object sender, EventArgs e)
         {
             List<Bill> bill = new List<Bill> { new Bill { OrderId = currentOrder.OrderId, TotalAmount = currentOrder.TotalAmount } };
-            PaymentForm paymentform = new PaymentForm(bill);
+            PaymentForm paymentform = new PaymentForm(bill,currentOrder);
 
             Program.WindowSwitcher(this, paymentform);
         }

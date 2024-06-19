@@ -22,11 +22,15 @@ namespace UI.PaymentSystem
         Order currentOrder;
         List<Bill> billParts;
 
-        public Checkout(PaymentMethod method,List<Bill> bills,int partNumber)
+
+        //perharps to many paramaters
+        public Checkout(PaymentMethod method,List<Bill> bills,int partNumber,Order Order)
         {
             billParts = bills;
             Bill part = billParts[partNumber];
             paymentMethod = method;
+            currentOrder = Order;
+
 
             InitializeComponent();
             CheckPaymentMethod(paymentMethod);
@@ -73,7 +77,7 @@ namespace UI.PaymentSystem
             }
             else
             {
-                PaymentForm form = new PaymentForm(billParts);
+                PaymentForm form = new PaymentForm(billParts,currentOrder);
                 Program.WindowSwitcher(this, form);
             }
         }

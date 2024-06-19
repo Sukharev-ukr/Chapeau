@@ -144,7 +144,7 @@ namespace DAL
 
         public Order GetRunningOrderByTableId(int tableId)
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber " +
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount " +
                            "FROM [Order] " +
                            "WHERE TableID = @tableId AND OrderStatus = @status";
 
@@ -189,7 +189,7 @@ namespace DAL
 
         public Order GetReadyOrderByTableId(int tableId)
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber " +
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber , TotalAmount, TipAmount, VAT " +
                            "FROM [Order] " +
                            "WHERE TableID = @tableId AND OrderStatus = @status";
 

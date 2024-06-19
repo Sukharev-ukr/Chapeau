@@ -473,11 +473,12 @@ namespace UI.Login
         {
             var orderService = new OrderService();
             var runningOrder = orderService.GetRunningOrder(table.TableId);
+            var readyOrder = orderService.GetReadyOrder(table.TableId);
             var servedOrder = orderService.GetStatusOrder(table.TableId, Status.served);
 
             if (button.Text == "Mark as Served")
             {
-                ConfigureMarkAsServedButton(button, servedOrder);
+                ConfigureMarkAsServedButton(button, readyOrder);
             }
 
             if (button.Text == "Free table")
@@ -491,9 +492,9 @@ namespace UI.Login
             }
         }
 
-        private void ConfigureMarkAsServedButton(Button button, Order runningOrder)
+        private void ConfigureMarkAsServedButton(Button button, Order readyOrder)
         {
-            if (runningOrder != null && runningOrder.OrderStatus == Status.running)
+            if (readyOrder != null)
             {
                 button.Enabled = true;
                 button.BackColor = Color.Black;
@@ -657,11 +658,11 @@ namespace UI.Login
             try
             {
                 var orderService = new OrderService();
-                var runningOrder = orderService.GetRunningOrder(selectedTableId);
+                var readyOrder = orderService.GetReadyOrder(selectedTableId);
 
-                if (runningOrder != null)
+                if (readyOrder != null)
                 {
-                    orderService.MarkOrderAsServed(runningOrder.OrderId);
+                    orderService.MarkOrderAsServed(readyOrder.OrderId);
                     RefreshTableStatuses();
                     UpdateOrderStatusLabelForTable(selectedTableButton);
                 }

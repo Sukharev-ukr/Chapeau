@@ -25,8 +25,7 @@ namespace UI
             OrderDAL orderDAL = new OrderDAL();
 
 
-            Application.Run(new BillDetails(orderDAL.GetStatusOrderByTableId(2,Status.served)));
-            //Application.Run(new LoginForm());
+            Application.Run(new TableView_Form("test"));
         }
 
         public static void WindowSwitcher(Form oldForm, Form newForm)

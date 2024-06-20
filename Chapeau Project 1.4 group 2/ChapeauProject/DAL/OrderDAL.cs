@@ -129,7 +129,7 @@ namespace DAL
 
         public Order GetRunningOrderByTableId(int tableId)
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber " +
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount " +
                            "FROM [Order] " +
                            "WHERE TableID = @tableId AND OrderStatus = @status";
 
@@ -170,6 +170,22 @@ namespace DAL
             {
                 return 0;
             }
+        }
+
+        public Order GetReadyOrderByTableId(int tableId)
+        {
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber , TotalAmount, TipAmount, VAT " +
+                           "FROM [Order] " +
+                           "WHERE TableID = @tableId AND OrderStatus = @status";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@tableId", tableId),
+                new SqlParameter("@status", Status.ready.ToString())
+            };
+
+            var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
+            return orders.FirstOrDefault();
         }
     }
 }

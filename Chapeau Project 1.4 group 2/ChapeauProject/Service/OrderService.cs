@@ -33,6 +33,10 @@ public class OrderService
         return orderDao.GetRunningOrderByTableId(tableId);
     }
 
+    public Order GetReadyOrder(int tableId)
+    {
+        return orderDao.GetReadyOrderByTableId(tableId);
+    }
 
     public Order GetStatusOrder(int tableId,Status status)
     {

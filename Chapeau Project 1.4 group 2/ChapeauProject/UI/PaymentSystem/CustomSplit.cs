@@ -15,9 +15,9 @@ using System.Drawing.Design;
 
 namespace UI.PaymentSystem
 {
-    public abstract partial class CustomSplit : Form
+    public partial class CustomSplit : Form
     {
-        protected BillSplitter parentForm;
+        UserControlSplitBill part;
         protected decimal partCost;
         protected Order currentOrder;
 
@@ -28,18 +28,16 @@ namespace UI.PaymentSystem
         //ony registers % symbol followed by a number 
         Regex percentagePattern = new Regex("^%[0-9]+");
 
-        public CustomSplit(BillSplitter billSplitter, Order order)
+        public CustomSplit(Order order, UserControlSplitBill userControl)
         {
             currentOrder = order;
-
+            part = userControl;
             InitializeComponent();
-            parentForm = billSplitter;
             LabelDevideTotal.Text = currentOrder.TotalAmount.ToString();
         }
         protected void QuickSelection_Click(object sender, EventArgs e)
         {
             decimal devider = decimal.Parse((sender as Button).Tag.ToString()) / 100;
-
             decimal newCost = currentOrder.TotalAmount * devider;
 
             SetPartCost(newCost);
@@ -63,7 +61,6 @@ namespace UI.PaymentSystem
         protected void TextBoxCustomAmount_OnTextChange(object sender, EventArgs e)
         {
             string input = textBoxCustomAmount.Text;
-            decimal orderTotal = currentOrder.TotalAmount;
             decimal newCost = 0;
 
 
@@ -99,33 +96,8 @@ namespace UI.PaymentSystem
 
         protected virtual void buttonConfirm_Click(object sender, EventArgs e)
         {
+            part.SplitCost = partCost;
             this.Dispose();
-        }
-
-    }
-    public class NewSplit : CustomSplit
-    {
-        public NewSplit(BillSplitter billSplitter, Order order) : base(billSplitter, order)
-        {
-
-        }
-        protected override void buttonConfirm_Click(object sender, EventArgs e)
-        {
-            parentForm.NewBillPart(partCost);
-            base.buttonConfirm_Click(sender, e);
-        }
-    }
-    public class UpdateSplit : CustomSplit
-    {
-        int partIndex;
-        public UpdateSplit(BillSplitter billSplitter, int index, Order order) : base(billSplitter, order)
-        {
-            partIndex = index;
-        }
-        protected override void buttonConfirm_Click(object sender, EventArgs e)
-        {
-            parentForm.UpdateBillPart(partCost, partIndex);
-            base.buttonConfirm_Click(sender, e);
         }
     }
 }

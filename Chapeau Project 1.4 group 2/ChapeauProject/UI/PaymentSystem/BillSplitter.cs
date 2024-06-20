@@ -22,11 +22,11 @@ namespace UI.PaymentSystem
         Order currentOrder;
         List<Bill> billParts;
 
+
         public BillSplitter(Order order)
         {
             billParts = new List<Bill>();
             currentOrder = order;
-
 
             InitializeComponent();
             labelTotal.Text = currentOrder.TotalAmount.ToString("F");
@@ -55,32 +55,27 @@ namespace UI.PaymentSystem
         }
 
         //adding user controll items
-        public void NewBillPart(decimal partAmount)
+        public void NewBillPart()
         {
             int partNR = flowLayoutPanelSplit.Controls.Count;
-            UserControlSplitBill billPart = new UserControlSplitBill(partAmount, partNR, this, currentOrder);
+            UserControlSplitBill billPart = new UserControlSplitBill(this, currentOrder);
 
             billPart.Tag = partNR;
             flowLayoutPanelSplit.Controls.Add(billPart);
 
             UpdateRemainingAmount();
         }
+
+        // instead of this method directly update from the instance of the object. and change updateRemainng amount
         public void UpdateBillPart(decimal partAmount, int part)
         {
-            foreach (UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
-            {
-                if (userControl.PartNR == part)
-                {
-                    userControl.SplitCost = partAmount;
-                    continue;
-                }
-            }
             UpdateRemainingAmount();
         }
 
         private void buttonCustomSplit_Click(object sender, EventArgs e)
         {
-            CustomSplit newBillPart = new NewSplit(this, currentOrder);
+            UserControlSplitBill billPart = new UserControlSplitBill(this,currentOrder);
+            CustomSplit newBillPart = new CustomSplit(currentOrder,billPart);
             newBillPart.ShowDialog();
 
         }

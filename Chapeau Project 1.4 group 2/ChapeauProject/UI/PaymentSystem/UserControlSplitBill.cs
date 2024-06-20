@@ -17,32 +17,30 @@ namespace UI.PaymentSystem
         BillSplitter parentForm;
         private decimal _splitCost;
         public decimal SplitCost { get { return _splitCost; } set { _splitCost = value; setSplitCost(value); } }
-        public int PartNR { get; set; }
+        int partNR;
         Order currentOrder;
 
 
-        public UserControlSplitBill(decimal partCost, int partNR, BillSplitter billSplitter, Order order)
+        public UserControlSplitBill(BillSplitter billSplitter, Order order)
         {
             parentForm = billSplitter;
             currentOrder = order;
 
             InitializeComponent();
 
-            SplitCost = partCost;
-            labelPart.Text = $"Part {partNR+1}:";
-            PartNR = partNR;
+            labelPart.Text = $"Part {Tag}:";
+            this.partNR = partNR;
             setSplitCost(SplitCost);
-  
 
         }
         private void setSplitCost(decimal newCost)
         {
             textBoxSplit.Text = newCost.ToString("F");
         }
-        public void buttonSplitByPorion_Click(object sender, EventArgs e)
+        public void buttonEditPortion_Click(object sender, EventArgs e)
         {
-            UpdateSplit split = new UpdateSplit(parentForm, PartNR, currentOrder);
-            split.ShowDialog();
+            CustomSplit editSplit = new CustomSplit(currentOrder,this);
+            editSplit.ShowDialog();
         }
 
         private void textBoxSplit_TextChanged(object sender, EventArgs e)

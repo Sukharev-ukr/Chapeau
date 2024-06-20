@@ -65,7 +65,7 @@ namespace UI.PaymentSystem
             int partCount = int.Parse(labelEqualSplitAmount.Text);
             for (int i = 0; i < partCount; i++)
             {
-                parentForm.NewBillPart(partCost);
+                parentForm.NewBillPart();
             }
             this.Dispose();
         }

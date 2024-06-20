@@ -1,5 +1,4 @@
-﻿using Model;
-using Service;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,22 +12,26 @@ using System.Windows.Forms;
 using Model;
 using Service;
 using System.Diagnostics.Eventing.Reader;
-using static Service.PaymentService;
+
 
 namespace UI.PaymentSystem
 {
     public partial class BillSplitter : Form
     {
         private decimal remainingAmount;
-        CurrentOrder currentOrder;
+        Order currentOrder;
+        List<Bill> billParts;
 
-        public BillSplitter()
+        public BillSplitter(Order order)
         {
-            InitializeComponent();
-            currentOrder = CurrentOrder.Getinstance();
-            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
+            billParts = new List<Bill>();
+            currentOrder = order;
 
-            remainingAmount = currentOrder.OrderTotal;
+
+            InitializeComponent();
+            labelTotal.Text = currentOrder.TotalAmount.ToString("F");
+
+            remainingAmount = currentOrder.TotalAmount;
             labelRemainingTotal.Text = remainingAmount.ToString("F");
 
         }
@@ -36,13 +39,13 @@ namespace UI.PaymentSystem
         private void buttonCancel_Click(object sender, EventArgs e)
         {
 
-            Form newForm = new BillDetails(currentOrder.orderId);
+            Form newForm = new BillDetails(currentOrder);
             Program.WindowSwitcher(this, newForm);
         }
 
         public void UpdateRemainingAmount()
         {
-            remainingAmount = currentOrder.OrderTotal;
+            remainingAmount = currentOrder.TotalAmount;
 
             foreach (UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
             {
@@ -55,7 +58,7 @@ namespace UI.PaymentSystem
         public void NewBillPart(decimal partAmount)
         {
             int partNR = flowLayoutPanelSplit.Controls.Count;
-            UserControlSplitBill billPart = new UserControlSplitBill(partAmount, partNR, this);
+            UserControlSplitBill billPart = new UserControlSplitBill(partAmount, partNR, this, currentOrder);
 
             billPart.Tag = partNR;
             flowLayoutPanelSplit.Controls.Add(billPart);
@@ -77,7 +80,7 @@ namespace UI.PaymentSystem
 
         private void buttonCustomSplit_Click(object sender, EventArgs e)
         {
-            CustomSplit newBillPart = new NewSplit(this);
+            CustomSplit newBillPart = new NewSplit(this, currentOrder);
             newBillPart.ShowDialog();
 
         }
@@ -85,10 +88,10 @@ namespace UI.PaymentSystem
         private void buttonEqualSplit_Click(object sender, EventArgs e)
         {
 
-            EqualSplit equalSplit = new EqualSplit(this);
+            EqualSplit equalSplit = new EqualSplit(this,currentOrder);
 
             this.flowLayoutPanelSplit.Controls.Clear();
-            remainingAmount = currentOrder.OrderTotal;
+            remainingAmount = currentOrder.TotalAmount;
             equalSplit.ShowDialog();
 
         }
@@ -98,12 +101,13 @@ namespace UI.PaymentSystem
 
             if (remainingAmount == 0)
             {
-                BillParts billParts = BillParts.Getinstance();
                 foreach(UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
                 {
-                    billParts.AddBillPart(userControl.PartNR, userControl.SplitCost);
+                    Bill bill = new Bill { OrderId = currentOrder.OrderId, TotalAmount = userControl.SplitCost };
+
+                    billParts.Add(bill);
                 }
-                PaymentForm paymentForm = new PaymentForm();
+                PaymentForm paymentForm = new PaymentForm(billParts,currentOrder);
                 Program.WindowSwitcher(this,paymentForm);
 
             }

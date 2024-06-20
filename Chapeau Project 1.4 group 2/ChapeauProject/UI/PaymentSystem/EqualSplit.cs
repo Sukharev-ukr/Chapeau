@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Service.PaymentService;
+using Model;
 
 namespace UI.PaymentSystem
 {
@@ -17,9 +17,12 @@ namespace UI.PaymentSystem
 
         BillSplitter parentForm;
         decimal partCost;
+        Order currentOrder;
 
-        public EqualSplit(BillSplitter billSplitter)
+        public EqualSplit(BillSplitter billSplitter,Order order)
         {
+            currentOrder = order;
+
             InitializeComponent();
             parentForm = billSplitter;
             UpdatePartCost();
@@ -27,8 +30,7 @@ namespace UI.PaymentSystem
 
         private void UpdatePartCost()
         {
-            CurrentOrder currentOrder = CurrentOrder.Getinstance();
-            partCost = currentOrder.OrderTotal / decimal.Parse(labelEqualSplitAmount.Text);
+            partCost = currentOrder.TotalAmount / decimal.Parse(labelEqualSplitAmount.Text);
 
             labelEqualSplitPart.Text = partCost.ToString("F");
 

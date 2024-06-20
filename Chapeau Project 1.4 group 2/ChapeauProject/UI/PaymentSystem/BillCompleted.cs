@@ -17,56 +17,51 @@ namespace UI.PaymentSystem
 {
     public partial class BillCompleted : Form
     {
-        CurrentOrder currentOrder;
+        Order currentOrder;
         public BillCompleted()
         {
-            currentOrder = CurrentOrder.Getinstance();
             InitializeComponent();
-            LabelOrderNR.Text = currentOrder.orderDetail.Keys.First().OrderId.ToString();
-            LoadOrderItems();
+            LabelOrderNR.Text = currentOrder.OrderId.ToString();
+            LoadBillListView(currentOrder);
+            LoadLabels(currentOrder);
         }
 
-        private void LoadOrderItems()
+        private void LoadBillListView(Order currentOrder)
         {
-            Dictionary<OrderItem, MenuItem> OrderDetails = GetOrderMenuItems();
             listViewBillList.Items.Clear();
-            decimal sum = 0;
-            decimal VAT = 0;
-            decimal total = 0;
-            decimal VATTotal = 0;
-
-            foreach (KeyValuePair<OrderItem, MenuItem> item in OrderDetails)
+            foreach (OrderItem item in currentOrder.Items)
             {
-                sum = (item.Key.Count * item.Value.Price);
-                if (item.Value.VAT != null)
-                {
-                    VAT = sum * (((decimal)item.Value.VAT / 100));
-                    VATTotal += VAT;
-                }
-                total += sum;
-                ListViewItem li = new ListViewItem(item.Value.Name);
-                li.SubItems.Add(item.Key.Count.ToString());
-                li.SubItems.Add(item.Value.Price.ToString());
+                decimal sum = (item.Count * item.MenuItem.Price);
+                decimal VAT = sum * (((decimal)item.MenuItem.VAT / 100));
+
+                currentOrder.VAT += VAT;
+                currentOrder.TotalAmount += sum;
+                ListViewItem li = new ListViewItem(item.MenuItem.Name);
+                li.SubItems.Add(item.Count.ToString());
+                li.SubItems.Add(item.MenuItem.Price.ToString());
                 li.SubItems.Add((sum).ToString());
                 li.SubItems.Add(VAT.ToString("F"));
-                li.Tag = item.Key.OrderId;
+                li.Tag = item.OrderId;
 
                 listViewBillList.Items.Add(li);
-
             }
-            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
-            labelSubtotal.Text = total.ToString("F");
-            labelVAT.Text = VATTotal.ToString("F");
-            labelTip.Text = currentOrder.Tip.ToString("F");
-        }
-        private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
-        {
-            return currentOrder.orderDetail;
         }
 
+        private void LoadLabels(Order currentOrder)
+        {
+            labelTotal.Text = currentOrder.TotalAmount.ToString("F");
+            labelSubtotal.Text = currentOrder.TotalAmount.ToString("F");
+            labelVAT.Text = currentOrder.VAT.ToString("F");
+
+
+                labelTip.Visible = true;
+                label8.Visible = true;
+                labelTip.Text = currentOrder.TipAmount.ToString("F");  
+        }
+
+        //op
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            CurrentOrder.DestoryInstance();
             StaffService staffService = new StaffService();
 
             TableView_Form tableView = new TableView_Form(staffService.LoggedUser);

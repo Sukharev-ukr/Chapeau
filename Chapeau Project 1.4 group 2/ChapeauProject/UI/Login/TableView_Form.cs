@@ -659,7 +659,7 @@ namespace UI.Login
             {
                 var orderService = new OrderService();
                 var readyOrder = orderService.GetReadyOrder(selectedTableId);
-
+                
                 if (readyOrder != null)
                 {
                     orderService.MarkOrderAsServed(readyOrder.OrderId);
@@ -700,9 +700,9 @@ namespace UI.Login
             try
             {
                 // moves on to the PaymentSystem.BillDetails form
-                OrderService order = new OrderService();
-               // BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
-               // Program.WindowSwitcher(this, billDetails);
+               OrderService order = new OrderService();
+               BillDetails billDetails = new BillDetails(order.GetRunningOrder(selectedTableId));
+               Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)
             {

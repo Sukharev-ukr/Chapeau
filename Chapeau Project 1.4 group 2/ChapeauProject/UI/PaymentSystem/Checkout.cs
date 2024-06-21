@@ -19,23 +19,23 @@ namespace UI.PaymentSystem
 
         PaymentMethod paymentMethod;
 
-        CurrentOrder currentOrder;
-        BillParts billParts;
+        Order currentOrder;
+        List<Bill> billParts;
 
-        public Checkout(PaymentMethod method)
+
+        //perharps to many paramaters
+        public Checkout(PaymentMethod method,List<Bill> bills,int partNumber,Order Order)
         {
-            billParts = BillParts.Getinstance();
-
-            currentOrder = CurrentOrder.Getinstance();
-            partNumber = billParts.currentPart.BillId;
-            Bill part = billParts.ListOFParts[partNumber];
-
+            billParts = bills;
+            Bill part = billParts[partNumber];
             paymentMethod = method;
+            currentOrder = Order;
+
 
             InitializeComponent();
             CheckPaymentMethod(paymentMethod);
 
-            labelOrderNr.Text = currentOrder.orderId.ToString();
+            labelOrderNr.Text = currentOrder.OrderId.ToString();
             labelPart.Text = (partNumber + 1).ToString();
             labelPartCost.Text = part.TotalAmount.ToString();
         }
@@ -58,25 +58,26 @@ namespace UI.PaymentSystem
         // checks if there are any parts of the bill left to pay
         private void PaymentConfirm(object sender, EventArgs e)
         {
-            if (billParts.ListOFParts.Count-1 == partNumber)
+            if (billParts.Count -1  == partNumber)
             {
+
+                // to much shit
                 OrderService orderService = new OrderService();
-                orderService.UpdateTipById(currentOrder.Tip, currentOrder.orderId);
-                orderService.UpdateTotalById( currentOrder.OrderTotal, currentOrder.orderId);
-                orderService.UpdateOrderStatus(currentOrder.orderId,Status.finished);
+                orderService.UpdateTipById(currentOrder.TipAmount, currentOrder.OrderId);
+                orderService.UpdateTotalById( currentOrder.TipAmount, currentOrder.OrderId);
+                orderService.UpdateOrderStatus(currentOrder.OrderId,Status.finished);
 
 
                 PaymentService paymentService = new PaymentService();
-                paymentService.UploadBill(billParts.ListOFParts);
-                
+                paymentService.UploadBill(billParts);
+
 
                 BillCompleted billCompleted = new BillCompleted();
                 Program.WindowSwitcher(this, billCompleted);
             }
             else
             {
-                billParts.IncrementParts();
-                PaymentForm form = new PaymentForm();
+                PaymentForm form = new PaymentForm(billParts,currentOrder);
                 Program.WindowSwitcher(this, form);
             }
         }

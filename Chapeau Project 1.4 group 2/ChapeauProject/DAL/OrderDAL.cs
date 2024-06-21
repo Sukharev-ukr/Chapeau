@@ -40,7 +40,7 @@ namespace DAL
                 OrderTime = dr["OrderTime"] as DateTime?,
                 Employee = new Employee()
                 {
-                    EmployeeId = (int)dr["StaffID"]
+                    EmployeeId = (int)dr["StaffID"],
                 },
                 Table = new Table()
                 {
@@ -48,17 +48,16 @@ namespace DAL
                     TableNumber = (int)dr["TableNumber"]
                 },
                 Feedback = (string)dr["Feedback"],
+                // Null-coalesce. ïf dr[""] as decimal? = null, using ?? sets its to value (0)
+                TotalAmount = dr["TotalAmount"] as decimal? ?? 0,
+                TipAmount = dr["TipAmount"] as decimal? ?? 0,
+                VAT = dr["VAT"] as decimal? ?? 0,
+                OrderStatus = (Status)Enum.Parse(typeof(Status), (string)dr["OrderStatus"]),
                 Items = GetOrderItems((int)dr["OrderID"])
             };
         }
 
-        public Order GetOrderFromTableNr(int tableNR)
-        {
-            string query = "  SELECT * FROM [Order] WHERE TableID = @tableid AND OrderStatus = 'running'";
 
-            SqlParameter[] parameters = new SqlParameter[1] { new SqlParameter("@tableid", tableNR) };
-            return ReadOrders(ExecuteSelectQuery(query, parameters))[0];
-        }
 
         public List<OrderItem> GetOrderItems(int orderId)
         {
@@ -145,7 +144,7 @@ namespace DAL
 
         public Order GetRunningOrderByTableId(int tableId)
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber " +
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount " +
                            "FROM [Order] " +
                            "WHERE TableID = @tableId AND OrderStatus = @status";
 
@@ -153,6 +152,21 @@ namespace DAL
             {
                 new SqlParameter("@tableId", tableId),
                 new SqlParameter("@status", Status.running.ToString())
+            };
+
+            var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
+            return orders.FirstOrDefault();
+        }
+        public Order GetStatusOrderByTableId(int tableId,Status status)
+        {
+            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.TotalAmount, O.VAT , O.TipAmount, O.StaffID, T.TableID, O.Feedback ,O.TableNumber " +
+                           "FROM [Order] AS O JOIN [Table] AS T ON O.TableID = @tableId " +
+                           "Where O.OrderStatus = @status";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@tableId", tableId),
+                new SqlParameter("@status", status.ToString())
             };
 
             var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
@@ -173,6 +187,7 @@ namespace DAL
             }
         }
 
+
         public void DeleteOrder(int orderId)
         {
             string query = "DELETE FROM [Order] WHERE OrderID = @orderId";
@@ -181,6 +196,22 @@ namespace DAL
         new SqlParameter("@orderId", orderId)
             };
             ExecuteEditQuery(query, parameters);
+}
+        public Order GetReadyOrderByTableId(int tableId)
+        {
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber , TotalAmount, TipAmount, VAT " +
+                           "FROM [Order] " +
+                           "WHERE TableID = @tableId AND OrderStatus = @status";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@tableId", tableId),
+                new SqlParameter("@status", Status.ready.ToString())
+            };
+
+            var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
+            return orders.FirstOrDefault();
+
         }
     }
 }

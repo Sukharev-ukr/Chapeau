@@ -49,9 +49,25 @@ namespace UI.OrderView
                     _quantityDict[_item.Id] = quantity;
 
                     lblItemAmount.Text = _quantityDict[_item.Id].ToString();
+
+                    if (_item.Stock == 0)
+                    {
+                        btnMinus.Enabled = false;
+                        btnPlus.Enabled = false;
+
+                        this.BackColor = Color.Gray;
+                    }
+                    else
+                    {
+                        btnMinus.Enabled = true;
+                        btnPlus.Enabled = true;
+
+                        this.BackColor = SystemColors.Control;
+                    }
                 }
             }
         }
+
 
 
 
@@ -74,22 +90,43 @@ namespace UI.OrderView
                 {
                     orderItemDal.UpdateQuantity(orderId, _item.Id, _quantityDict[_item.Id]);
                 }
+
+                _item.Stock++;
+
+                btnMinus.Enabled = true;
+                btnPlus.Enabled = true;
+
+                this.BackColor = SystemColors.Control;
             }
         }
 
+
         private void btnPlus_Click(object sender, EventArgs e)
         {
-            _quantityDict[_item.Id]++;
-            lblItemAmount.Text = _quantityDict[_item.Id].ToString();
-            (this.ParentForm as OrderViewForm)?.UpdateTotalPrice();
+            if (_item.Stock > 0)
+            {
+                _quantityDict[_item.Id]++;
+                lblItemAmount.Text = _quantityDict[_item.Id].ToString();
+                (this.ParentForm as OrderViewForm)?.UpdateTotalPrice();
 
-            int orderId = orderService.GetCurrentOrderId();
+                int orderId = orderService.GetCurrentOrderId();
 
-            string status = "placed";
-            DateTime statusTime = DateTime.Now;
+                string status = "placed";
+                DateTime statusTime = DateTime.Now;
 
-            OrderItemDAL orderItemDal = new OrderItemDAL();
-            orderItemDal.AddOrUpdateOrderItem(orderId, _item.Id, _quantityDict[_item.Id], status, statusTime);
+                OrderItemDAL orderItemDal = new OrderItemDAL();
+                orderItemDal.AddOrUpdateOrderItem(orderId, _item.Id, _quantityDict[_item.Id], status, statusTime);
+
+                _item.Stock--;
+
+                if (_item.Stock == 0)
+                {
+                    btnMinus.Enabled = false;
+                    btnPlus.Enabled = false;
+
+                    this.BackColor = Color.Gray;
+                }
+            }
         }
 
         private void btnEditItemDetails_Click(object sender, EventArgs e)

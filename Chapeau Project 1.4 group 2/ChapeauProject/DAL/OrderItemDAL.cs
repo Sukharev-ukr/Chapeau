@@ -9,7 +9,7 @@ namespace DAL
     // BillID,[TotalAmount],[VAT],[PaymentMethod],[OrderID]
     public class OrderItemDAL : BaseDAL
     {
-        public Dictionary<OrderItem, MenuItem> GetOrderDetails(int orderId)
+        public List<OrderItem> GetOrderDetails(int orderId)
         {
             string query = "SELECT Item.*, OrderItem.OrderID, OrderItem.ItemID, OrderItem.Count, OrderItem.[Status], OrderItem.StatusTime, OrderItem.Comment " +
                            "FROM Item " +
@@ -20,7 +20,7 @@ namespace DAL
 
             return ReadOrderMenuItems(ExecuteSelectQuery(query, sp));
         }
-        public Dictionary<OrderItem, MenuItem> ReadOrderMenuItems(DataTable dataTable)
+        /*public Dictionary<OrderItem, MenuItem> ReadOrderMenuItems(DataTable dataTable)
         {
             Dictionary<OrderItem, MenuItem> orderDetails = new Dictionary<OrderItem, MenuItem>();
             MenuDAL menuDao = new MenuDAL();
@@ -33,6 +33,24 @@ namespace DAL
                 {
                     orderItem.MenuItem = menuItem;
                     orderDetails.Add(orderItem, menuItem);
+                }
+            }
+
+            return orderDetails;
+        }*/
+        public List<OrderItem> ReadOrderMenuItems(DataTable dataTable)
+        {
+            List<OrderItem> orderDetails = new List<OrderItem>();
+            MenuDAL menuDao = new MenuDAL();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                OrderItem orderItem = ReadDataRow(row);
+                MenuItem menuItem = menuDao.ReadDataRow(row);
+                if (orderItem != null && menuItem != null)
+                {
+                    orderItem.MenuItem = menuItem;
+                    orderDetails.Add(orderItem);
                 }
             }
 
@@ -53,7 +71,7 @@ namespace DAL
             };
         }
 
-        public Dictionary<OrderItem, MenuItem> GetOrderItemsByCategory(int orderId, string category)
+        public List<OrderItem> GetOrderItemsByCategory(int orderId, string category)
         {
             string query = "SELECT O.*, I.*, OK.* " +
                            "FROM OrderItem AS O " +
@@ -70,7 +88,7 @@ namespace DAL
         }
 
 
-        public Dictionary<OrderItem, MenuItem> GetAllOrdersItems()
+        public List<OrderItem> GetAllOrdersItems()
         {
             string query = "SELECT O.*, OI.*, I.* \r\nFROM [Order] AS O \r\n   JOIN [OrderItem] AS OI ON OI.OrderID = O.OrderID\r\n   JOIN [Item] AS I ON I.ItemID = OI.ItemID\r\n ";
             SqlParameter[] parameters = new SqlParameter[0];
@@ -173,6 +191,15 @@ namespace DAL
         new SqlParameter("@comment", comment),
         new SqlParameter("@orderId", orderId),
         new SqlParameter("@itemId", itemId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+        public void DeleteOrderItemsByOrderId(int orderId)
+        {
+            string query = "DELETE FROM OrderItem WHERE OrderID = @orderId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@orderId", orderId)
             };
             ExecuteEditQuery(query, parameters);
         }

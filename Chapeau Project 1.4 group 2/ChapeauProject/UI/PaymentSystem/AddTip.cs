@@ -9,58 +9,55 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Service;
-using static Service.PaymentService;
+using Model;
 
 
 namespace UI.PaymentSystem
 {
     public partial class AddTip : Form
     {
-        decimal orderTotal;
         decimal tip;
-        CurrentOrder currentOrder;
+        Order currentOrder;
 
-        public AddTip()
+        public AddTip(Order currentOrder)
         {
             InitializeComponent();
 
 
-            currentOrder = CurrentOrder.Getinstance();
-            orderTotal = currentOrder.OrderTotal;
-
-            labelTotal.Text = orderTotal.ToString();
+            labelTotal.Text = currentOrder.TotalAmount.ToString("F");
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            Program.WindowSwitcher(this, new BillDetails(currentOrder.orderId));
+            Program.WindowSwitcher(this, new BillDetails(currentOrder));
         }
 
+        // adding tip through quick selection buttons
         private void AddTipButton_Click(object sender, EventArgs e)
         {
             tip = int.Parse((sender as Button).Tag.ToString());
             
-            labelTipTotal.Text = (orderTotal + tip).ToString();
-            textBoxTip.Text = (orderTotal + tip).ToString();
+            labelTipTotal.Text = (currentOrder.TotalAmount + tip).ToString("F");
+            textBoxTip.Text = (currentOrder.TotalAmount + tip).ToString("F");
 
         }
 
         private void TextBoxCustomTip_TextChange(object sender, EventArgs e)
         {
             decimal.TryParse(textBoxTip.Text, out decimal totalWithTip);
-            if (totalWithTip > orderTotal)
+            if (totalWithTip > currentOrder.TotalAmount)
             {
                 labelTipTotal.Text = totalWithTip.ToString();
                 buttonConfirm.Visible = true;
-                tip = totalWithTip - orderTotal;
+                tip = totalWithTip - currentOrder.TotalAmount;
             }
             
         }
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            currentOrder.AddTip(tip);
-            Program.WindowSwitcher(this, new BillDetails(currentOrder.orderId));
+            currentOrder.TipAmount = tip;
+            Program.WindowSwitcher(this, new BillDetails(currentOrder));
         }
     }
 }

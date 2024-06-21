@@ -17,15 +17,13 @@ public class OrderService
         orderItemDao = new OrderItemDAL();
         allMenuItems = menuDAL.GetMenuItems();
     }
-    public List<MenuItem> GetAllMenuItems()
-    {
-        return allMenuItems;
-    }
+
 
     public List<MenuItem> GetMenuItemsByCard(string card)
     {
         return allMenuItems.Where(item => item.Card == card).ToList();
     }
+
 
 
     public Order GetRunningOrderFromTable(int tableNr, int employeeId)
@@ -38,25 +36,10 @@ public class OrderService
         return orderDao.GetStatusOrderByTableId(tableNr, Status.served);
     }
 
-    public void UpdateTipById(decimal input, int id)
-    {
-        orderDao.UpdateTipById(input, id);
-    }
-    public void UpdateTotalById(decimal input, int id)
-    {
-        orderDao.UpdateTotalById(input, id);
-    }
-
     public List<Order> GetAllOrders()
     {
         List<Order> orders = orderDao.GetOrders();
         return orders;
-    }
-
-    public void UpdateOrderStatus(int ID, Status status)
-    {
-        orderDao.UpdateOrderStatus(ID, status);
-
     }
 
     public Order GetRunningOrder(int tableId)
@@ -75,11 +58,7 @@ public class OrderService
     }
     public void MarkOrderAsServed(int orderId)
     {
-        orderDao.UpdateOrderStatus(orderId, Status.finished);
-    }
-    public List<OrderItem> GetOrderItemsByOrderId(int orderId)
-    {
-        return orderDao.GetOrderItems(orderId);
+        orderDao.UpdateOrderStatus(orderId, Status.served);
     }
 
     public int GetCurrentOrderId()
@@ -87,8 +66,16 @@ public class OrderService
         return orderDao.GetCurrentOrderId();
     }
 
+
+    public void UpdateOrder(Order order)
+    {
+        orderDao.UpdateOrder(order);
+    }
+}
+
     public void DeleteOrder(int orderId)
     {
         orderDao.DeleteOrder(orderId);
     }
 }
+

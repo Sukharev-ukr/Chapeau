@@ -44,7 +44,7 @@
             buttonSplitByPorion.TabIndex = 0;
             buttonSplitByPorion.Text = "Edit split";
             buttonSplitByPorion.UseVisualStyleBackColor = false;
-            buttonSplitByPorion.Click += buttonSplitByPorion_Click;
+            buttonSplitByPorion.Click += buttonEditPortion_Click;
             // 
             // textBoxSplit
             // 

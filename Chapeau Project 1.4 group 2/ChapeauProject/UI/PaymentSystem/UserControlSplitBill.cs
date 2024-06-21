@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,45 +14,39 @@ namespace UI.PaymentSystem
     public partial class UserControlSplitBill : UserControl
     {
 
-        BillSplitter parentForm;
         private decimal _splitCost;
         public decimal SplitCost { get { return _splitCost; } set { _splitCost = value; setSplitCost(value); } }
-        public int PartNR { get; set; }
         Order currentOrder;
+        BillSplitter parentform;
 
 
-        public UserControlSplitBill(decimal partCost, int partNR, BillSplitter billSplitter, Order order)
+        public UserControlSplitBill(Order order, BillSplitter parentform, int index)
         {
-            parentForm = billSplitter;
+            this.parentform = parentform;
             currentOrder = order;
+            this.Tag = index;
 
             InitializeComponent();
 
-            SplitCost = partCost;
-            labelPart.Text = $"Part {partNR+1}:";
-            PartNR = partNR;
+            labelPart.Text = $"Part {this.Tag}:";
             setSplitCost(SplitCost);
-  
 
         }
         private void setSplitCost(decimal newCost)
         {
             textBoxSplit.Text = newCost.ToString("F");
         }
-        public void buttonSplitByPorion_Click(object sender, EventArgs e)
+        public void buttonEditPortion_Click(object sender, EventArgs e)
         {
-            UpdateSplit split = new UpdateSplit(parentForm, PartNR, currentOrder);
-            split.ShowDialog();
+            CustomSplit editSplit = new CustomSplit(currentOrder, this, parentform);
+            editSplit.ShowDialog();
         }
 
         private void textBoxSplit_TextChanged(object sender, EventArgs e)
         {
             decimal.TryParse(textBoxSplit.Text, out _splitCost);
-            
-            if (_splitCost != null)
-            {
-                parentForm.UpdateRemainingAmount();
-            }
+            parentform.billPartCost[(int)Tag] = _splitCost;
+            parentform.UpdateRemainingAmount();
         }
     }
 }

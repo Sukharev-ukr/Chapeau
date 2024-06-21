@@ -15,5 +15,6 @@ namespace Model
         public decimal VAT {  get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 
+        public bool Paid {  get; set; }
     }
 }

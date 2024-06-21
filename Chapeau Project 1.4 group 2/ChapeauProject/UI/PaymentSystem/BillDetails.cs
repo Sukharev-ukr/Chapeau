@@ -19,6 +19,7 @@ namespace UI
 
         OrderItemService orderItemService;
         Order currentOrder;
+        decimal sum;
 
         public BillDetails(Order order)
         {
@@ -38,13 +39,14 @@ namespace UI
         private void LoadBillListView(Order currentOrder)
         {
             listViewBillList.Items.Clear();
+            currentOrder.TotalAmount = 0;
+            currentOrder.VAT = 0;
+
             foreach (OrderItem item in currentOrder.Items)
             {
-                decimal sum = (item.Count * item.MenuItem.Price);
-               // decimal VAT = sum * (((decimal)item.MenuItem.VAT / 100));
+                sum += (item.Count * item.MenuItem.Price);
 
                 currentOrder.VAT += (decimal)item.MenuItem.VAT;
-                currentOrder.TotalAmount += sum;
                 ListViewItem li = new ListViewItem(item.MenuItem.Name);
                 li.SubItems.Add(item.Count.ToString());
                 li.SubItems.Add(item.MenuItem.Price.ToString());
@@ -54,15 +56,16 @@ namespace UI
 
                 listViewBillList.Items.Add(li);
             }
+            currentOrder.TotalAmount += currentOrder.VAT + currentOrder.TipAmount + sum;
         }
 
         private void LoadLabels(Order currentOrder)
         {
             labelTotal.Text = currentOrder.TotalAmount.ToString("F");
-            labelSubtotal.Text = currentOrder.TotalAmount.ToString("F");
+            labelSubtotal.Text = sum.ToString("F");
             labelVAT.Text = currentOrder.VAT.ToString("F");
 
-            //if a tip has been added, show the label and tip value.
+            //if a tip has been added, show the tip label and tip value.
             if (currentOrder.TipAmount != 0)
             {
                 labelTip.Visible = true;

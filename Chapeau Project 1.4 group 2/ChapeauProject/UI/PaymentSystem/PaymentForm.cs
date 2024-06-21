@@ -28,14 +28,13 @@ namespace UI.PaymentSystem
             billParts = parts;
             currentOrder = order;
 
-            partNumber = 0;
-            Bill part = billParts[partNumber];
+            partNumber = GetCurrentPart(parts);
+
             InitializeComponent();
 
             labelOrderNr.Text = currentOrder.OrderId.ToString();
-            //magic value?
-            labelPart.Text = (partNumber + 1).ToString();
-            labelPartCost.Text = part.TotalAmount.ToString();
+            labelPart.Text = (partNumber).ToString();
+            labelPartCost.Text = parts[partNumber].TotalAmount.ToString(); ;
         }
 
         private void radioButtonCredit_CheckedChanged(object sender, EventArgs e)
@@ -59,10 +58,22 @@ namespace UI.PaymentSystem
             Program.WindowSwitcher(this, billSplitter);
         }
 
+        int GetCurrentPart(List<Bill> parts)
+        {
+            foreach (Bill part in parts)
+            {
+                if (!part.Paid)
+                {
+                    return parts.IndexOf(part);
+                }
+            }
+            return 0;
+        }
+
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
             billParts[partNumber].PaymentMethod = paymentMethod;
-            Checkout checkout = new Checkout(paymentMethod,billParts,partNumber,currentOrder);
+            Checkout checkout = new Checkout(billParts,partNumber,currentOrder);
             Program.WindowSwitcher(this, checkout);
         }
     }

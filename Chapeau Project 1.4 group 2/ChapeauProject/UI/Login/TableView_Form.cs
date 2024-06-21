@@ -286,6 +286,23 @@ namespace UI.Login
                 MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
             }
         }
+        private void UpdateORderStatusLabelServed(Label label, int tableId)
+        {
+            try
+            {
+                var orderService = new OrderService();
+                var servedOrder = orderService.GetStatusOrder(tableId,Status.served);
+
+                if (servedOrder != null)
+                {
+                    label.Text = $"Ready to be paid";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
+            }
+        }
 
         private void UpdateOrderStatusLabelForTable(Button tableButton)
         {
@@ -300,6 +317,7 @@ namespace UI.Login
                         {
                             UpdateOrderStatusLabel(label, table.TableId);
                             UpdateOrderStatusLabelReady(label, table.TableId);
+                            UpdateORderStatusLabelServed(label, table.TableId);
                             break;
                         }
                     }
@@ -705,7 +723,7 @@ namespace UI.Login
                 // moves on to the PaymentSystem.BillDetails form
 
                OrderService order = new OrderService();
-               BillDetails billDetails = new BillDetails(order.GetRunningOrder(selectedTableId));
+               BillDetails billDetails = new BillDetails(order.GetStatusOrder(selectedTableId,Status.served));
                Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)

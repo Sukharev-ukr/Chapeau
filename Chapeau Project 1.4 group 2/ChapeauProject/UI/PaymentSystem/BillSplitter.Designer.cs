@@ -222,7 +222,7 @@
         private Label labelTotal;
         private Label label3;
         private Label labelRemainingTotal;
-        private FlowLayoutPanel flowLayoutPanelSplit;
+        public FlowLayoutPanel flowLayoutPanelSplit;
         private Button buttonCancel;
         private Button buttonConfirm;
         private Button buttonCustomSplit;

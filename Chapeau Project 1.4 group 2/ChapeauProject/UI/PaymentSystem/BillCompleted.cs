@@ -18,8 +18,10 @@ namespace UI.PaymentSystem
     public partial class BillCompleted : Form
     {
         Order currentOrder;
-        public BillCompleted()
+        public BillCompleted(Order currentOrder)
         {
+            this.currentOrder = currentOrder;
+
             InitializeComponent();
             LabelOrderNR.Text = currentOrder.OrderId.ToString();
             LoadBillListView(currentOrder);
@@ -59,7 +61,6 @@ namespace UI.PaymentSystem
                 labelTip.Text = currentOrder.TipAmount.ToString("F");  
         }
 
-        //op
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
             StaffService staffService = new StaffService();

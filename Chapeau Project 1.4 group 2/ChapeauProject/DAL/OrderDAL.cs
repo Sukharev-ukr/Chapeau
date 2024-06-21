@@ -11,7 +11,7 @@ namespace DAL
     {
         public List<Order> GetOrders()
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber FROM [Order]";
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount FROM [Order]";
 
             SqlParameter[] parameters = new SqlParameter[0];
 
@@ -48,7 +48,7 @@ namespace DAL
                     TableNumber = (int)dr["TableNumber"]
                 },
                 Feedback = (string)dr["Feedback"],
-                // Null-coalesce. ïf dr[""] as decimal? = null, using ?? sets its to value (0)
+                // Null-coalesce. if dr[""] as decimal? = null, using ?? sets its to value 0
                 TotalAmount = dr["TotalAmount"] as decimal? ?? 0,
                 TipAmount = dr["TipAmount"] as decimal? ?? 0,
                 VAT = dr["VAT"] as decimal? ?? 0,
@@ -137,24 +137,6 @@ namespace DAL
             return orderItems;
         }
 
-        public void UpdateTipById(decimal Tip, int orderId)
-        {
-            string query = $"UPDATE [Order] SET [Order].TipAmount = @newvalue WHERE [Order].OrderID = @orderid";
-            SqlParameter[] parameters = new SqlParameter[2] {
-                new SqlParameter("@orderid", orderId),
-                new SqlParameter("@newvalue",Tip)
-            };
-            ExecuteEditQuery(query, parameters);
-        }
-        public void UpdateTotalById(decimal Total, int orderId)
-        {
-            string query = $"UPDATE [Order] SET [Order].TotalAmount = @newvalue WHERE [Order].OrderID = @orderid";
-            SqlParameter[] parameters = new SqlParameter[2] {
-                new SqlParameter("@orderid", orderId),
-                new SqlParameter("@newvalue",Total)
-            };
-            ExecuteEditQuery(query, parameters);
-        }
         public List<Order> GetOrders(bool drinks, Status status)
         {
             string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
@@ -173,6 +155,10 @@ namespace DAL
             return ReadOrders(ExecuteSelectQuery(query, parameters));
         }
 
+        public void UpdateOrder(Order order)
+        {
+
+        }
 
         //update status of Order
         public void UpdateOrderStatus(int orderId, Status status)
@@ -205,9 +191,9 @@ namespace DAL
         }
         public Order GetStatusOrderByTableId(int tableId,Status status)
         {
-            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.TotalAmount, O.VAT , O.TipAmount, O.StaffID, T.TableID, O.Feedback ,O.TableNumber " +
-                           "FROM [Order] AS O JOIN [Table] AS T ON O.TableID = @tableId " +
-                           "Where O.OrderStatus = @status";
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount " +
+                           "FROM [Order] " +
+                           "WHERE TableID = @tableId AND OrderStatus = @status";
 
             SqlParameter[] parameters = new SqlParameter[]
             {

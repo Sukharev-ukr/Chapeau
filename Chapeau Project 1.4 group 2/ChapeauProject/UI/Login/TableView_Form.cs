@@ -315,9 +315,10 @@ namespace UI.Login
                     {
                         if (control is Label label && label.Tag is Table labelTable && labelTable.TableId == table.TableId)
                         {
+                            UpdateORderStatusLabelServed(label, table.TableId);
                             UpdateOrderStatusLabel(label, table.TableId);
                             UpdateOrderStatusLabelReady(label, table.TableId);
-                            UpdateORderStatusLabelServed(label, table.TableId);
+  
                             break;
                         }
                     }

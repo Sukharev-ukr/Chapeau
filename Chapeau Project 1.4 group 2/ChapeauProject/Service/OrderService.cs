@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class OrderService
 {
     private OrderDAL orderDao;
+    private OrderItemDAL orderItemDao;
 
     MenuDAL menuDAL;
     public List<MenuItem> allMenuItems;
@@ -13,6 +14,7 @@ public class OrderService
     {
         menuDAL = new MenuDAL();
         orderDao = new OrderDAL();
+        orderItemDao = new OrderItemDAL();
         allMenuItems = menuDAL.GetMenuItems();
     }
 
@@ -20,6 +22,18 @@ public class OrderService
     public List<MenuItem> GetMenuItemsByCard(string card)
     {
         return allMenuItems.Where(item => item.Card == card).ToList();
+    }
+
+
+
+    public Order GetRunningOrderFromTable(int tableNr, int employeeId)
+    {
+        return orderDao.GetOrderFromTableNr(tableNr, employeeId);
+}
+
+    public Order GetStatusOrderByTableId(int tableNr,Status status)
+    {
+        return orderDao.GetStatusOrderByTableId(tableNr, Status.served);
     }
 
     public List<Order> GetAllOrders()
@@ -52,8 +66,16 @@ public class OrderService
         return orderDao.GetCurrentOrderId();
     }
 
+
     public void UpdateOrder(Order order)
     {
         orderDao.UpdateOrder(order);
     }
 }
+
+    public void DeleteOrder(int orderId)
+    {
+        orderDao.DeleteOrder(orderId);
+    }
+}
+

@@ -27,6 +27,12 @@ public class OrderService
         return allMenuItems.Where(item => item.Card == card).ToList();
     }
 
+
+    public Order GetRunningOrderFromTable(int tableNr, int employeeId)
+    {
+        return orderDao.GetOrderFromTableNr(tableNr, employeeId);
+}
+
     public Order GetStatusOrderByTableId(int tableNr,Status status)
     {
         return orderDao.GetStatusOrderByTableId(tableNr, Status.served);
@@ -80,6 +86,7 @@ public class OrderService
     {
         return orderDao.GetCurrentOrderId();
     }
+
     public void DeleteOrder(int orderId)
     {
         orderDao.DeleteOrder(orderId);

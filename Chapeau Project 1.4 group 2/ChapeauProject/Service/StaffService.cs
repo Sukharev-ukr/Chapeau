@@ -27,7 +27,18 @@ namespace Service
             return _staffDAL.GetStaffByUsernameAndpassword(username, hashedPassword);
         }
 
-        
+        public int GetLoggedEmployeeId()
+        {
+            Staff staff = _staffDAL.GetStaffByUsername(LoggedUser);
+            if (staff != null)
+            {
+                return staff.StaffID;
+            }
+            else
+            {
+                throw new Exception("No staff member is currently logged in.");
+            }
+        }
 
         public Staff CheckLoginCredentials(string username, string password)
         {

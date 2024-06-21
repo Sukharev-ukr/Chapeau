@@ -163,5 +163,35 @@ namespace DAL
                 CloseConnection();
             }
         }
+
+        protected int ExecuteInsertQuery(string query, SqlParameter[] sqlParameters)
+        {
+            SqlCommand command = new SqlCommand();
+            int insertedId = 0;
+
+            try
+            {
+                command.Connection = OpenConnection();
+                command.CommandText = query + "; SELECT SCOPE_IDENTITY();";
+                command.Parameters.AddRange(sqlParameters);
+
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    insertedId = Convert.ToInt32(result);
+                }
+
+                return insertedId;
+            }
+            catch (SqlException e)
+            {
+                // Print.ErrorLog(e);
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
     }
 }

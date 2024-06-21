@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using UI.OrderView;
 
 namespace UI.Login
 {
@@ -17,6 +18,7 @@ namespace UI.Login
         private Panel popupPanel;
         private Dictionary<TableStatus, List<Button>> statusButtons;
         private TableService tableService;
+        private StaffService staffService;
         private Button selectedTableButton;
         private Button closeButton;
         private int selectedTableId;
@@ -556,7 +558,7 @@ namespace UI.Login
         }
 
         /// <summary>
-        /// Initializes the popup panel and its controls.
+        /// Initializes the popup panel and its controls.`
         /// </summary>
         private void InitializePopupPanel()
         {
@@ -586,6 +588,7 @@ namespace UI.Login
                 Button btnFree = CreatePopupButton("Free table");
                 btnFree.Click += BtnFree_Click;
                 Button btnTakeOrder = CreatePopupButton("Take Order");
+                btnTakeOrder.Click += BtnTakeOrder_Click;
                 Button btnPayBill = CreatePopupButton("Pay the Bill");
                 btnPayBill.Click += BtnPayBill_Click;
                 Button btnReserve = CreatePopupButton("Reserve");
@@ -700,6 +703,7 @@ namespace UI.Login
             try
             {
                 // moves on to the PaymentSystem.BillDetails form
+
                OrderService order = new OrderService();
                BillDetails billDetails = new BillDetails(order.GetRunningOrder(selectedTableId));
                Program.WindowSwitcher(this, billDetails);
@@ -724,6 +728,19 @@ namespace UI.Login
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred while reserving the table: " + ex.Message, "Error");
+            }
+        }
+
+        private void BtnTakeOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OrderViewForm orderViewForm = new OrderViewForm(selectedTableId);
+                Program.WindowSwitcher(this, orderViewForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while handling the order: " + ex.Message, "Error");
             }
         }
 

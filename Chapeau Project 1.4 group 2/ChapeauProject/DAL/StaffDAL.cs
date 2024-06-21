@@ -25,10 +25,6 @@ namespace DAL
             return ReadStaff(dataTable);
         }
 
-
-
-       
-
         private Staff ReadStaff(DataTable data)
         {
             DataRow dataRow = data.Rows[0];
@@ -42,8 +38,28 @@ namespace DAL
             return staff;
         }
 
-        
+        public Staff GetStaffByUsername(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentException("Username cannot be null or empty.", nameof(username));
+            }
 
+            string query = "SELECT StaffID, Username, Role, PasswordHash FROM Staff WHERE Username = @Username";
+            SqlParameter[] sqlParameters = new SqlParameter[]
+            {
+        new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username }
+            };
+            DataTable dataTable = ExecuteSelectQuery(query, sqlParameters);
 
+            if (dataTable.Rows.Count > 0)
+            {
+                return ReadStaff(dataTable);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

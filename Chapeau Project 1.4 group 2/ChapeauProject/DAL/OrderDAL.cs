@@ -58,6 +58,53 @@ namespace DAL
         }
 
 
+        public Order GetOrderFromTableNr(int tableNR, int employeeId)
+        {
+            string query = "SELECT * FROM [Order] WHERE TableID = @tableid AND OrderStatus = 'running'";
+            SqlParameter[] parameters = new SqlParameter[1] { new SqlParameter("@tableid", tableNR) };
+            var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
+
+            if (orders.Count == 0)
+            {
+                return CreateNewOrderForTable(tableNR, employeeId);
+            }
+            else
+            {
+                return orders[0];
+            }
+        }
+
+
+
+        public Order CreateNewOrderForTable(int tableNR, int employeeId)
+        {
+            DateTime orderTime = DateTime.Now;
+
+            string insertQuery = "INSERT INTO [Order] (OrderTime, TableID, StaffID, OrderStatus) VALUES (@orderTime, @tableid, @staffId, @orderStatus); SELECT SCOPE_IDENTITY();";
+            SqlParameter[] insertParameters = new SqlParameter[]
+            {
+        new SqlParameter("@orderTime", orderTime),
+        new SqlParameter("@tableid", tableNR),
+        new SqlParameter("@staffId", employeeId),
+        new SqlParameter("@orderStatus", "running")
+            };
+
+            int orderId = ExecuteInsertQuery(insertQuery, insertParameters);
+
+            Order newOrder = new Order()
+            {
+                OrderId = orderId,
+                OrderTime = orderTime,
+                Employee = new Employee() { EmployeeId = employeeId },
+                Table = new Table() { TableId = tableNR },
+                Items = new List<OrderItem>(),
+                OrderStatus = Status.running
+            };
+
+            return newOrder;
+        }
+
+
 
         public List<OrderItem> GetOrderItems(int orderId)
         {
@@ -89,7 +136,6 @@ namespace DAL
 
             return orderItems;
         }
-
 
         public void UpdateTipById(decimal Tip, int orderId)
         {

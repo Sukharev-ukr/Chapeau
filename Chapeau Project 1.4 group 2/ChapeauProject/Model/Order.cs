@@ -8,10 +8,11 @@ namespace Model
 {
     public class Order
     {
+        private decimal _totalAmount;
 
         public int OrderId { get; set; }
         public DateTime? OrderTime { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount { get { return _totalAmount; } set { _totalAmount = Math.Round(value, 2); } }
         public decimal TipAmount { get; set; }
         public decimal VAT { get; set; }
         public string? Feedback { get; set; }

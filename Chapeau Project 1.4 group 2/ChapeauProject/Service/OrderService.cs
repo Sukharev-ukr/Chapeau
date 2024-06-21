@@ -44,7 +44,7 @@ public class OrderService
     }
     public void MarkOrderAsServed(int orderId)
     {
-        orderDao.UpdateOrderStatus(orderId, Status.finished);
+        orderDao.UpdateOrderStatus(orderId, Status.served);
     }
 
     public int GetCurrentOrderId()

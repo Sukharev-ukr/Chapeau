@@ -66,7 +66,7 @@ namespace DAL
                 OrderStatus = Enum.Parse<Status>((string)dr["Status"], true),
                 Count = (int)dr["Count"],
                 OrderTime = dr["StatusTime"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["StatusTime"]),
-                Comment = dr["Comment"]?.ToString(),
+                Comment = dr["Comment"] as string ?? "",
                 MenuItem = new MenuItem()
             };
         }

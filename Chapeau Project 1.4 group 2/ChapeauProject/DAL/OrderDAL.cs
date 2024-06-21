@@ -11,7 +11,7 @@ namespace DAL
     {
         public List<Order> GetOrders()
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber FROM [Order]";
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount FROM [Order]";
 
             SqlParameter[] parameters = new SqlParameter[0];
 
@@ -144,9 +144,9 @@ namespace DAL
         }
         public Order GetStatusOrderByTableId(int tableId,Status status)
         {
-            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.TotalAmount, O.VAT , O.TipAmount, O.StaffID, T.TableID, O.Feedback ,O.TableNumber " +
-                           "FROM [Order] AS O JOIN [Table] AS T ON O.TableID = @tableId " +
-                           "Where O.OrderStatus = @status";
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount " +
+                           "FROM [Order] " +
+                           "WHERE TableID = @tableId AND OrderStatus = @status";
 
             SqlParameter[] parameters = new SqlParameter[]
             {

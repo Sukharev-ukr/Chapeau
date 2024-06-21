@@ -12,12 +12,11 @@ namespace DAL
     {
         public void SaveBill(Bill bill)
         {
-            string query = "INSERT INTO bill VALUES ( @totalamount, @VAT, @paymentmethod, @orderid)";
+            string query = "INSERT INTO bill VALUES ( @totalamount, @paymentmethod, @orderid)";
 
-            SqlParameter[] sqlParameters = new SqlParameter[4] { 
+            SqlParameter[] sqlParameters = new SqlParameter[3] { 
                 new SqlParameter("@orderid",bill.OrderId),
                 new SqlParameter("@totalamount", bill.TotalAmount),
-                new SqlParameter("@VAT",bill.VAT),
                 new SqlParameter("@paymentmethod", bill.PaymentMethod.ToString())
             };
             ExecuteAddQuery(query, sqlParameters);

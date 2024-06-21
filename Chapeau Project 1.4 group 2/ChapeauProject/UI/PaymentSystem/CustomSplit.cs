@@ -20,6 +20,7 @@ namespace UI.PaymentSystem
         UserControlSplitBill part;
         protected decimal partCost;
         protected Order currentOrder;
+        BillSplitter parentform;
 
         //string wildcards
         //only registers fractions I.E: 1/2, 1/22, 3/10
@@ -28,8 +29,9 @@ namespace UI.PaymentSystem
         //ony registers % symbol followed by a number 
         Regex percentagePattern = new Regex("^%[0-9]+");
 
-        public CustomSplit(Order order, UserControlSplitBill userControl)
+        public CustomSplit(Order order, UserControlSplitBill userControl, BillSplitter billSplitter)
         {
+            this.parentform = billSplitter;
             currentOrder = order;
             part = userControl;
             InitializeComponent();
@@ -43,6 +45,7 @@ namespace UI.PaymentSystem
             SetPartCost(newCost);
         }
 
+        //makes confirm buttons visible aslong as the cost of the part is less than the total amount
         protected void SetPartCost(decimal newCost)
         {
             decimal orderTotal = currentOrder.TotalAmount;
@@ -62,7 +65,6 @@ namespace UI.PaymentSystem
         {
             string input = textBoxCustomAmount.Text;
             decimal newCost = 0;
-
 
             //checks if string input matches Regex pattern
             if (percentagePattern.IsMatch(input))
@@ -97,6 +99,8 @@ namespace UI.PaymentSystem
         protected virtual void buttonConfirm_Click(object sender, EventArgs e)
         {
             part.SplitCost = partCost;
+            parentform.billPartCost[(int)part.Tag] = partCost;
+            parentform.UpdateRemainingAmount();
             this.Dispose();
         }
     }

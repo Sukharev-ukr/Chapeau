@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,22 +14,21 @@ namespace UI.PaymentSystem
     public partial class UserControlSplitBill : UserControl
     {
 
-        BillSplitter parentForm;
         private decimal _splitCost;
         public decimal SplitCost { get { return _splitCost; } set { _splitCost = value; setSplitCost(value); } }
-        int partNR;
         Order currentOrder;
+        BillSplitter parentform;
 
 
-        public UserControlSplitBill(BillSplitter billSplitter, Order order)
+        public UserControlSplitBill(Order order, BillSplitter parentform, int index)
         {
-            parentForm = billSplitter;
+            this.parentform = parentform;
             currentOrder = order;
+            this.Tag = index;
 
             InitializeComponent();
 
-            labelPart.Text = $"Part {Tag}:";
-            this.partNR = partNR;
+            labelPart.Text = $"Part {this.Tag}:";
             setSplitCost(SplitCost);
 
         }
@@ -39,18 +38,15 @@ namespace UI.PaymentSystem
         }
         public void buttonEditPortion_Click(object sender, EventArgs e)
         {
-            CustomSplit editSplit = new CustomSplit(currentOrder,this);
+            CustomSplit editSplit = new CustomSplit(currentOrder, this, parentform);
             editSplit.ShowDialog();
         }
 
         private void textBoxSplit_TextChanged(object sender, EventArgs e)
         {
             decimal.TryParse(textBoxSplit.Text, out _splitCost);
-            
-            if (_splitCost != null)
-            {
-                parentForm.UpdateRemainingAmount();
-            }
+            parentform.billPartCost[(int)Tag] = _splitCost;
+            parentform.UpdateRemainingAmount();
         }
     }
 }

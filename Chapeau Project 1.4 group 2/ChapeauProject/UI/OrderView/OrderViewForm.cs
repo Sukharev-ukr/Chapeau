@@ -70,7 +70,7 @@ namespace UI.OrderView
             decimal totalPrice = 0m;
             foreach (var ucOrderView in ucOrderViews.Values)
             {
-                int quantity = ucOrderView.Quantity; 
+                int quantity = ucOrderView.Quantity;
                 decimal price = ucOrderView.Item.Price;
                 totalPrice += quantity * price;
             }
@@ -81,6 +81,19 @@ namespace UI.OrderView
         private void btnOrderViewSubmit_Click(object sender, EventArgs e)
         {
             OrderSubmittedForm newForm = new OrderSubmittedForm();
+
+            Program.WindowSwitcher(this, newForm);
+        }
+
+        private void btnDeleteOrder_Click(object sender, EventArgs e)
+        {
+            int orderId = orderService.GetCurrentOrderId();
+
+            orderService.DeleteOrder(orderId);
+
+            pnlOrderView.Controls.Clear();
+
+            LoginForm newForm = new LoginForm();
 
             Program.WindowSwitcher(this, newForm);
         }

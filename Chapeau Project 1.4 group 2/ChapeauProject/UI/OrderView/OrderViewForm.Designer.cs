@@ -38,6 +38,8 @@
             lblOrderViewTotalTxt = new Label();
             lblOrderViewTotalPrice = new Label();
             btnOrderViewSubmit = new Button();
+            lblTableNr = new Label();
+            lblOrderId = new Label();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewTotalPriceFooter).BeginInit();
@@ -151,12 +153,38 @@
             btnOrderViewSubmit.UseVisualStyleBackColor = false;
             btnOrderViewSubmit.Click += btnOrderViewSubmit_Click;
             // 
+            // lblTableNr
+            // 
+            lblTableNr.AutoSize = true;
+            lblTableNr.BackColor = Color.FromArgb(117, 30, 55);
+            lblTableNr.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTableNr.ForeColor = Color.White;
+            lblTableNr.Location = new Point(21, 23);
+            lblTableNr.Name = "lblTableNr";
+            lblTableNr.Size = new Size(72, 25);
+            lblTableNr.TabIndex = 11;
+            lblTableNr.Text = "Table 0";
+            // 
+            // lblOrderId
+            // 
+            lblOrderId.AutoSize = true;
+            lblOrderId.BackColor = Color.FromArgb(117, 30, 55);
+            lblOrderId.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblOrderId.ForeColor = Color.White;
+            lblOrderId.Location = new Point(99, 23);
+            lblOrderId.Name = "lblOrderId";
+            lblOrderId.Size = new Size(36, 25);
+            lblOrderId.TabIndex = 12;
+            lblOrderId.Text = "(0)";
+            // 
             // OrderViewForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(728, 944);
+            Controls.Add(lblOrderId);
+            Controls.Add(lblTableNr);
             Controls.Add(btnOrderViewSubmit);
             Controls.Add(lblOrderViewTotalPrice);
             Controls.Add(lblOrderViewTotalTxt);
@@ -188,5 +216,7 @@
         private Label lblOrderViewTotalTxt;
         private Label lblOrderViewTotalPrice;
         private Button btnOrderViewSubmit;
+        private Label lblTableNr;
+        private Label lblOrderId;
     }
 }

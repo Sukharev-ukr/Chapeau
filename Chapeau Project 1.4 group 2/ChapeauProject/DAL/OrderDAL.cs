@@ -187,6 +187,16 @@ namespace DAL
             }
         }
 
+
+        public void DeleteOrder(int orderId)
+        {
+            string query = "DELETE FROM [Order] WHERE OrderID = @orderId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@orderId", orderId)
+            };
+            ExecuteEditQuery(query, parameters);
+}
         public Order GetReadyOrderByTableId(int tableId)
         {
             string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber , TotalAmount, TipAmount, VAT " +
@@ -201,6 +211,7 @@ namespace DAL
 
             var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
             return orders.FirstOrDefault();
+
         }
     }
 }

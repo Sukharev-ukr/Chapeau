@@ -22,10 +22,10 @@ namespace UI.OrderView
             orderService = new OrderService();
             this.tableNr = tableNr;
             this.employeeId = employeeId;
+            Console.WriteLine($"OrderViewForm Employee ID: {employeeId}");
 
             DisplayOrderInfo(tableNr, employeeId);
         }
-
 
         private void btnLunch_Click(object sender, EventArgs e)
         {

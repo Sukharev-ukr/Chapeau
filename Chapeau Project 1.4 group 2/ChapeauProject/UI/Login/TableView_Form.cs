@@ -755,14 +755,15 @@ namespace UI.Login
             try
             {
                 StaffService staffService = new StaffService();
-                string loggedUsername = staffService.LoggedUser;
 
-                if (!string.IsNullOrEmpty(loggedUsername))
+                if (!string.IsNullOrEmpty(employeeName))
                 {
-                    Staff staff = staffService.GetStaffByUsername(loggedUsername);
+                    Staff staff = staffService.GetStaffByUsername(employeeName);
                     if (staff != null)
                     {
                         int employeeId = staff.StaffID;
+                        Console.WriteLine($"Employee ID: {employeeId}");
+                        MessageBox.Show($"{employeeId}");
                         OrderViewForm orderViewForm = new OrderViewForm(employeeId, selectedTableId);
                         Program.WindowSwitcher(this, orderViewForm);
                     }

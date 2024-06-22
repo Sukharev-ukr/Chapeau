@@ -71,8 +71,6 @@ public class OrderService
     {
         orderDao.UpdateOrder(order);
     }
-}
-
     public void DeleteOrder(int orderId)
     {
         orderDao.DeleteOrder(orderId);

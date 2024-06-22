@@ -110,24 +110,6 @@ namespace DAL
             };
             ExecuteEditQuery(query, parameters);
         }
-        public List<Order> GetOrders(bool drinks, Status status)
-        {
-            string category = drinks ? "Category = 'Drink'" : "Category != 'Drinks'";
-
-            string query = "SELECT O.OrderID, O.OrderTime, O.OrderStatus, O.StaffID, O.TableID, O.Feedback, O.TableNumber " +
-                           "FROM Order AS O " +
-                           "JOIN Table AS T ON O.TableID = T.TableID " +
-                           "WHERE O.OrderStatus = @status AND @category";
-
-            SqlParameter[] parameters =
-            {
-        new SqlParameter("@status", status),
-        new SqlParameter("@category", category)
-    };
-
-            return ReadOrders(ExecuteSelectQuery(query, parameters));
-        }
-
 
         //update status of Order
         public void UpdateOrderStatus(int orderId, Status status)

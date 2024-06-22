@@ -27,7 +27,7 @@ namespace UI
         {
             this.employee = employee;
             orderItemService = new OrderItemService();
-            
+
             InitializeComponent();
             InitializeFlowLayoutPanel();
             InitializeClockTimer();
@@ -35,6 +35,11 @@ namespace UI
             isChef = employee.Role == Role.Chef;
             ShowOrdersPanel(flowLayoutPanelRunning);
 
+            LogoutButton();
+        }
+
+        private void LogoutButton()
+        {
             Button logoutButton = new Button
             {
                 Text = "Log out",
@@ -149,7 +154,7 @@ namespace UI
 
         private void CreateOrders(Dictionary<Order, Dictionary<Category, List<OrderItem>>> orders)
         {
-            foreach (var orderPair in orders) //Order-key,  Dictionary<Category, List<OrderItem>>> -value
+            foreach (var orderPair in orders)
             {
                 CreateUserControl(orderPair.Key, orderPair.Value);
             }
@@ -180,8 +185,9 @@ namespace UI
         {
             flowLayoutPanelRunning.Controls.Remove(userControl);
             flowLayoutPanelFinished.Controls.Add(userControl);
-            ShowCurrentPanel(flowLayoutPanelRunning);
+            ShowOrdersPanel(flowLayoutPanelRunning);
         }
+
 
         private void runningToolStripMenuItem_Click_1(object sender, EventArgs e)
         {

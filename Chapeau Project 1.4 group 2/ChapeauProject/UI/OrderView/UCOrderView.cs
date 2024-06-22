@@ -16,6 +16,7 @@ namespace UI.OrderView
     public partial class UCOrderView : UserControl
     {
         private OrderDAL orderDal;
+        private OrderService orderService; 
         private int currentOrderId;
         private MenuItem _item;
         private Dictionary<int, int> _quantityDict = new Dictionary<int, int>();
@@ -23,6 +24,7 @@ namespace UI.OrderView
         public UCOrderView()
         {
             InitializeComponent();
+            orderService = new OrderService(); 
         }
 
         public int Quantity
@@ -40,16 +42,32 @@ namespace UI.OrderView
                 {
                     lblItemName.Text = _item.Name;
 
-                    int orderId = 10; 
+                    int orderId = orderService.GetCurrentOrderId();
                     OrderItemDAL orderItemDal = new OrderItemDAL();
                     int quantity = orderItemDal.GetQuantityByItemId(orderId, _item.Id);
 
                     _quantityDict[_item.Id] = quantity;
 
                     lblItemAmount.Text = _quantityDict[_item.Id].ToString();
+
+                    if (_item.Stock == 0)
+                    {
+                        btnMinus.Enabled = false;
+                        btnPlus.Enabled = false;
+
+                        this.BackColor = Color.Gray;
+                    }
+                    else
+                    {
+                        btnMinus.Enabled = true;
+                        btnPlus.Enabled = true;
+
+                        this.BackColor = SystemColors.Control;
+                    }
                 }
             }
         }
+
 
 
 
@@ -61,7 +79,7 @@ namespace UI.OrderView
                 lblItemAmount.Text = _quantityDict[_item.Id].ToString();
                 (this.ParentForm as OrderViewForm)?.UpdateTotalPrice();
 
-                int orderId = 10; 
+                int orderId = orderService.GetCurrentOrderId();
 
                 OrderItemDAL orderItemDal = new OrderItemDAL();
                 if (_quantityDict[_item.Id] == 0)
@@ -72,22 +90,50 @@ namespace UI.OrderView
                 {
                     orderItemDal.UpdateQuantity(orderId, _item.Id, _quantityDict[_item.Id]);
                 }
+
+                _item.Stock++;
+
+                btnMinus.Enabled = true;
+                btnPlus.Enabled = true;
+
+                this.BackColor = SystemColors.Control;
             }
         }
 
+
         private void btnPlus_Click(object sender, EventArgs e)
         {
-            _quantityDict[_item.Id]++;
-            lblItemAmount.Text = _quantityDict[_item.Id].ToString();
-            (this.ParentForm as OrderViewForm)?.UpdateTotalPrice();
+            if (_item.Stock > 0)
+            {
+                _quantityDict[_item.Id]++;
+                lblItemAmount.Text = _quantityDict[_item.Id].ToString();
+                (this.ParentForm as OrderViewForm)?.UpdateTotalPrice();
 
-            int orderId = 10; 
-            string status = "placed";
-            DateTime statusTime = DateTime.Now; 
+                int orderId = orderService.GetCurrentOrderId();
 
-            OrderItemDAL orderItemDal = new OrderItemDAL();
-            orderItemDal.AddOrUpdateOrderItem(orderId, _item.Id, _quantityDict[_item.Id], status, statusTime);
+                string status = "placed";
+                DateTime statusTime = DateTime.Now;
+
+                OrderItemDAL orderItemDal = new OrderItemDAL();
+                orderItemDal.AddOrUpdateOrderItem(orderId, _item.Id, _quantityDict[_item.Id], status, statusTime);
+
+                _item.Stock--;
+
+                if (_item.Stock == 0)
+                {
+                    btnMinus.Enabled = false;
+                    btnPlus.Enabled = false;
+
+                    this.BackColor = Color.Gray;
+                }
+            }
         }
 
+        private void btnEditItemDetails_Click(object sender, EventArgs e)
+        {
+            OrderItemEditDetails editForm = new OrderItemEditDetails();
+            editForm.Item = this._item; 
+            editForm.Show(); 
+        }
     }
 }

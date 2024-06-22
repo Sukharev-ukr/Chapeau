@@ -37,7 +37,9 @@
             pbOrderViewTotalPriceFooter = new PictureBox();
             lblOrderViewTotalTxt = new Label();
             lblOrderViewTotalPrice = new Label();
-            btnOrderViewSummary = new Button();
+            btnOrderViewSubmit = new Button();
+            lblTableNr = new Label();
+            lblOrderId = new Label();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewTotalPriceFooter).BeginInit();
@@ -138,18 +140,42 @@
             lblOrderViewTotalPrice.TabIndex = 9;
             lblOrderViewTotalPrice.Text = "€0.00";
             // 
-            // btnOrderViewSummary
+            // btnOrderViewSubmit
             // 
-            btnOrderViewSummary.BackColor = Color.Black;
-            btnOrderViewSummary.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnOrderViewSummary.ForeColor = Color.White;
-            btnOrderViewSummary.Location = new Point(578, 815);
-            btnOrderViewSummary.Name = "btnOrderViewSummary";
-            btnOrderViewSummary.Size = new Size(138, 50);
-            btnOrderViewSummary.TabIndex = 10;
-            btnOrderViewSummary.Text = "Summary";
-            btnOrderViewSummary.UseVisualStyleBackColor = false;
-            btnOrderViewSummary.Click += btnOrderViewSummary_Click;
+            btnOrderViewSubmit.BackColor = Color.Black;
+            btnOrderViewSubmit.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnOrderViewSubmit.ForeColor = Color.White;
+            btnOrderViewSubmit.Location = new Point(578, 815);
+            btnOrderViewSubmit.Name = "btnOrderViewSubmit";
+            btnOrderViewSubmit.Size = new Size(138, 50);
+            btnOrderViewSubmit.TabIndex = 10;
+            btnOrderViewSubmit.Text = "Submit";
+            btnOrderViewSubmit.UseVisualStyleBackColor = false;
+            btnOrderViewSubmit.Click += btnOrderViewSubmit_Click;
+            // 
+            // lblTableNr
+            // 
+            lblTableNr.AutoSize = true;
+            lblTableNr.BackColor = Color.FromArgb(117, 30, 55);
+            lblTableNr.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTableNr.ForeColor = Color.White;
+            lblTableNr.Location = new Point(21, 23);
+            lblTableNr.Name = "lblTableNr";
+            lblTableNr.Size = new Size(72, 25);
+            lblTableNr.TabIndex = 11;
+            lblTableNr.Text = "Table 0";
+            // 
+            // lblOrderId
+            // 
+            lblOrderId.AutoSize = true;
+            lblOrderId.BackColor = Color.FromArgb(117, 30, 55);
+            lblOrderId.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblOrderId.ForeColor = Color.White;
+            lblOrderId.Location = new Point(99, 23);
+            lblOrderId.Name = "lblOrderId";
+            lblOrderId.Size = new Size(36, 25);
+            lblOrderId.TabIndex = 12;
+            lblOrderId.Text = "(0)";
             // 
             // OrderViewForm
             // 
@@ -157,7 +183,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(728, 944);
-            Controls.Add(btnOrderViewSummary);
+            Controls.Add(lblOrderId);
+            Controls.Add(lblTableNr);
+            Controls.Add(btnOrderViewSubmit);
             Controls.Add(lblOrderViewTotalPrice);
             Controls.Add(lblOrderViewTotalTxt);
             Controls.Add(pbOrderViewTotalPriceFooter);
@@ -187,6 +215,8 @@
         private PictureBox pbOrderViewTotalPriceFooter;
         private Label lblOrderViewTotalTxt;
         private Label lblOrderViewTotalPrice;
-        private Button btnOrderViewSummary;
+        private Button btnOrderViewSubmit;
+        private Label lblTableNr;
+        private Label lblOrderId;
     }
 }

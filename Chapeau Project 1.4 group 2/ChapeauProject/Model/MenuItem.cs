@@ -8,6 +8,7 @@ namespace Model
 {
     public class MenuItem
     {
+        private decimal? _VAT;
         public int Id { get; set; }
         public string Name { get; set; }
         public Category Category { get; set; }
@@ -17,6 +18,8 @@ namespace Model
 
         public int? Stock { get; set; }
 
-        public decimal? VAT { get; set; }
+        public decimal? VAT { 
+            get { return Price*(_VAT/100); } 
+            set { _VAT = value; } }
     }
 }

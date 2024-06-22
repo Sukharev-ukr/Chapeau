@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
-using static Service.PaymentService;
+
 
 namespace UI.PaymentSystem
 {
@@ -20,21 +20,21 @@ namespace UI.PaymentSystem
 
         PaymentMethod paymentMethod;
 
-        CurrentOrder currentOrder;
-        BillParts billParts;
+        Order currentOrder;
+        List<Bill> billParts;
 
-        public PaymentForm()
+        public PaymentForm(List<Bill> parts, Order order)
         {
-            billParts = BillParts.Getinstance();
+            billParts = parts;
+            currentOrder = order;
 
-            currentOrder = CurrentOrder.Getinstance();
-            partNumber = billParts.currentPart.BillId;
-            Bill part = billParts.ListOFParts[partNumber];
+            partNumber = GetCurrentPart(parts);
+
             InitializeComponent();
 
-            labelOrderNr.Text = currentOrder.orderId.ToString();
-            labelPart.Text = (partNumber + 1).ToString();
-            labelPartCost.Text = part.TotalAmount.ToString();
+            labelOrderNr.Text = currentOrder.OrderId.ToString();
+            labelPart.Text = (partNumber).ToString();
+            labelPartCost.Text = parts[partNumber].TotalAmount.ToString(); ;
         }
 
         private void radioButtonCredit_CheckedChanged(object sender, EventArgs e)
@@ -54,15 +54,27 @@ namespace UI.PaymentSystem
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            BillSplitter billSplitter = new BillSplitter();
+            BillSplitter billSplitter = new BillSplitter(currentOrder);
             Program.WindowSwitcher(this, billSplitter);
+        }
+
+        int GetCurrentPart(List<Bill> parts)
+        {
+            foreach (Bill part in parts)
+            {
+                if (!part.Paid)
+                {
+                    return parts.IndexOf(part);
+                }
+            }
+            return 0;
         }
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            billParts.ListOFParts[partNumber].PaymentMethod = paymentMethod;
-            Checkout checkout = new Checkout(paymentMethod);
-            Program.WindowSwitcher(this,checkout);
+            billParts[partNumber].PaymentMethod = paymentMethod;
+            Checkout checkout = new Checkout(billParts,partNumber,currentOrder);
+            Program.WindowSwitcher(this, checkout);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Model;
-using Service;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,98 +12,75 @@ using System.Windows.Forms;
 using Model;
 using Service;
 using System.Diagnostics.Eventing.Reader;
-using static Service.PaymentService;
+
 
 namespace UI.PaymentSystem
 {
     public partial class BillSplitter : Form
     {
         private decimal remainingAmount;
-        CurrentOrder currentOrder;
+        Order currentOrder;
 
-        public BillSplitter()
+
+        // holds individual cost of each part.
+        public List<decimal> billPartCost;
+
+
+        public decimal RemainingAmount { get { return currentOrder.TotalAmount - billPartCost.Sum(); } }
+
+        public BillSplitter(Order order)
         {
+            currentOrder = order;
+            billPartCost = new List<decimal>();
+
             InitializeComponent();
-            currentOrder = CurrentOrder.Getinstance();
-            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
-
-            remainingAmount = currentOrder.OrderTotal;
-            labelRemainingTotal.Text = remainingAmount.ToString("F");
-
+            labelTotal.Text = currentOrder.TotalAmount.ToString("F");
+            labelRemainingTotal.Text = labelTotal.Text;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
 
-            Form newForm = new BillDetails(currentOrder.orderId);
+            Form newForm = new BillDetails(currentOrder);
             Program.WindowSwitcher(this, newForm);
-        }
-
-        public void UpdateRemainingAmount()
-        {
-            remainingAmount = currentOrder.OrderTotal;
-
-            foreach (UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
-            {
-                remainingAmount -= userControl.SplitCost;
-            }
-            labelRemainingTotal.Text = remainingAmount.ToString("F");
-        }
-
-        //adding user controll items
-        public void NewBillPart(decimal partAmount)
-        {
-            int partNR = flowLayoutPanelSplit.Controls.Count;
-            UserControlSplitBill billPart = new UserControlSplitBill(partAmount, partNR, this);
-
-            billPart.Tag = partNR;
-            flowLayoutPanelSplit.Controls.Add(billPart);
-
-            UpdateRemainingAmount();
-        }
-        public void UpdateBillPart(decimal partAmount, int part)
-        {
-            foreach (UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
-            {
-                if (userControl.PartNR == part)
-                {
-                    userControl.SplitCost = partAmount;
-                    continue;
-                }
-            }
-            UpdateRemainingAmount();
         }
 
         private void buttonCustomSplit_Click(object sender, EventArgs e)
         {
-            CustomSplit newBillPart = new NewSplit(this);
-            newBillPart.ShowDialog();
+            billPartCost.Add(0);
+            UserControlSplitBill billPart = new UserControlSplitBill(currentOrder,this,flowLayoutPanelSplit.Controls.Count);
+            CustomSplit newBillPart = new CustomSplit(currentOrder, billPart,this);
 
+            
+            flowLayoutPanelSplit.Controls.Add(billPart);
+
+
+            newBillPart.ShowDialog();
         }
 
         private void buttonEqualSplit_Click(object sender, EventArgs e)
         {
 
-            EqualSplit equalSplit = new EqualSplit(this);
+            EqualSplit equalSplit = new EqualSplit(currentOrder, this);
 
-            this.flowLayoutPanelSplit.Controls.Clear();
-            remainingAmount = currentOrder.OrderTotal;
             equalSplit.ShowDialog();
 
         }
 
+
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-
+            List<Bill> billParts = new List<Bill>();
             if (remainingAmount == 0)
             {
-                BillParts billParts = BillParts.Getinstance();
-                foreach(UserControlSplitBill userControl in this.flowLayoutPanelSplit.Controls)
+                foreach (decimal splitCost in billPartCost)
                 {
-                    billParts.AddBillPart(userControl.PartNR, userControl.SplitCost);
+                    Bill bill = new Bill { OrderId = currentOrder.OrderId, TotalAmount = splitCost };
+
+                    billParts.Add(bill);
                 }
-                PaymentForm paymentForm = new PaymentForm();
-                Program.WindowSwitcher(this,paymentForm);
+                PaymentForm paymentForm = new PaymentForm(billParts, currentOrder);
+                Program.WindowSwitcher(this, paymentForm);
 
             }
             else
@@ -112,6 +88,11 @@ namespace UI.PaymentSystem
                 labelNotification.Text = "make sure the entire order is split into parts";
                 labelNotification.Visible = true;
             }
+        }
+
+        public void UpdateRemainingAmount()
+        {
+            labelRemainingTotal.Text = RemainingAmount.ToString("F");
         }
     }
 }

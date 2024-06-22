@@ -14,9 +14,5 @@ namespace Model
         served,
         running,
         finished
-
-            
-            
-            
     }
 }

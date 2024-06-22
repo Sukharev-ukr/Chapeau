@@ -11,21 +11,28 @@ namespace Service
     public class OrderItemService
     {
         private OrderItemDAL orderItemDao;
+        private OrderService orderService;
 
         public OrderItemService()
         {
             orderItemDao = new OrderItemDAL();
+            orderService = new OrderService();
         }
 
         public List<OrderItem> GetOrderItemsByCategory(int orderId, string category)
         {
-            Dictionary<OrderItem, MenuItem> itemOrders = orderItemDao.GetOrderItemsByCategory(orderId, category);
-            return new List<OrderItem>(itemOrders.Keys);
+           return orderItemDao.GetOrderItemsByCategory(orderId, category);
+            
         }
 
         public void UpdateOrderItemStatus(OrderItem orderItem, string status)
         {
+            int orderId = orderService.GetCurrentOrderId();
             orderItemDao.UpdateOrderItemStatus(orderItem, status);
+        }
+        public List<OrderItem> GetOrderDetials(int id)
+        {
+            return orderItemDao.GetOrderDetails(id);
         }
     }
 }

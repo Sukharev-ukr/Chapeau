@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class OrderService
 {
     private OrderDAL orderDao;
+    private OrderItemDAL orderItemDao;
 
     MenuDAL menuDAL;
     public List<MenuItem> allMenuItems;
@@ -13,30 +14,26 @@ public class OrderService
     {
         menuDAL = new MenuDAL();
         orderDao = new OrderDAL();
+        orderItemDao = new OrderItemDAL();
         allMenuItems = menuDAL.GetMenuItems();
     }
-    public List<MenuItem> GetAllMenuItems()
-    {
-        return allMenuItems;
-    }
+
 
     public List<MenuItem> GetMenuItemsByCard(string card)
     {
         return allMenuItems.Where(item => item.Card == card).ToList();
     }
 
-    public Order GetRunningOrderFromTable(int tableNr)
-    {
-        return orderDao.GetOrderFromTableNr(tableNr);
-    }
 
-    public void UpdateTipById(decimal input, int id)
+
+    public Order GetRunningOrderFromTable(int tableNr, int employeeId)
     {
-        orderDao.UpdateTipById(input, id);
-    }
-    public void UpdateTotalById(decimal input, int id)
+        return orderDao.GetOrderFromTableNr(tableNr, employeeId);
+}
+
+    public Order GetStatusOrderByTableId(int tableNr,Status status)
     {
-        orderDao.UpdateTotalById(input, id);
+        return orderDao.GetStatusOrderByTableId(tableNr, Status.served);
     }
 
     public List<Order> GetAllOrders()
@@ -45,23 +42,38 @@ public class OrderService
         return orders;
     }
 
-    public void UpdateOrderStatus(int ID, Status status)
-    {
-        orderDao.UpdateOrderStatus(ID, status);
-
-    }
-
     public Order GetRunningOrder(int tableId)
     {
         return orderDao.GetRunningOrderByTableId(tableId);
     }
 
+    public Order GetReadyOrder(int tableId)
+    {
+        return orderDao.GetReadyOrderByTableId(tableId);
+    }
+
+    public Order GetStatusOrder(int tableId,Status status)
+    {
+        return orderDao.GetStatusOrderByTableId(tableId,status);
+    }
     public void MarkOrderAsServed(int orderId)
     {
-        orderDao.UpdateOrderStatus(orderId, Status.finished);
+        orderDao.UpdateOrderStatus(orderId, Status.served);
     }
-    public List<OrderItem> GetOrderItemsByOrderId(int orderId)
+
+    public int GetCurrentOrderId()
     {
-        return orderDao.GetOrderItems(orderId);
+        return orderDao.GetCurrentOrderId();
+    }
+
+
+    public void UpdateOrder(Order order)
+    {
+        orderDao.UpdateOrder(order);
+    }
+    public void DeleteOrder(int orderId)
+    {
+        orderDao.DeleteOrder(orderId);
     }
 }
+

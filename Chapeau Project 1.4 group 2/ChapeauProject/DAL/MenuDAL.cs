@@ -40,7 +40,7 @@ namespace DAL
                 Card = (string)row["Card"],
                 Price = (decimal)row["Price"],
                 Stock = row["Stock"] as int?,
-                VAT = row["VAT"] as decimal?,
+                VAT = row["VAT"] as decimal? ?? 0,
             };
             return menuItem;
         }

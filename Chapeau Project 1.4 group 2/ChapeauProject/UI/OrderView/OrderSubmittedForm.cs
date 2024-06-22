@@ -20,11 +20,9 @@ namespace UI.OrderView
 
         private void btnOrderMainScreen_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            LoginForm newForm = new LoginForm();
 
-/*            TableView_Form newForm = new TableView_Form();
-
-            Program.WindowSwitcher(this, newForm);*/
+            Program.WindowSwitcher(this, newForm);
         }
     }
 }

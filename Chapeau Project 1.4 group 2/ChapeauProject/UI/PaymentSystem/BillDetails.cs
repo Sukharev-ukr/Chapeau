@@ -11,105 +11,106 @@ using Model;
 using Service;
 using UI.Login;
 using UI.PaymentSystem;
-using static Service.PaymentService;
 
 namespace UI
 {
     public partial class BillDetails : Form
     {
 
-        CurrentOrder currentOrder;
-        public BillDetails(int order)
+        OrderItemService orderItemService;
+        Order currentOrder;
+        decimal sum;
+
+        public BillDetails(Order order)
         {
+            currentOrder = order;
+            orderItemService = new OrderItemService();
+
             InitializeComponent();
-            currentOrder = CurrentOrder.Getinstance(order);
-            LabelOrderNR.Text = currentOrder.orderDetail.Keys.First().OrderId.ToString();
-            LoadOrderItems();
+
+            LabelOrderNR.Text = currentOrder.OrderId.ToString();
+
+            GetOrderItems(currentOrder);
+
+            LoadBillListView(currentOrder);
+            LoadLabels(currentOrder);
         }
 
-        private void LoadOrderItems()
+        private void LoadBillListView(Order currentOrder)
         {
-            Dictionary<OrderItem, MenuItem> OrderDetails = GetOrderMenuItems();
             listViewBillList.Items.Clear();
-            decimal sum = 0;
-            decimal VAT = 0;
-            decimal total = 0;
-            decimal VATTotal = 0;
+            currentOrder.TotalAmount = 0;
+            currentOrder.VAT = 0;
 
-            foreach (KeyValuePair<OrderItem, MenuItem> item in OrderDetails)
+            foreach (OrderItem item in currentOrder.Items)
             {
-                sum = (item.Key.Count * item.Value.Price);
-                if (item.Value.VAT != null)
-                {
-                    VAT = sum * (((decimal)item.Value.VAT / 100));
-                    VATTotal += VAT;
-                }
-                total += sum;
-                ListViewItem li = new ListViewItem(item.Value.Name);
-                li.SubItems.Add(item.Key.Count.ToString());
-                li.SubItems.Add(item.Value.Price.ToString());
+                sum += (item.Count * item.MenuItem.Price);
+
+                currentOrder.VAT += (decimal)item.MenuItem.VAT;
+                ListViewItem li = new ListViewItem(item.MenuItem.Name);
+                li.SubItems.Add(item.Count.ToString());
+                li.SubItems.Add(item.MenuItem.Price.ToString());
                 li.SubItems.Add((sum).ToString());
-                li.SubItems.Add(VAT.ToString("F"));
-                li.Tag = item.Key.OrderId;
+                li.SubItems.Add(((decimal)item.MenuItem.VAT * item.Count).ToString("F"));
+                li.Tag = item.OrderId;
 
                 listViewBillList.Items.Add(li);
             }
+            currentOrder.TotalAmount += currentOrder.VAT + currentOrder.TipAmount + sum;
+        }
 
-            if (currentOrder.OrderTotal == 0)
-            {
-                currentOrder.OrderTotal = total + VATTotal;
-            }
-            
-            labelTotal.Text = currentOrder.OrderTotal.ToString("F");
-            labelSubtotal.Text = total.ToString("F");
-            labelVAT.Text = VATTotal.ToString("F");
+        private void LoadLabels(Order currentOrder)
+        {
+            labelTotal.Text = currentOrder.TotalAmount.ToString("F");
+            labelSubtotal.Text = sum.ToString("F");
+            labelVAT.Text = currentOrder.VAT.ToString("F");
 
-            if (currentOrder.Tip != 0)
+            //if a tip has been added, show the tip label and tip value.
+            if (currentOrder.TipAmount != 0)
             {
                 labelTip.Visible = true;
                 label8.Visible = true;
-                labelTip.Text = currentOrder.Tip.ToString("F");
+                labelTip.Text = currentOrder.TipAmount.ToString("F");
             }
-
-
         }
-        private Dictionary<OrderItem, MenuItem> GetOrderMenuItems()
+
+        private void GetOrderItems(Order currentOrder)
         {
-            return currentOrder.orderDetail;
+           currentOrder.Items = orderItemService.GetOrderDetials(currentOrder.OrderId);
         }
 
+        //opens the bill spliter form.
         private void button1_Click(object sender, EventArgs e)
         {
-            BillSplitter newForm = new BillSplitter();
+            BillSplitter newForm = new BillSplitter(currentOrder);
 
             Program.WindowSwitcher(this, newForm);
 
         }
-
+        //opens add tip form
         private void buttonAddTip_Click(object sender, EventArgs e)
         {
-            Program.WindowSwitcher(this, new AddTip());
+            Program.WindowSwitcher(this, new AddTip(currentOrder));
         }
-
+        //opens the add comment form
         private void buttonComment_Click(object sender, EventArgs e)
         {
-            AddComment addComment = new AddComment();
+            AddComment addComment = new AddComment(currentOrder);
             addComment.ShowDialog();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            BillParts billParts = BillParts.Getinstance();
-            billParts.AddBillPart(0, currentOrder.OrderTotal);
-
-            PaymentForm paymentform = new PaymentForm();
+            List<Bill> bill = new List<Bill> { new Bill { OrderId = currentOrder.OrderId, TotalAmount = currentOrder.TotalAmount } };
+            PaymentForm paymentform = new PaymentForm(bill,currentOrder);
 
             Program.WindowSwitcher(this, paymentform);
         }
 
+        //returns to the tableview. gets a the logged user name from staff service
+        // might need rework
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            CurrentOrder.DestoryInstance();
             StaffService staff = new StaffService();
 
             TableView_Form tableView_Form = new TableView_Form(staff.LoggedUser);

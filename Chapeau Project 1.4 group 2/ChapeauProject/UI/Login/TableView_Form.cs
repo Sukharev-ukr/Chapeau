@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using UI.OrderView;
 
 namespace UI.Login
 {
@@ -17,6 +18,7 @@ namespace UI.Login
         private Panel popupPanel;
         private Dictionary<TableStatus, List<Button>> statusButtons;
         private TableService tableService;
+        private StaffService staffService;
         private Button selectedTableButton;
         private Button closeButton;
         private int selectedTableId;
@@ -156,6 +158,8 @@ namespace UI.Login
 
                             // Update the order status label
                             UpdateOrderStatusLabelForTable(button);
+
+
                         }
                     }
                 }
@@ -225,6 +229,7 @@ namespace UI.Login
                     this.Controls.Add(orderStatusLabel);
 
                     UpdateOrderStatusLabel(orderStatusLabel, tables[i].TableId);
+                    UpdateOrderStatusLabelReady(orderStatusLabel, tables[i].TableId);
                 }
             }
             catch (Exception ex)
@@ -239,6 +244,7 @@ namespace UI.Login
             {
                 var orderService = new OrderService();
                 var runningOrder = orderService.GetRunningOrder(tableId);
+                
                 if (runningOrder != null)
                 {
                     var waitingTime = DateTime.Now - runningOrder.OrderTime.Value;
@@ -263,6 +269,40 @@ namespace UI.Login
                 MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
             }
         }
+        private void UpdateOrderStatusLabelReady(Label label, int tableId)
+        {
+            try
+            {
+                var orderService = new OrderService();
+                var readyOrder = orderService.GetReadyOrder(tableId);
+
+                if (readyOrder != null)
+                {
+                    label.Text = $"Ready to be served";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
+            }
+        }
+        private void UpdateORderStatusLabelServed(Label label, int tableId)
+        {
+            try
+            {
+                var orderService = new OrderService();
+                var servedOrder = orderService.GetStatusOrder(tableId,Status.served);
+
+                if (servedOrder != null)
+                {
+                    label.Text = $"Ready to be paid";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
+            }
+        }
 
         private void UpdateOrderStatusLabelForTable(Button tableButton)
         {
@@ -275,7 +315,10 @@ namespace UI.Login
                     {
                         if (control is Label label && label.Tag is Table labelTable && labelTable.TableId == table.TableId)
                         {
+                            UpdateORderStatusLabelServed(label, table.TableId);
                             UpdateOrderStatusLabel(label, table.TableId);
+                            UpdateOrderStatusLabelReady(label, table.TableId);
+  
                             break;
                         }
                     }
@@ -451,10 +494,12 @@ namespace UI.Login
         {
             var orderService = new OrderService();
             var runningOrder = orderService.GetRunningOrder(table.TableId);
+            var readyOrder = orderService.GetReadyOrder(table.TableId);
+            var servedOrder = orderService.GetStatusOrder(table.TableId, Status.served);
 
             if (button.Text == "Mark as Served")
             {
-                ConfigureMarkAsServedButton(button, runningOrder);
+                ConfigureMarkAsServedButton(button, readyOrder);
             }
 
             if (button.Text == "Free table")
@@ -462,15 +507,15 @@ namespace UI.Login
                 ConfigureFreeTableButton(button, runningOrder);
             }
 
-            //if (button.Text == "Pay the Bill")
-            //{
-            //    ConfigurePayBillButton(button, runningOrder);
-            //}
+            if (button.Text == "Pay the Bill")
+            {
+                ConfigurePayBillButton(button, servedOrder);
+            }
         }
 
-        private void ConfigureMarkAsServedButton(Button button, Order runningOrder)
+        private void ConfigureMarkAsServedButton(Button button, Order readyOrder)
         {
-            if (runningOrder != null && runningOrder.OrderStatus == Status.running)
+            if (readyOrder != null)
             {
                 button.Enabled = true;
                 button.BackColor = Color.Black;
@@ -502,17 +547,19 @@ namespace UI.Login
 
         private void ConfigurePayBillButton(Button button, Order runningOrder)
         {
-            if (runningOrder != null && runningOrder.OrderStatus == Status.running)
+            if (runningOrder != null && runningOrder.OrderStatus == Status.served)
             {
                 button.Enabled = true;
                 button.BackColor = Color.Black;
                 button.ForeColor = Color.White;
+
             }
             else
             {
                 button.Enabled = false;
                 button.BackColor = Color.FromArgb(200, 255, 255, 255);
                 button.ForeColor = Color.Black;
+
             }
         }
 
@@ -530,7 +577,7 @@ namespace UI.Login
         }
 
         /// <summary>
-        /// Initializes the popup panel and its controls.
+        /// Initializes the popup panel and its controls.`
         /// </summary>
         private void InitializePopupPanel()
         {
@@ -560,6 +607,7 @@ namespace UI.Login
                 Button btnFree = CreatePopupButton("Free table");
                 btnFree.Click += BtnFree_Click;
                 Button btnTakeOrder = CreatePopupButton("Take Order");
+                btnTakeOrder.Click += BtnTakeOrder_Click;
                 Button btnPayBill = CreatePopupButton("Pay the Bill");
                 btnPayBill.Click += BtnPayBill_Click;
                 Button btnReserve = CreatePopupButton("Reserve");
@@ -632,11 +680,11 @@ namespace UI.Login
             try
             {
                 var orderService = new OrderService();
-                var runningOrder = orderService.GetRunningOrder(selectedTableId);
-
-                if (runningOrder != null)
+                var readyOrder = orderService.GetReadyOrder(selectedTableId);
+                
+                if (readyOrder != null)
                 {
-                    orderService.MarkOrderAsServed(runningOrder.OrderId);
+                    orderService.MarkOrderAsServed(readyOrder.OrderId);
                     RefreshTableStatuses();
                     UpdateOrderStatusLabelForTable(selectedTableButton);
                 }
@@ -674,9 +722,10 @@ namespace UI.Login
             try
             {
                 // moves on to the PaymentSystem.BillDetails form
-                OrderService order = new OrderService();
-                BillDetails billDetails = new BillDetails(order.GetRunningOrderFromTable(selectedTableId).OrderId);
-                Program.WindowSwitcher(this, billDetails);
+
+               OrderService order = new OrderService();
+               BillDetails billDetails = new BillDetails(order.GetStatusOrder(selectedTableId,Status.served));
+               Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)
             {
@@ -698,6 +747,19 @@ namespace UI.Login
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred while reserving the table: " + ex.Message, "Error");
+            }
+        }
+
+        private void BtnTakeOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OrderViewForm orderViewForm = new OrderViewForm(selectedTableId);
+                Program.WindowSwitcher(this, orderViewForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while handling the order: " + ex.Message, "Error");
             }
         }
 

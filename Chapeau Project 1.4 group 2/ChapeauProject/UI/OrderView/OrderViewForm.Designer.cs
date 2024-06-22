@@ -40,6 +40,7 @@
             btnOrderViewSubmit = new Button();
             lblTableNr = new Label();
             lblOrderId = new Label();
+            btnDeleteOrder = new Button();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewHeader).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewFooter).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbOrderViewTotalPriceFooter).BeginInit();
@@ -177,12 +178,25 @@
             lblOrderId.TabIndex = 12;
             lblOrderId.Text = "(0)";
             // 
+            // btnDeleteOrder
+            // 
+            btnDeleteOrder.BackColor = Color.Black;
+            btnDeleteOrder.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDeleteOrder.ForeColor = Color.White;
+            btnDeleteOrder.Location = new Point(578, 10);
+            btnDeleteOrder.Name = "btnDeleteOrder";
+            btnDeleteOrder.Size = new Size(138, 50);
+            btnDeleteOrder.TabIndex = 13;
+            btnDeleteOrder.Text = "Delete Order";
+            btnDeleteOrder.UseVisualStyleBackColor = false;
+            // 
             // OrderViewForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 223, 223);
             ClientSize = new Size(728, 944);
+            Controls.Add(btnDeleteOrder);
             Controls.Add(lblOrderId);
             Controls.Add(lblTableNr);
             Controls.Add(btnOrderViewSubmit);
@@ -218,5 +232,6 @@
         private Button btnOrderViewSubmit;
         private Label lblTableNr;
         private Label lblOrderId;
+        private Button btnDeleteOrder;
     }
 }

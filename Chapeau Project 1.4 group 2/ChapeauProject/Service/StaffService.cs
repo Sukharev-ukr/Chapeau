@@ -20,6 +20,16 @@ namespace Service
 
         public string LoggedUser {  get; private set; }
 
+        public Staff GetStaffByUsername(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentException("Username cannot be null or empty.", nameof(username));
+            }
+
+            return _staffDAL.GetStaffByUsername(username);
+        }
+
         public Staff GetStaffByUsernameAndpassword(string username, string password)
         {
             var hashedPassword = HashPassword(password);

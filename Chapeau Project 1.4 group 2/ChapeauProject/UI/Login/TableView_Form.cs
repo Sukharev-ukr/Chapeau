@@ -244,7 +244,7 @@ namespace UI.Login
             {
                 var orderService = new OrderService();
                 var runningOrder = orderService.GetRunningOrder(tableId);
-                
+
                 if (runningOrder != null)
                 {
                     var waitingTime = DateTime.Now - runningOrder.OrderTime.Value;
@@ -291,7 +291,7 @@ namespace UI.Login
             try
             {
                 var orderService = new OrderService();
-                var servedOrder = orderService.GetStatusOrder(tableId,Status.served);
+                var servedOrder = orderService.GetStatusOrder(tableId, Status.served);
 
                 if (servedOrder != null)
                 {
@@ -318,7 +318,7 @@ namespace UI.Login
                             UpdateORderStatusLabelServed(label, table.TableId);
                             UpdateOrderStatusLabel(label, table.TableId);
                             UpdateOrderStatusLabelReady(label, table.TableId);
-  
+
                             break;
                         }
                     }
@@ -681,7 +681,7 @@ namespace UI.Login
             {
                 var orderService = new OrderService();
                 var readyOrder = orderService.GetReadyOrder(selectedTableId);
-                
+
                 if (readyOrder != null)
                 {
                     orderService.MarkOrderAsServed(readyOrder.OrderId);
@@ -723,9 +723,9 @@ namespace UI.Login
             {
                 // moves on to the PaymentSystem.BillDetails form
 
-               OrderService order = new OrderService();
-               BillDetails billDetails = new BillDetails(order.GetStatusOrder(selectedTableId,Status.served));
-               Program.WindowSwitcher(this, billDetails);
+                OrderService order = new OrderService();
+                BillDetails billDetails = new BillDetails(order.GetStatusOrder(selectedTableId, Status.served));
+                Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)
             {
@@ -754,14 +754,34 @@ namespace UI.Login
         {
             try
             {
-                OrderViewForm orderViewForm = new OrderViewForm(selectedTableId);
-                Program.WindowSwitcher(this, orderViewForm);
+                StaffService staffService = new StaffService();
+                string loggedUsername = staffService.LoggedUser;
+
+                if (!string.IsNullOrEmpty(loggedUsername))
+                {
+                    Staff staff = staffService.GetStaffByUsername(loggedUsername);
+                    if (staff != null)
+                    {
+                        int employeeId = staff.StaffID;
+                        OrderViewForm orderViewForm = new OrderViewForm(employeeId, selectedTableId);
+                        Program.WindowSwitcher(this, orderViewForm);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No staff member found for the logged-in user.", "Error");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Logged-in username is null or empty.", "Error");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred while handling the order: " + ex.Message, "Error");
             }
         }
+
 
         /// <summary>
         /// Handles the "Seat Customer" button click event.

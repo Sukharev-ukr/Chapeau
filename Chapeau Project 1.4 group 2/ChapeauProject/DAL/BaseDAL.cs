@@ -193,5 +193,32 @@ namespace DAL
                 CloseConnection();
             }
         }
+
+        protected object ExecuteScalarQuery(string query, SqlParameter[] sqlParameters = null)
+        {
+            SqlCommand command = new SqlCommand();
+
+            try
+            {
+                command.Connection = OpenConnection();
+                command.CommandText = query;
+                if (sqlParameters != null)
+                {
+                    command.Parameters.AddRange(sqlParameters);
+                }
+
+                object result = command.ExecuteScalar();
+                return result;
+            }
+            catch (SqlException e)
+            {
+                // Print.ErrorLog(e);
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
     }
 }

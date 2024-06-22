@@ -13,17 +13,19 @@ namespace UI.OrderView
         Dictionary<string, UCOrderView> ucOrderViews = new Dictionary<string, UCOrderView>();
         private StaffService staffService;
 
+        private int tableNr;
+        private int employeeId;
 
-        public OrderViewForm(int tableNr)
+        public OrderViewForm(int tableNr, int employeeId)
         {
             InitializeComponent();
             orderService = new OrderService();
-            StaffService staffService = new StaffService();
-            //int currentEmployeeId = staffService.GetLoggedEmployeeId();
-            int currentEmployeeId = 1;
+            this.tableNr = tableNr;
+            this.employeeId = employeeId;
 
-            DisplayOrderInfo(tableNr, currentEmployeeId);
+            DisplayOrderInfo(tableNr, employeeId);
         }
+
 
         private void btnLunch_Click(object sender, EventArgs e)
         {
@@ -100,7 +102,9 @@ namespace UI.OrderView
 
         private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
-            int orderId = orderService.GetCurrentOrderId();
+
+            Order runningOrder = orderService.GetRunningOrderFromTable(this.tableNr, this.employeeId);
+            int orderId = runningOrder.OrderId;
 
             orderService.DeleteOrder(orderId);
 

@@ -45,7 +45,7 @@ namespace UI.PaymentSystem
         private void textBoxSplit_TextChanged(object sender, EventArgs e)
         {
             decimal.TryParse(textBoxSplit.Text, out _splitCost);
-            parentform.billPartCost[(int)Tag] = _splitCost;
+            parentform.partCostList[(int)Tag] = _splitCost;
             parentform.UpdateRemainingAmount();
         }
     }

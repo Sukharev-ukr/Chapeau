@@ -132,12 +132,13 @@ namespace UI
                     if (orderItem.OrderStatus == Status.ready)
                     {
                         finishedTime = DateTime.Now;  // Set finished time when status changes to ready
-                        NotifyOrderOverview();
                     }
                 }
             }
 
             OrderUpdateTimer_Tick(sender, e); // Update the UI to reflect the changes 
+            NotifyOrderOverview();
+            
             CheckAndUpdateOrderStatus();
         }
 
@@ -147,7 +148,7 @@ namespace UI
 
             if (allItemsReady)
             {
-                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.finished);
+                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.ready);
             }
             else
             {

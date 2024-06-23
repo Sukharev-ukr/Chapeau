@@ -20,6 +20,6 @@ namespace Model
         public Status OrderStatus { get; set; }  // running or finished
         public Table Table { get; set; }
         public Employee Employee { get; set; }
-
+        public int TableNumber { get; set; }
     }
 }

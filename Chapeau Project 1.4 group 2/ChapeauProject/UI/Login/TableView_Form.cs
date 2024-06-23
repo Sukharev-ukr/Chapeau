@@ -762,9 +762,7 @@ namespace UI.Login
                     if (staff != null)
                     {
                         int employeeId = staff.StaffID;
-                        Console.WriteLine($"Employee ID: {employeeId}");
-                        MessageBox.Show($"{employeeId}");
-                        OrderViewForm orderViewForm = new OrderViewForm(employeeId, selectedTableId);
+                        OrderViewForm orderViewForm = new OrderViewForm(selectedTableId, employeeId);
                         Program.WindowSwitcher(this, orderViewForm);
                     }
                     else

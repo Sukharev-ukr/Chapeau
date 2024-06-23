@@ -112,7 +112,7 @@ namespace UI.Login
             try
             {
                 pollingTimer = new System.Windows.Forms.Timer();
-                pollingTimer.Interval = 10000; // Poll every second
+                pollingTimer.Interval = 5000; // Poll every second
                 pollingTimer.Tick += PollingTimer_Tick;
                 pollingTimer.Start();
             }

@@ -23,15 +23,15 @@ namespace UI.PaymentSystem
 
 
         // holds individual cost of each part.
-        public List<decimal> billPartCost;
+        public List<decimal> partCostList;
 
-
-        public decimal RemainingAmount { get { return currentOrder.TotalAmount - billPartCost.Sum(); } }
+        //calculates the amount that still needs to be devided
+        public decimal RemainingAmount { get { return currentOrder.TotalAmount - partCostList.Sum(); } }
 
         public BillSplitter(Order order)
         {
             currentOrder = order;
-            billPartCost = new List<decimal>();
+            partCostList = new List<decimal>();
 
             InitializeComponent();
             labelTotal.Text = currentOrder.TotalAmount.ToString("F");
@@ -45,12 +45,14 @@ namespace UI.PaymentSystem
             Program.WindowSwitcher(this, newForm);
         }
 
+        //opens CustomSplit form
         private void buttonCustomSplit_Click(object sender, EventArgs e)
         {
-            billPartCost.Add(0);
-            UserControlSplitBill billPart = new UserControlSplitBill(currentOrder,this,flowLayoutPanelSplit.Controls.Count);
-            CustomSplit newBillPart = new CustomSplit(currentOrder, billPart,this);
+            partCostList.Add(0);
+            int partIndex = flowLayoutPanelSplit.Controls.Count;
 
+            UserControlSplitBill billPart = new UserControlSplitBill(currentOrder,this,partIndex);
+            CustomSplit newBillPart = new CustomSplit(currentOrder, billPart,this);
             
             flowLayoutPanelSplit.Controls.Add(billPart);
 
@@ -58,6 +60,7 @@ namespace UI.PaymentSystem
             newBillPart.ShowDialog();
         }
 
+        //opens EqualSplit form
         private void buttonEqualSplit_Click(object sender, EventArgs e)
         {
 
@@ -73,12 +76,13 @@ namespace UI.PaymentSystem
             List<Bill> billParts = new List<Bill>();
             if (remainingAmount == 0)
             {
-                foreach (decimal splitCost in billPartCost)
+                // Makes a Model.Bill object for each entry in the partCostList
+                foreach (decimal splitCost in partCostList)
                 {
                     Bill bill = new Bill { OrderId = currentOrder.OrderId, TotalAmount = splitCost };
-
                     billParts.Add(bill);
                 }
+
                 PaymentForm paymentForm = new PaymentForm(billParts, currentOrder);
                 Program.WindowSwitcher(this, paymentForm);
 

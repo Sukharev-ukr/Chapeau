@@ -15,8 +15,6 @@ namespace UI.PaymentSystem
     public partial class EqualSplit : Form
     {
         BillSplitter parentForm;
-        FlowLayoutPanel flowLayoutPanelSplit;
-        List<decimal> splitCosts;
 
         decimal partCost;
         Order currentOrder;
@@ -25,11 +23,9 @@ namespace UI.PaymentSystem
         {
             this.parentForm = parentform;
             currentOrder = order;
-            flowLayoutPanelSplit = parentform.flowLayoutPanelSplit;
-            this.splitCosts = parentform.billPartCost;
 
-            flowLayoutPanelSplit.Controls.Clear();
-            splitCosts.Clear();
+            parentform.flowLayoutPanelSplit.Controls.Clear();
+            parentform.partCostList.Clear();
 
             InitializeComponent();
             UpdatePartCost();
@@ -77,22 +73,30 @@ namespace UI.PaymentSystem
             int partCount = int.Parse(labelEqualSplitAmount.Text);
             for (int i = 0; i < partCount; i++)
             {
-                splitCosts.Add(0);
-                UserControlSplitBill billPart = new UserControlSplitBill(currentOrder,parentForm, flowLayoutPanelSplit.Controls.Count);
-                billPart.SplitCost = Math.Round(partCost,2);
-                
-                billPart.Tag = flowLayoutPanelSplit.Controls.Count;
-                flowLayoutPanelSplit.Controls.Add(billPart);
+                UserControlSplitBill billPart = CreateBillPart(partCost);
+
+                parentForm.flowLayoutPanelSplit.Controls.Add(billPart);
             }
 
             //if total amount isnt entirly devible by the set amount, adds the remainder to the first usercontrol entrie
             if (parentForm.RemainingAmount != 0)
             {
-                (flowLayoutPanelSplit.Controls[0] as UserControlSplitBill).SplitCost += parentForm.RemainingAmount;
+                UserControlSplitBill billPart = parentForm.flowLayoutPanelSplit.Controls[0] as UserControlSplitBill;
+                billPart.SplitCost += parentForm.RemainingAmount;
             }
 
             parentForm.UpdateRemainingAmount();
             this.Dispose();
+        }
+
+        private UserControlSplitBill CreateBillPart(decimal partCost)
+        {
+            parentForm.partCostList.Add(0);
+            int partIndex = parentForm.flowLayoutPanelSplit.Controls.Count;
+
+            UserControlSplitBill billPart = new UserControlSplitBill(currentOrder, parentForm, partIndex);
+            billPart.SplitCost = Math.Round(partCost, 2);
+            return billPart;
         }
     }
 }

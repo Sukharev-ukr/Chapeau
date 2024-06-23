@@ -117,6 +117,7 @@ namespace UI
         private void comboBoxStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             string newStatus = comboBoxStatus.SelectedItem.ToString();
+            bool ready = false;
 
             foreach (ListViewItem item in listViewOrderItems.Items)
             {
@@ -132,14 +133,21 @@ namespace UI
                     if (orderItem.OrderStatus == Status.ready)
                     {
                         finishedTime = DateTime.Now;  // Set finished time when status changes to ready
+                        ready = true;
+                    }
+                    else
+                    {
+                        ready = false;
                     }
                 }
             }
 
             OrderUpdateTimer_Tick(sender, e); // Update the UI to reflect the changes 
-            NotifyOrderOverview();
-            
             CheckAndUpdateOrderStatus();
+            if (ready)
+            {
+                NotifyOrderOverview();
+            }
         }
 
         private void CheckAndUpdateOrderStatus()

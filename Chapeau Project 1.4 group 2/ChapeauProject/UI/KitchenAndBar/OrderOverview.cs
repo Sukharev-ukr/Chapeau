@@ -75,6 +75,7 @@ namespace UI
                 MessageBox.Show("An error occurred during logout: " + ex.Message, "Error");
             }
         }
+
         private void InitializeClockTimer()
         {
             clockTimer = new Timer
@@ -108,7 +109,7 @@ namespace UI
             panel.Show();
         }
 
-        private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()             //The first dictionary maps each Order to another dictionary.  The inner dictionary maps each Category(within that Order) to a list of OrderItems.
+        private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders() //The first dictionary maps each Order to another dictionary. The inner dictionary maps each Category(within that Order) to a list of OrderItems.
         {
             OrderService orderService = new OrderService();
             List<Order> orders = orderService.GetAllOrders();
@@ -164,7 +165,7 @@ namespace UI
         {
             foreach (var categoryPair in itemsByCategory)
             {
-                var orderItems = categoryPair.Value;         //extracts the list of order items associated with the current category from the dictionary
+                var orderItems = categoryPair.Value; //extracts the list of order items associated with the current category from the dictionary
                 if (orderItems.Count > 0)
                 {
                     var orderControl = new KitchenAndBarUserControl(order);
@@ -183,11 +184,16 @@ namespace UI
 
         public void UpdateStatus(KitchenAndBarUserControl userControl)
         {
-            flowLayoutPanelRunning.Controls.Remove(userControl);
-            flowLayoutPanelFinished.Controls.Add(userControl);
-            ShowOrdersPanel(flowLayoutPanelRunning);
-        }
+            FlowLayoutPanel targetPanel = userControl.currentOrder.Items.Any(oi => oi.OrderStatus == Status.ready) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
 
+            // Move the control to the target panel
+            if (targetPanel == flowLayoutPanelFinished)
+            {
+                flowLayoutPanelRunning.Controls.Remove(userControl);
+                targetPanel.Controls.Add(userControl);
+            }
+            ShowCurrentPanel(flowLayoutPanelRunning);
+        }
 
         private void runningToolStripMenuItem_Click_1(object sender, EventArgs e)
         {

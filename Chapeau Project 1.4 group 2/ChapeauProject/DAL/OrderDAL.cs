@@ -80,30 +80,38 @@ namespace DAL
         {
             DateTime orderTime = DateTime.Now;
 
-            string insertQuery = "INSERT INTO [Order] (OrderTime, TableID, StaffID, OrderStatus) VALUES (@orderTime, @tableid, @staffId, @orderStatus); SELECT SCOPE_IDENTITY();";
+            string idQuery = "SELECT ISNULL(MAX(OrderID), 0) FROM [Order]";
+            int maxOrderId = (int)ExecuteScalarQuery(idQuery);
+            int newOrderId = maxOrderId + 1;
+
+            string insertQuery = "INSERT INTO [Order] (OrderID, OrderTime, TableID, StaffID, OrderStatus, Feedback, TableNumber) VALUES (@orderId, @orderTime, @tableid, @staffId, @orderStatus, @feedback, @tableNumber)";
             SqlParameter[] insertParameters = new SqlParameter[]
             {
+        new SqlParameter("@orderId", newOrderId),
         new SqlParameter("@orderTime", orderTime),
         new SqlParameter("@tableid", tableNR),
         new SqlParameter("@staffId", employeeId),
-        new SqlParameter("@orderStatus", "running")
+        new SqlParameter("@orderStatus", "running"),
+        new SqlParameter("@feedback", "..."),
+        new SqlParameter("@tableNumber", tableNR)
             };
 
-            int orderId = ExecuteInsertQuery(insertQuery, insertParameters);
+            ExecuteInsertQuery(insertQuery, insertParameters);
 
             Order newOrder = new Order()
             {
-                OrderId = orderId,
+                OrderId = newOrderId,
                 OrderTime = orderTime,
                 Employee = new Employee() { EmployeeId = employeeId },
                 Table = new Table() { TableId = tableNR },
                 Items = new List<OrderItem>(),
-                OrderStatus = Status.running
+                OrderStatus = Status.running,
+                Feedback = "...",
+                TableNumber = tableNR
             };
 
             return newOrder;
         }
-
 
 
         public List<OrderItem> GetOrderItems(int orderId)
@@ -189,6 +197,7 @@ namespace DAL
             var orders = ReadOrders(ExecuteSelectQuery(query, parameters));
             return orders.FirstOrDefault();
         }
+
         public Order GetStatusOrderByTableId(int tableId,Status status)
         {
             string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount " +
@@ -219,7 +228,7 @@ namespace DAL
             }
         }
 
-
+            
         public void DeleteOrder(int orderId)
         {
             string query = "DELETE FROM [Order] WHERE OrderID = @orderId";

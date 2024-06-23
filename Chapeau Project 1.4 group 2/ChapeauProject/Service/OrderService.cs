@@ -29,7 +29,7 @@ public class OrderService
     public Order GetRunningOrderFromTable(int tableNr, int employeeId)
     {
         return orderDao.GetOrderFromTableNr(tableNr, employeeId);
-}
+    }
 
     public Order GetStatusOrderByTableId(int tableNr,Status status)
     {

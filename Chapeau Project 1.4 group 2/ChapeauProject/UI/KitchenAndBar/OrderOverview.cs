@@ -175,7 +175,7 @@ namespace UI
                         orderControl.AddOrderItem(orderItem);
                     }
 
-                    FlowLayoutPanel targetPanel = (orderItems.Any(oi => oi.OrderStatus == Status.ready || oi.OrderStatus == Status.served)) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
+                    FlowLayoutPanel targetPanel = (orderItems.Any(oi => oi.OrderStatus == Status.ready)) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
                     targetPanel.Controls.Add(orderControl);
                 }
             }

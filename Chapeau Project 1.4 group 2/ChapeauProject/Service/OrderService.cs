@@ -71,6 +71,10 @@ public class OrderService
     {
         orderDao.UpdateOrder(order);
     }
+    public void UpdateOrderStatus(int orderId, Status status)
+    {
+        orderDao.UpdateOrderStatus(orderId, status);
+    }
     public void DeleteOrder(int orderId)
     {
         orderDao.DeleteOrder(orderId);

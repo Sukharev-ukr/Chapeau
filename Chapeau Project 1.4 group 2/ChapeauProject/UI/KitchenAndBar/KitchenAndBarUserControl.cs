@@ -147,7 +147,7 @@ namespace UI
 
             if (allItemsReady)
             {
-                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.ready);
+                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.finished);
             }
             else
             {

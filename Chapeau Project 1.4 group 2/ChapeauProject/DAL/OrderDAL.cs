@@ -237,7 +237,8 @@ namespace DAL
         new SqlParameter("@orderId", orderId)
             };
             ExecuteEditQuery(query, parameters);
-}
+        }
+
         public Order GetReadyOrderByTableId(int tableId)
         {
             string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber , TotalAmount, TipAmount, VAT " +

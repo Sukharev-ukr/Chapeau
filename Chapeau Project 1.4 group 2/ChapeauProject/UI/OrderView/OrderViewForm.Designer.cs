@@ -189,6 +189,7 @@
             btnDeleteOrder.TabIndex = 13;
             btnDeleteOrder.Text = "Delete Order";
             btnDeleteOrder.UseVisualStyleBackColor = false;
+            btnDeleteOrder.Click += btnDeleteOrder_Click;
             // 
             // OrderViewForm
             // 

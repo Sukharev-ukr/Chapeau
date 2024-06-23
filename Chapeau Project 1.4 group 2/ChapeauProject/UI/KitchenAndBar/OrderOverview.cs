@@ -1,6 +1,7 @@
 ﻿using Model;
 using Service;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +17,6 @@ namespace UI
 {
     public partial class OrderOverview : Form
     {
-        private OrderService orderService;
         private OrderItemService orderItemService;
         private Staff employee;
         private bool isChef;
@@ -26,9 +26,8 @@ namespace UI
         public OrderOverview(Staff employee)
         {
             this.employee = employee;
-            orderService = new OrderService();
             orderItemService = new OrderItemService();
-            
+
             InitializeComponent();
             InitializeFlowLayoutPanel();
             InitializeClockTimer();
@@ -36,6 +35,11 @@ namespace UI
             isChef = employee.Role == Role.Chef;
             ShowOrdersPanel(flowLayoutPanelRunning);
 
+            LogoutButton();
+        }
+
+        private void LogoutButton()
+        {
             Button logoutButton = new Button
             {
                 Text = "Log out",
@@ -104,8 +108,9 @@ namespace UI
             panel.Show();
         }
 
-        private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()
+        private Dictionary<Order, Dictionary<Category, List<OrderItem>>> GetOrders()             //The first dictionary maps each Order to another dictionary.  The inner dictionary maps each Category(within that Order) to a list of OrderItems.
         {
+            OrderService orderService = new OrderService();
             List<Order> orders = orderService.GetAllOrders();
             var ordersItems = new Dictionary<Order, Dictionary<Category, List<OrderItem>>>();
 
@@ -159,7 +164,7 @@ namespace UI
         {
             foreach (var categoryPair in itemsByCategory)
             {
-                var orderItems = categoryPair.Value;
+                var orderItems = categoryPair.Value;         //extracts the list of order items associated with the current category from the dictionary
                 if (orderItems.Count > 0)
                 {
                     var orderControl = new KitchenAndBarUserControl(order);
@@ -170,7 +175,7 @@ namespace UI
                         orderControl.AddOrderItem(orderItem);
                     }
 
-                    FlowLayoutPanel targetPanel = (orderItems.Any(oi => oi.OrderStatus == Status.ready || oi.OrderStatus == Status.served)) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
+                    FlowLayoutPanel targetPanel = (orderItems.Any(oi => oi.OrderStatus == Status.ready)) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
                     targetPanel.Controls.Add(orderControl);
                 }
             }
@@ -180,8 +185,9 @@ namespace UI
         {
             flowLayoutPanelRunning.Controls.Remove(userControl);
             flowLayoutPanelFinished.Controls.Add(userControl);
-            ShowCurrentPanel(flowLayoutPanelRunning);
+            ShowOrdersPanel(flowLayoutPanelRunning);
         }
+
 
         private void runningToolStripMenuItem_Click_1(object sender, EventArgs e)
         {

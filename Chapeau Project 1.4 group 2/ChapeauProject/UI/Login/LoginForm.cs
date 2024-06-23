@@ -43,8 +43,8 @@ namespace UI
         }
 
         private void getUIForStaff(Staff staff)
-        {   
-          switch (staff.Role)
+        {
+            switch (staff.Role)
             {
                 case Role.Waiter:
                     OpenUI(new TableView_Form(staff.Username));
@@ -64,15 +64,15 @@ namespace UI
         private void OpenUI(Form newForm)
         {
 
-            Program.WindowSwitcher(this, newForm);  
-/*
-            Form activeForm = ActiveForm;
-            activeForm.Hide();
+            Program.WindowSwitcher(this, newForm);
+            /*
+                        Form activeForm = ActiveForm;
+                        activeForm.Hide();
 
-            newForm.ShowDialog();
+                        newForm.ShowDialog();
 
-            
-            activeForm.Close();*/
+
+                        activeForm.Close();*/
         }
     }
 }

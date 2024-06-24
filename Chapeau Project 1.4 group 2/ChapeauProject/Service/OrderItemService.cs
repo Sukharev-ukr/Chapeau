@@ -30,9 +30,25 @@ namespace Service
             int orderId = orderService.GetCurrentOrderId();
             orderItemDao.UpdateOrderItemStatus(orderItem, status);
         }
+
         public List<OrderItem> GetOrderDetials(int id)
         {
             return orderItemDao.GetOrderDetails(id);
+        }
+
+        public void AddOrUpdateOrderItem(int orderId, int itemId, int quantity, string status, DateTime statusTime)
+        {
+            orderItemDao.AddOrUpdateOrderItem(orderId, itemId, quantity, status, statusTime);
+        }
+
+        public void UpdateQuantity(int orderId, int itemId, int quantity)
+        {
+            orderItemDao.UpdateQuantity(orderId, itemId, quantity);
+        }
+
+        public void DeleteOrderItem(int orderId, int itemId)
+        {
+            orderItemDao.DeleteOrderItem(orderId, itemId);
         }
     }
 }

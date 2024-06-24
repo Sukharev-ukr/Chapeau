@@ -761,6 +761,7 @@ namespace UI.Login
                     Staff staff = staffService.GetStaffByUsername(employeeName);
                     if (staff != null)
                     {
+                        pollingTimer.Stop();
                         int employeeId = staff.StaffID;
                         OrderViewForm orderViewForm = new OrderViewForm(selectedTableId, employeeId);
                         Program.WindowSwitcher(this, orderViewForm);

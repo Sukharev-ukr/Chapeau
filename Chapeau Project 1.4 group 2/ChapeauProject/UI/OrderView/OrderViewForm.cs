@@ -2,6 +2,7 @@
 using Model;
 using Service;
 using System.Windows.Forms;
+using UI.Login;
 using UI.PaymentSystem;
 
 
@@ -15,6 +16,7 @@ namespace UI.OrderView
 
         private int tableNr;
         private int employeeId;
+        private string employeeName;
 
         public OrderViewForm(int tableNr, int employeeId)
         {
@@ -45,7 +47,6 @@ namespace UI.OrderView
         {
             pnlOrderView.Controls.Clear();
 
-
             List<MenuItem> menuItems = orderService.GetMenuItemsByCard(card);
 
             int verticalPosition = 5;
@@ -55,7 +56,9 @@ namespace UI.OrderView
                 UCOrderView ucOrderView;
                 if (!ucOrderViews.TryGetValue(item.Name, out ucOrderView))
                 {
-                    ucOrderView = new UCOrderView();
+                    Order runningOrder = orderService.GetRunningOrderFromTable(this.tableNr, this.employeeId);
+                    int orderId = runningOrder.OrderId;
+                    ucOrderView = new UCOrderView(orderId);
                     ucOrderView.Item = item;
                     ucOrderViews[item.Name] = ucOrderView;
                 }
@@ -109,7 +112,7 @@ namespace UI.OrderView
 
             pnlOrderView.Controls.Clear();
 
-            LoginForm newForm = new LoginForm();
+            TableView_Form newForm = new TableView_Form(employeeName);
 
             Program.WindowSwitcher(this, newForm);
         }

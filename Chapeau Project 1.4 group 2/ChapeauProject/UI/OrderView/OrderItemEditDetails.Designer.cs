@@ -54,7 +54,6 @@
             lblItemPrice.Size = new Size(57, 25);
             lblItemPrice.TabIndex = 1;
             lblItemPrice.Text = "€0.00";
-            lblItemPrice.Click += lblItemPrice_Click;
             // 
             // lblAddComment
             // 

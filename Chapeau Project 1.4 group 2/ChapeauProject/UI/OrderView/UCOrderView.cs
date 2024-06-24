@@ -16,15 +16,18 @@ namespace UI.OrderView
     public partial class UCOrderView : UserControl
     {
         private OrderDAL orderDal;
-        private OrderService orderService; 
-        private int currentOrderId;
+        private OrderService orderService;
+        private OrderItemService orderItemService;  
+        private int orderId;
         private MenuItem _item;
         private Dictionary<int, int> _quantityDict = new Dictionary<int, int>();
 
-        public UCOrderView()
+        public UCOrderView(int orderId)
         {
             InitializeComponent();
-            orderService = new OrderService(); 
+            orderService = new OrderService();
+            orderItemService = new OrderItemService();  
+            this.orderId = orderId;
         }
 
         public int Quantity
@@ -54,6 +57,7 @@ namespace UI.OrderView
                     {
                         btnMinus.Enabled = false;
                         btnPlus.Enabled = false;
+                        btnEditItemDetails.Enabled = false; 
 
                         this.BackColor = Color.Gray;
                     }
@@ -61,15 +65,13 @@ namespace UI.OrderView
                     {
                         btnMinus.Enabled = true;
                         btnPlus.Enabled = true;
+                        btnEditItemDetails.Enabled = _quantityDict[_item.Id] > 0; 
 
                         this.BackColor = SystemColors.Control;
                     }
                 }
             }
         }
-
-
-
 
         private void btnMinus_Click(object sender, EventArgs e)
         {
@@ -81,14 +83,14 @@ namespace UI.OrderView
 
                 int orderId = orderService.GetCurrentOrderId();
 
-                OrderItemDAL orderItemDal = new OrderItemDAL();
                 if (_quantityDict[_item.Id] == 0)
                 {
-                    orderItemDal.DeleteOrderItem(orderId, _item.Id);
+                    orderItemService.DeleteOrderItem(orderId, _item.Id);  
+                    btnEditItemDetails.Enabled = false; 
                 }
                 else
                 {
-                    orderItemDal.UpdateQuantity(orderId, _item.Id, _quantityDict[_item.Id]);
+                    orderItemService.UpdateQuantity(orderId, _item.Id, _quantityDict[_item.Id]);  
                 }
 
                 _item.Stock++;
@@ -114,8 +116,7 @@ namespace UI.OrderView
                 string status = "placed";
                 DateTime statusTime = DateTime.Now;
 
-                OrderItemDAL orderItemDal = new OrderItemDAL();
-                orderItemDal.AddOrUpdateOrderItem(orderId, _item.Id, _quantityDict[_item.Id], status, statusTime);
+                orderItemService.AddOrUpdateOrderItem(orderId, _item.Id, _quantityDict[_item.Id], status, statusTime);  
 
                 _item.Stock--;
 
@@ -123,17 +124,22 @@ namespace UI.OrderView
                 {
                     btnMinus.Enabled = false;
                     btnPlus.Enabled = false;
+                    btnEditItemDetails.Enabled = false;
 
                     this.BackColor = Color.Gray;
+                }
+                else
+                {
+                    btnEditItemDetails.Enabled = true;
                 }
             }
         }
 
         private void btnEditItemDetails_Click(object sender, EventArgs e)
         {
-            OrderItemEditDetails editForm = new OrderItemEditDetails();
-            editForm.Item = this._item; 
-            editForm.Show(); 
+            OrderItemEditDetails editForm = new OrderItemEditDetails(orderId); 
+            editForm.Item = this._item;
+            editForm.Show();
         }
     }
 }

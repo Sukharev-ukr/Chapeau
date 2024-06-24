@@ -21,9 +21,10 @@ namespace UI.PaymentSystem
 
         public AddTip(Order currentOrder)
         {
+            this.currentOrder = currentOrder;
+
             InitializeComponent();
-
-
+            
             labelTotal.Text = currentOrder.TotalAmount.ToString("F");
         }
 

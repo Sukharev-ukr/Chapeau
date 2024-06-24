@@ -34,15 +34,13 @@ namespace UI.PaymentSystem
             foreach (OrderItem item in currentOrder.Items)
             {
                 decimal sum = (item.Count * item.MenuItem.Price);
-                decimal VAT = sum * (((decimal)item.MenuItem.VAT / 100));
 
-                currentOrder.VAT += VAT;
-                currentOrder.TotalAmount += sum;
+
                 ListViewItem li = new ListViewItem(item.MenuItem.Name);
                 li.SubItems.Add(item.Count.ToString());
                 li.SubItems.Add(item.MenuItem.Price.ToString());
                 li.SubItems.Add((sum).ToString());
-                li.SubItems.Add(VAT.ToString("F"));
+                li.SubItems.Add(((decimal)item.MenuItem.VAT * item.Count).ToString("F"));
                 li.Tag = item.OrderId;
 
                 listViewBillList.Items.Add(li);
@@ -51,8 +49,9 @@ namespace UI.PaymentSystem
 
         private void LoadLabels(Order currentOrder)
         {
+            decimal subtotal = currentOrder.TotalAmount - currentOrder.TipAmount - currentOrder.VAT;
             labelTotal.Text = currentOrder.TotalAmount.ToString("F");
-            labelSubtotal.Text = currentOrder.TotalAmount.ToString("F");
+            labelSubtotal.Text = subtotal.ToString("F");
             labelVAT.Text = currentOrder.VAT.ToString("F");
 
 

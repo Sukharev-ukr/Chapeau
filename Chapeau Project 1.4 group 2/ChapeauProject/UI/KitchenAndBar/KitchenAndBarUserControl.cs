@@ -64,7 +64,7 @@ namespace UI
                     finishedTime = DateTime.Now;  // Set finished time once when order is ready
                 }
 
-                comboBoxStatus.Visible = false;
+                //comboBoxStatus.Visible = false;
                 waitingTime = finishedTime.Value - orderItem.OrderTime.Value;
                 lblOrderTime.Text = $"Finished at: {finishedTime.Value.ToString("HH:mm")}";
                 lblOrderItemTime.Text = $"Waited: {waitingTime.ToString(@"mm\:ss")}";
@@ -110,6 +110,7 @@ namespace UI
                     break;
                 case Status.ready:
                     groupBoxOrder.BackColor = Color.LightGreen;
+                    comboBoxStatus.Visible = false;
                     break;
             }
         }
@@ -127,12 +128,11 @@ namespace UI
                 {
                     orderItem.OrderStatus = (Status)Enum.Parse(typeof(Status), newStatus);
                     orderItemService.UpdateOrderItemStatus(orderItem, newStatus);
-
                     SetUserControlColor(orderItem);
 
                     if (orderItem.OrderStatus == Status.ready)
                     {
-                        finishedTime = DateTime.Now;  // Set finished time when status changes to ready
+                        orderItem.FinishedTime = DateTime.Now;  // Set finished time when status changes to ready
                         ready = true;
                     }
                     else

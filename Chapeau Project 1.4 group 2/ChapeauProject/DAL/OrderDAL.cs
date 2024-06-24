@@ -11,7 +11,7 @@ namespace DAL
     {
         public List<Order> GetOrders()
         {
-            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount FROM [Order]";
+            string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber, TotalAmount, VAT, TipAmount FROM [Order] WHERE CAST(OrderTime AS DATE) = CAST(GETDATE() AS DATE);";
 
             SqlParameter[] parameters = new SqlParameter[0];
 

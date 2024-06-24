@@ -184,14 +184,8 @@ namespace UI
 
         public void UpdateStatus(KitchenAndBarUserControl userControl)
         {
-            FlowLayoutPanel targetPanel = userControl.currentOrder.Items.Any(oi => oi.OrderStatus == Status.ready) ? flowLayoutPanelFinished : flowLayoutPanelRunning;
-
-            // Move the control to the target panel
-            if (targetPanel == flowLayoutPanelFinished)
-            {
-                flowLayoutPanelRunning.Controls.Remove(userControl);
-                targetPanel.Controls.Add(userControl);
-            }
+            flowLayoutPanelRunning.Controls.Remove(userControl);
+            flowLayoutPanelFinished.Controls.Add(userControl);
             ShowCurrentPanel(flowLayoutPanelRunning);
         }
 

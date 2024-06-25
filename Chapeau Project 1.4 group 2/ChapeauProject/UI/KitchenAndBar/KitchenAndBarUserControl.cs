@@ -132,7 +132,7 @@ namespace UI
 
                     if (orderItem.OrderStatus == Status.ready)
                     {
-                        orderItem.FinishedTime = DateTime.Now;  // Set finished time when status changes to ready
+                        finishedTime = DateTime.Now;  // Set finished time when status changes to ready
                         ready = true;
                     }
                     else

@@ -725,6 +725,7 @@ namespace UI.Login
 
                 OrderService order = new OrderService();
                 BillDetails billDetails = new BillDetails(order.GetStatusOrder(selectedTableId, Status.served));
+                pollingTimer.Stop();
                 Program.WindowSwitcher(this, billDetails);
             }
             catch (Exception ex)

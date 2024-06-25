@@ -165,7 +165,17 @@ namespace DAL
 
         public void UpdateOrder(Order order)
         {
+            string query = "UPDATE [Order] SET OrderStatus = 'finished'  ,TotalAmount = @totalamount, TipAmount = @tipamount, Feedback = @feedback, VAT = @vat " +
+                " WHERE OrderID = @orderId";
 
+            SqlParameter[] sqlParameters = {
+                new SqlParameter("@totalamount" , order.TotalAmount),
+                new SqlParameter("@tipamount",order.TipAmount),
+                new SqlParameter("@feedback", order.Feedback),
+                new SqlParameter("@vat", order.VAT),
+                new SqlParameter("@orderId", order.OrderId)
+                                            };
+            ExecuteEditQuery(query, sqlParameters);
         }
 
         //update status of Order
@@ -237,7 +247,8 @@ namespace DAL
         new SqlParameter("@orderId", orderId)
             };
             ExecuteEditQuery(query, parameters);
-}
+        }
+
         public Order GetReadyOrderByTableId(int tableId)
         {
             string query = "SELECT OrderID, OrderTime, OrderStatus, StaffID, TableID, Feedback, TableNumber , TotalAmount, TipAmount, VAT " +

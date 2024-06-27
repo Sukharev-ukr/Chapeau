@@ -269,6 +269,8 @@ namespace UI.Login
                 MessageBox.Show("An error occurred while updating order status label: " + ex.Message, "Error");
             }
         }
+
+
         private void UpdateOrderStatusLabelReady(Label label, int tableId)
         {
             try
@@ -295,7 +297,7 @@ namespace UI.Login
 
                 if (servedOrder != null)
                 {
-                    label.Text = $"Ready to be paid";
+                    label.Text = $"Served and ready to be paid";
                 }
             }
             catch (Exception ex)
@@ -417,6 +419,7 @@ namespace UI.Login
                         selectedTableButton = clickedButton; // Store the selected button
                         selectedTableId = clickedTable.TableId;
                         ShowPopup(clickedTable);
+
                     }
                 }
             }
@@ -866,6 +869,8 @@ namespace UI.Login
                 MessageBox.Show("An error occurred while updating the table button color: " + ex.Message, "Error");
             }
         }
+
+        
 
         private void MainCloseButton_Click(object sender, EventArgs e)
         {

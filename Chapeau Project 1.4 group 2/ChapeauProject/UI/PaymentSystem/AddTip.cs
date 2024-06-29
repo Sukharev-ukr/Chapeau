@@ -50,14 +50,14 @@ namespace UI.PaymentSystem
             {
                 labelTipTotal.Text = totalWithTip.ToString();
                 buttonConfirm.Visible = true;
-                tip = totalWithTip - currentOrder.TotalAmount;
+                tip = totalWithTip - currentOrder.TotalAmount - currentOrder.TipAmount;
             }
             
         }
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            currentOrder.TipAmount = tip;
+            currentOrder.TipAmount += (tip - currentOrder.TipAmount);
             Program.WindowSwitcher(this, new BillDetails(currentOrder));
         }
     }

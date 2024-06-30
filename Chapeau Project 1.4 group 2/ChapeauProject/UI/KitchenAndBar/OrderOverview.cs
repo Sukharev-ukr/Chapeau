@@ -27,7 +27,6 @@ namespace UI
         {
             this.employee = employee;
             orderItemService = new OrderItemService();
-
             InitializeComponent();
             InitializeFlowLayoutPanel();
             InitializeClockTimer();

@@ -111,9 +111,7 @@ namespace UI
         // might need rework
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            StaffService staff = new StaffService();
-
-            TableView_Form tableView_Form = new TableView_Form(staff.LoggedUser);
+            TableView_Form tableView_Form = new TableView_Form(currentOrder.Employee.Name);
 
             Program.WindowSwitcher(this, tableView_Form);
         }

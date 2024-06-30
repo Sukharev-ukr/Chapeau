@@ -35,7 +35,7 @@ namespace UI.PaymentSystem
 
             labelOrderNr.Text = currentOrder.OrderId.ToString();
             labelPart.Text = (partNumber).ToString();
-            labelPartCost.Text = billParts[partNumber].TotalAmount.ToString();
+            labelPartCost.Text = billParts[partNumber].TotalAmount.ToString("F");
         }
 
         void CheckPaymentMethod(PaymentMethod method)

@@ -761,26 +761,24 @@ namespace UI.Login
         {
             try
             {
-                StaffService staffService = new StaffService();
-
-                if (!string.IsNullOrEmpty(employeeName))
+                AttemptOrderCreation();
+            }
+            catch (InvalidCastException ex)
+            {
+                if (ex.Message == "Object cannot be cast from DBNull to other types.")
                 {
-                    Staff staff = staffService.GetStaffByUsername(employeeName);
-                    if (staff != null)
+                    try
                     {
-                        pollingTimer.Stop();
-                        int employeeId = staff.StaffID;
-                        OrderViewForm orderViewForm = new OrderViewForm(selectedTableId, employeeId);
-                        Program.WindowSwitcher(this, orderViewForm);
+                        AttemptOrderCreation();
                     }
-                    else
+                    catch (Exception retryEx)
                     {
-                        MessageBox.Show("No staff member found for the logged-in user.", "Error");
+                        MessageBox.Show("An error occurred while handling the order: " + retryEx.Message, "Error");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Logged-in username is null or empty.", "Error");
+                    MessageBox.Show("An error occurred while handling the order: " + ex.Message, "Error");
                 }
             }
             catch (Exception ex)
@@ -788,6 +786,32 @@ namespace UI.Login
                 MessageBox.Show("An error occurred while handling the order: " + ex.Message, "Error");
             }
         }
+
+        private void AttemptOrderCreation()
+        {
+            StaffService staffService = new StaffService();
+
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                Staff staff = staffService.GetStaffByUsername(employeeName);
+                if (staff != null)
+                {
+                    pollingTimer.Stop();
+                    int employeeId = staff.StaffID;
+                    OrderViewForm orderViewForm = new OrderViewForm(selectedTableId, employeeId);
+                    Program.WindowSwitcher(this, orderViewForm);
+                }
+                else
+                {
+                    MessageBox.Show("No staff member found for the logged-in user.", "Error");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Logged-in username is null or empty.", "Error");
+            }
+        }
+
 
 
         /// <summary>

@@ -62,9 +62,7 @@ namespace UI.PaymentSystem
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            StaffService staffService = new StaffService();
-
-            TableView_Form tableView = new TableView_Form(staffService.LoggedUser);
+            TableView_Form tableView = new TableView_Form(currentOrder.Employee.Name);
             Program.WindowSwitcher(this, tableView);
         }
     }

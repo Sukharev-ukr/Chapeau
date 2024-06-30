@@ -99,7 +99,7 @@ namespace UI.PaymentSystem
         protected virtual void buttonConfirm_Click(object sender, EventArgs e)
         {
             part.SplitCost = partCost;
-            parentform.partCostList[(int)part.Tag] = partCost;
+            parentform.partCostList[(int)part.Tag] = Math.Round(partCost,2);
             parentform.UpdateRemainingAmount();
             this.Dispose();
         }

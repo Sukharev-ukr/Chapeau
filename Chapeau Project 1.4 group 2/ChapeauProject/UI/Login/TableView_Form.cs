@@ -727,7 +727,10 @@ namespace UI.Login
                 // moves on to the PaymentSystem.BillDetails form
 
                 OrderService order = new OrderService();
-                BillDetails billDetails = new BillDetails(order.GetStatusOrder(selectedTableId, Status.served));
+
+                Order currentOrder = order.GetStatusOrder(selectedTableId, Status.served);
+                currentOrder.Employee.Name = employeeName;
+                BillDetails billDetails = new BillDetails(currentOrder);
                 pollingTimer.Stop();
                 Program.WindowSwitcher(this, billDetails);
             }

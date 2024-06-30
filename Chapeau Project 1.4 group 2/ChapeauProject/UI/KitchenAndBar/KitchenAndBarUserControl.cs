@@ -147,19 +147,16 @@ namespace UI
         public void CheckAndUpdateOrderStatus()
         {
             bool allItemsReady = currentOrder.Items.All(item => item.OrderStatus == Status.ready);
-            if (currentOrder.OrderStatus == Status.running)
+
+            if (allItemsReady)
             {
-                if (allItemsReady)
-                {
-                    orderService.UpdateOrderStatus(currentOrder.OrderId, Status.ready);
-                    currentOrder.OrderStatus = Status.ready;
-                }
-                else if (currentOrder.OrderStatus != Status.ready)
-                {
-                    orderService.UpdateOrderStatus(currentOrder.OrderId, Status.running);
-                }
+                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.ready);
             }
-            
+            else
+            {
+                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.running);
+            }
+
         }
 
         private void NotifyOrderOverview()

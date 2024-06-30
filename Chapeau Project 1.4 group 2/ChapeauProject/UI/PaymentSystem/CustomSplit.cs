@@ -69,7 +69,7 @@ namespace UI.PaymentSystem
             //checks if string input matches Regex pattern
             if (percentagePattern.IsMatch(input))
             {
-                newCost = CustomPercentage(percentagePattern.Match(input).ToString());
+                newCost = currentOrder.TotalAmount * CustomPercentage(percentagePattern.Match(input).ToString());
             }
             else if (fractionPattern.IsMatch(input))
             {

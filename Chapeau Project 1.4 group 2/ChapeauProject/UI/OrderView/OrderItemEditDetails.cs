@@ -15,10 +15,12 @@ namespace UI.OrderView
     public partial class OrderItemEditDetails : Form
     {
         private MenuItem _item;
+        private int _orderId; 
 
-        public OrderItemEditDetails()
+        public OrderItemEditDetails(int orderId) 
         {
             InitializeComponent();
+            _orderId = orderId; 
         }
 
         public MenuItem Item
@@ -32,34 +34,26 @@ namespace UI.OrderView
             }
         }
 
-
         public void UpdateNameLabel(MenuItem item)
         {
             lblItemName.Text = item.Name;
         }
 
-
         public void UpdatePriceLabel(MenuItem item)
         {
-            lblItemPrice.Text = $"€{item.Price.ToString()}";
+            lblItemPrice.Text = $"€{item.Price:F2}"; 
         }
 
         private void btnSubmitComment_Click(object sender, EventArgs e)
         {
             string comment = tbCommentBox.Text;
 
-            int orderId = 10;
             int itemId = _item.Id;
 
             OrderItemDAL orderItemDAL = new OrderItemDAL();
-            orderItemDAL.UpdateOrderItemComment(orderId, itemId, comment);
-            
+            orderItemDAL.UpdateOrderItemComment(_orderId, itemId, comment); 
+
             this.Close();
-        }
-
-        private void lblItemPrice_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

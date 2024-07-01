@@ -20,7 +20,6 @@ namespace UI
         public Order currentOrder;
         private OrderItemService orderItemService;
         private OrderService orderService;
-        private DateTime? finishedTime;  // Nullable to track if the order has been marked as finished
         private TimeSpan waitingTime;
         private Timer orderUpdateTimer;
 
@@ -59,19 +58,14 @@ namespace UI
         {
             if (orderItem.OrderStatus == Status.ready)
             {
-                if (finishedTime == null)
-                {
-                    finishedTime = DateTime.Now;  // Set finished time once when order is ready
-                }
-
-                comboBoxStatus.Visible = false;
-                waitingTime = finishedTime.Value - orderItem.OrderTime.Value;
-                lblOrderTime.Text = $"Finished at: {finishedTime.Value.ToString("HH:mm")}";
-                lblOrderItemTime.Text = $"Waited: {waitingTime.ToString(@"mm\:ss")}";
+                lblOrderTime.Visible = false; // Hide the label when order is ready
+                lblOrderItemTime.Visible = false; // Hide the label when order is ready
             }
             else
             {
                 waitingTime = DateTime.Now - orderItem.OrderTime.Value;
+                lblOrderTime.Visible = true; // Show the label when order is not ready
+                lblOrderItemTime.Visible = true; // Show the label when order is not ready
                 lblOrderTime.Text = $"Placed at: {orderItem.OrderTime?.ToString("HH:mm")}";
                 lblOrderItemTime.Text = $"Waiting: {waitingTime.ToString(@"mm\:ss")}";
             }
@@ -110,6 +104,7 @@ namespace UI
                     break;
                 case Status.ready:
                     groupBoxOrder.BackColor = Color.LightGreen;
+                    comboBoxStatus.Visible = false;
                     break;
             }
         }
@@ -117,6 +112,7 @@ namespace UI
         private void comboBoxStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             string newStatus = comboBoxStatus.SelectedItem.ToString();
+            bool ready = false;
 
             foreach (ListViewItem item in listViewOrderItems.Items)
             {
@@ -126,37 +122,41 @@ namespace UI
                 {
                     orderItem.OrderStatus = (Status)Enum.Parse(typeof(Status), newStatus);
                     orderItemService.UpdateOrderItemStatus(orderItem, newStatus);
-
                     SetUserControlColor(orderItem);
 
                     if (orderItem.OrderStatus == Status.ready)
                     {
-                        finishedTime = DateTime.Now;  // Set finished time when status changes to ready
-                        NotifyOrderOverview();
+                        ready = true;
+                    }
+                    else
+                    {
+                        ready = false;
                     }
                 }
             }
 
             OrderUpdateTimer_Tick(sender, e); // Update the UI to reflect the changes 
             CheckAndUpdateOrderStatus();
+
+            if (ready)
+            {
+                NotifyOrderOverview();
+            }
         }
 
-        private void CheckAndUpdateOrderStatus()
+        public void CheckAndUpdateOrderStatus()
         {
             bool allItemsReady = currentOrder.Items.All(item => item.OrderStatus == Status.ready);
-            if (currentOrder.OrderStatus == Status.running)
+
+            if (allItemsReady)
             {
-                if (allItemsReady)
-                {
-                    orderService.UpdateOrderStatus(currentOrder.OrderId, Status.ready);
-                    currentOrder.OrderStatus = Status.ready;
-                }
-                else if (currentOrder.OrderStatus != Status.ready)
-                {
-                    orderService.UpdateOrderStatus(currentOrder.OrderId, Status.running);
-                }
+                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.ready);
             }
-            
+            else
+            {
+                orderService.UpdateOrderStatus(currentOrder.OrderId, Status.running);
+            }
+
         }
 
         private void NotifyOrderOverview()
@@ -169,4 +169,5 @@ namespace UI
             }
         }
     }
+
 }
